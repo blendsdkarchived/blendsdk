@@ -1,0 +1,27 @@
+{
+    "name": "tests",
+    "private": true,
+    "version": "1.0.0",
+    "description": "BlendSDK Tests",
+    "main": "index.js",
+    "scripts": {
+        "watch": "watch 'npm run build' frontend",
+        "build:es": "tsc -p frontend",
+        "build": "npm run clean &&  npm run build:es && rollup --config && echo 'all done.'",
+        "clean": "rimraf .code public/js"
+    },
+    "keywords": [],
+    "author": "Gevik Babakhani <gevik@blendjs.com>",
+    "license": "MIT",
+    "dependencies": {
+        "@blendsdk/blendrunner": "0.0.7",
+        "@blendsdk/extensions": "0.0.7",
+        "cookie-parser": "~1.4.3",
+        "debug": "~2.6.9",
+        "express": "~4.16.0",
+        "morgan": "~1.9.0"
+    },
+    "devDependencies": {
+        "rimraf": "^2.6.2"
+    }
+}

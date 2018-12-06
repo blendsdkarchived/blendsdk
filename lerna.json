@@ -1,10 +1,13 @@
 {
-    "packages": ["packages/*"],
-    "version": "0.1.0",
+    "packages": [
+        "packages/*"
+    ],
+    "version": "0.0.7",
     "publishConfig": {
         "access": "public"
     },
     "scripts": {
-        "build": "build"
+        "build": "build",
+        "todo": "todo"
     }
 }
