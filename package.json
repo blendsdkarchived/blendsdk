@@ -3,6 +3,9 @@
   "description": "BlendSDK HTML5 Web Application Framework for TypeScript",
   "private": true,
   "devDependencies": {
-    "lerna": "^3.5.1"
+    "@types/node": "^10.12.12",
+    "lerna": "^3.5.1",
+    "tslib": "^1.9.3",
+    "typescript": "^3.2.1"
   }
 }
