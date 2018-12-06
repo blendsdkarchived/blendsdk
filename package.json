@@ -1,0 +1,8 @@
+{
+  "name": "blendsdk",
+  "description": "BlendSDK HTML5 Web Application Framework for TypeScript",
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.5.1"
+  }
+}
