@@ -1,0 +1,37 @@
+{
+    "name": "@blendsdk/blendrunner",
+    "version": "0.1.0",
+    "description": "BlendSDK InBrowser Test Runner Framework",
+    "author": "Gevik Babakhani <gevik@blendjs.com>",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/blendsdk/blendsdk"
+    },
+    "scripts": {
+        "build": "npm run clean && npm run build:lib && npm run rollup && npm run dst && echo 'all done' && echo tests > dist/.npmignore",
+        "build:lib": "tsc -p ./",
+        "clean": "rimraf dist .build",
+        "dst": "dtscopy -s ./.build -d ./dist",
+        "rollup": "rollup -c",
+        "todo": "leasot -r vscode ./src/**/*.ts > TODO.md || true"
+    },
+    "main": "dist/index.cjs.js",
+    "module": "dist/index.esm.js",
+    "browser": "dist/index.umd.js",
+    "types": "dist/src/index.d.ts",
+    "keywords": [
+        "typescript",
+        "framework",
+        "library",
+        "html5",
+        "UI",
+        "font-end",
+        "mvc",
+        "assert",
+        "testing",
+        "test",
+        "bdd",
+        "unit testing"
+    ]
+}

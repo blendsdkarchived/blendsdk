@@ -1,3 +1,6 @@
 temp
 trunk
 node_modules
+.build
+dist
+*.tgz

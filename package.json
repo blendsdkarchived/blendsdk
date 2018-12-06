@@ -1,11 +1,23 @@
 {
-  "name": "blendsdk",
-  "description": "BlendSDK HTML5 Web Application Framework for TypeScript",
-  "private": true,
-  "devDependencies": {
-    "@types/node": "^10.12.12",
-    "lerna": "^3.5.1",
-    "tslib": "^1.9.3",
-    "typescript": "^3.2.1"
-  }
+    "name": "blendsdk",
+    "description": "BlendSDK HTML5 Web Application Framework for TypeScript",
+    "private": true,
+    "dependencies": {
+        "@types/node": "^10.12.12",
+        "tslib": "^1.9.3"
+    },
+    "devDependencies": {
+        "@blendsdk/dtscopy": "^1.0.3",
+        "leasot": "^6.6.2",
+        "lerna": "^3.5.1",
+        "rollup": "^0.67.3",
+        "rollup-plugin-commonjs": "^9.2.0",
+        "rollup-plugin-json": "^3.1.0",
+        "rollup-plugin-node-builtins": "^2.1.2",
+        "rollup-plugin-node-globals": "^1.4.0",
+        "rollup-plugin-node-resolve": "^3.4.0",
+        "rollup-plugin-sourcemaps": "^0.4.2",
+        "rollup-plugin-uglify": "^6.0.0",
+        "typescript": "^3.2.1"
+    }
 }
