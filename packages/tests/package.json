@@ -5,21 +5,18 @@
     "description": "BlendSDK Tests",
     "main": "index.js",
     "scripts": {
-        "watch": "watch 'npm run build' frontend",
-        "build:es": "tsc -p frontend",
-        "build": "npm run clean &&  npm run build:es && rollup --config && echo 'all done.'",
-        "clean": "rimraf .code public/js"
+        "watch": "../../node_modules/.bin/watch 'npm run build' frontend",
+        "build:es": "../../node_modules/.bin/tsc -p frontend",
+        "build": "npm run clean &&  npm run build:es && npm run rollup && echo 'all done.'",
+        "clean": "../../node_modules/.bin/rimraf .build public/js",
+        "rollup": "../../node_modules/.bin/rollup --config"
     },
     "keywords": [],
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
     "dependencies": {
         "@blendsdk/blendrunner": "^0.0.8",
-        "@blendsdk/extensions": "^0.0.8",
-        "cookie-parser": "~1.4.3",
-        "debug": "~2.6.9",
-        "express": "~4.16.0",
-        "morgan": "~1.9.0"
+        "@blendsdk/extensions": "^0.0.8"
     },
     "devDependencies": {
         "rimraf": "^2.6.2"
