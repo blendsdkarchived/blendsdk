@@ -1,7 +1,7 @@
 {
     "name": "tests",
     "private": true,
-    "version": "1.0.0",
+    "version": "0.0.8",
     "description": "BlendSDK Tests",
     "main": "index.js",
     "scripts": {
@@ -14,8 +14,8 @@
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
     "dependencies": {
-        "@blendsdk/blendrunner": "0.0.7",
-        "@blendsdk/extensions": "0.0.7",
+        "@blendsdk/blendrunner": "^0.0.8",
+        "@blendsdk/extensions": "^0.0.8",
         "cookie-parser": "~1.4.3",
         "debug": "~2.6.9",
         "express": "~4.16.0",

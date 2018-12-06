@@ -1,24 +1,24 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "module": "esnext",
-    "rootDir": "./",
-    "outDir": "../.code",
-    "lib": ["dom", "es6"],
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "declaration": true,
-    "pretty": true,
-    "sourceMap": true,
-    "inlineSources": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "suppressExcessPropertyErrors": true,
-    "strictPropertyInitialization": false,
-    "strictFunctionTypes": false,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "alwaysStrict": false,
-    "strict": false
-  }
+    "compilerOptions": {
+        "target": "es5",
+        "module": "esnext",
+        "rootDir": "./",
+        "outDir": "../.build",
+        "lib": ["dom", "es6"],
+        "moduleResolution": "node",
+        "importHelpers": true,
+        "declaration": true,
+        "pretty": true,
+        "sourceMap": true,
+        "inlineSources": true,
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "suppressExcessPropertyErrors": true,
+        "strictPropertyInitialization": false,
+        "strictFunctionTypes": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "alwaysStrict": false,
+        "strict": false
+    }
 }
