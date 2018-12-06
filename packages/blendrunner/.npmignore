@@ -3,3 +3,4 @@ src
 .build
 *.config.js
 tsconfig.json
+TODO.md

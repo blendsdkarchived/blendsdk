@@ -4,9 +4,8 @@ import sourcemaps from 'rollup-plugin-sourcemaps';
 import pkg from './package.json';
 
 export default [
-    // browser-friendly UMD build
     {
-        input: './.build/index.js',
+        input: './dist/index.js',
         output: {
             name: 'lib',
             file: pkg.browser,
@@ -27,7 +26,7 @@ export default [
     // an array for the `output` option, where we can specify
     // `file` and `format` for each target)
     {
-        input: './.build/index.js',
+        input: './dist/index.js',
         output: [
             { file: pkg.main, format: 'cjs', sourcemap: true },
             { file: pkg.module, format: 'es', sourcemap: true }
