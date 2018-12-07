@@ -2,13 +2,20 @@ import { Blend } from './Blend';
 import { IAbstractComponent, IComponentConfig } from './Types';
 
 /**
+ * Type describing a Component with its minimal configuration type.
+ */
+export type TComponent = Component<IComponentConfig>;
+
+/**
  * Base class of all configurable components within Blend.
  *
  * @export
  * @abstract
  * @class Component
+ * @implements {IAbstractComponent}
+ * @template T
  */
-export abstract class Component implements IAbstractComponent {
+export abstract class Component<T extends IComponentConfig> implements IAbstractComponent {
     /**
      * Key to identify the unique identifer of this component.
      * This key is used on a DOM component
@@ -33,7 +40,7 @@ export abstract class Component implements IAbstractComponent {
      * @type {IDictionary}
      * @memberOf Component
      */
-    protected config: IComponentConfig;
+    protected config: T;
 
     /**
      * Creates an instance of Component.
@@ -41,9 +48,9 @@ export abstract class Component implements IAbstractComponent {
      *
      * @memberOf Component
      */
-    public constructor(config?: IComponentConfig) {
+    public constructor(config?: T) {
         var me = this;
-        me.config = config || {};
+        me.config = config || <T>{};
         me.configDefaults(<IComponentConfig>{
             userData: {},
             id: null
