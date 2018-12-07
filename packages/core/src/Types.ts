@@ -8,16 +8,6 @@ export interface IAbstractComponent {
     getUID(): string;
 }
 
-// /**
-//  * Interface for implementing a UI Component
-//  *
-//  * @export
-//  * @interface IAbstractUIComponent
-//  */
-// export interface IAbstractUIComponent {
-//     getElement(): HTMLElement;
-// }
-
 /**
  * Interface for configuring a core Component in Blend
  * @exports
@@ -78,15 +68,6 @@ export declare type TConfigurableClass = new (config?: { [key: string]: any }) =
  */
 export interface IDictionary {
     [key: string]: any;
-}
-
-/**
- * Interface for configuring an object that can be converted to a css class attribute
- *
- * @interface ICssRuleDictionary
- */
-export interface ICssRuleDictionary {
-    [selector: string]: true | false | null | undefined;
 }
 
 /**
