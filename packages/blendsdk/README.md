@@ -1,4 +1,3 @@
-# BlendSDK Extensions
+# BlendSDK
 
-This package contains several extensions to the to the builtin browser
-objects.
+BlendSDK HTML5 Web Application Framework for TypeScript
