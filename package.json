@@ -8,7 +8,7 @@
     },
     "scripts": {
         "todo": "leasot -r vscode ./src/**/*.ts > TODO.md || true",
-        "test": "lerna run build && DEBUG=app:* node packages/tests/bin/www"
+        "test": "lerna run build && DEBUG=testapp:* packages/tests/bin/www"
     },
     "devDependencies": {
         "cookie-parser": "~1.4.3",

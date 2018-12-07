@@ -9,14 +9,17 @@
         "build:es": "../../node_modules/.bin/tsc -p frontend",
         "build": "npm run clean &&  npm run build:es && npm run rollup && echo 'all done.'",
         "clean": "../../node_modules/.bin/rimraf .build public/js",
-        "rollup": "../../node_modules/.bin/rollup --config"
+        "rollup": "../../node_modules/.bin/rollup --config",
+        "start": "DEBUG=testapp:* ./bin/www"
     },
     "keywords": [],
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
     "dependencies": {
         "@blendsdk/blendrunner": "^0.0.9",
-        "@blendsdk/extensions": "^0.0.9"
+        "@blendsdk/extensions": "^0.0.9",
+        "@blendsdk/core": "^0.0.9",
+        "@blendsdk/deviceinfo": "^0.0.9"
     },
     "devDependencies": {
         "rimraf": "^2.6.2"

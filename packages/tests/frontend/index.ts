@@ -1,6 +1,6 @@
-// import BlendTests from './core/BlendTests';
-// import DeviceInfoTests from './deviceinfo/DeviceInfoTests';
-// import ComponentTests from './component/ComponentTests';
+import BlendTests from './core/BlendTests';
+import DeviceInfoTests from './deviceinfo/DeviceInfoTests';
+import ComponentTests from './component/ComponentTests';
 // import CollectionTests from './collection/CollectionTests';
 // import FilteredCollectionTests from './collection/FilteredCollectionTests';
 // import DomTests from './dom/Domtests';
@@ -14,8 +14,6 @@
 import ExtensionsTests from './extensions/ExtensionsTets';
 import { t, TestRunner } from '@blendsdk/blendrunner';
 
-ExtensionsTests(t);
-
 // TaskTests(t);
 // UICollectionTests(t);
 // MVCTests(t);
@@ -25,8 +23,9 @@ ExtensionsTests(t);
 // DomTests(t);
 // FilteredCollectionTests(t);
 // CollectionTests(t);
-// ComponentTests(t);
-// DeviceInfoTests(t);
-// BlendTests(t);
+ComponentTests(t);
+DeviceInfoTests(t);
+ExtensionsTests(t);
+BlendTests(t);
 
 TestRunner.start();
