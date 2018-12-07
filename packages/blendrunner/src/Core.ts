@@ -91,6 +91,18 @@ export abstract class Core {
     }
 
     /**
+     * Tests if the given value is of a boolean type
+     *
+     * @protected
+     * @param {*} value
+     * @returns {boolean}
+     * @memberof Core
+     */
+    protected is_boolean(value: any): boolean {
+        return typeof value === 'boolean';
+    }
+
+    /**
      * Tests whether the given value is an instance of another class/function
      * in an optional scope. The scope defaults to `window`
      *

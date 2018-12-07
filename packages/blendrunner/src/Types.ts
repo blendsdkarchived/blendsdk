@@ -1,4 +1,18 @@
 /**
+ * Interface for configuring an InBrowser Window
+ *
+ * @export
+ * @interface IBrowserWindowConfig
+ */
+export interface IBrowserWindowConfig {
+    width?: number;
+    height?: number;
+    center?: boolean;
+    top?: number;
+    left?: number;
+}
+
+/**
  * Interface for exposing the log method
  *
  * @export
@@ -24,7 +38,7 @@ export interface IDescribeProvider extends ILogProvider {
 export interface ITestDescription {
     it(testName: string, testFn: (t: IAssertionProvider) => any): any;
     openUrl(url: string, callable: (t: IAssertionProvider, win: Window) => any): any;
-    itRemote(url: string, remoteGlobalFunction?: string): any;
+    inBrowser(name: string, url: string, remoteGlobalFunction?: string, windowConfig?: IBrowserWindowConfig): any;
     before(beforeFn: (t: IFinishable) => any): any;
     after(afterFn: (t: IFinishable) => any): any;
     beforeEach(beforeEachFn: (t: IFinishable) => any): any;

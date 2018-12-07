@@ -11,9 +11,11 @@ import {
     ISpecDictionary,
     ITestDescription,
     ITestQueue,
-    ITestSpecification
+    ITestSpecification,
+    IBrowserWindowConfig
 } from './Types';
 import { showPlash } from './Welcome';
+import { EFAULT } from 'constants';
 
 export class BlendRunner extends Assert {
     /**
@@ -768,6 +770,41 @@ export class BlendRunner extends Assert {
     }
 
     /**
+     * Calculates and configures the window to be placed in
+     * the center of the screen
+     *
+     * The gist of this function comes from:
+     * http://www.xtf.dk/2011/08/center-new-popup-window-even-on.html
+     *
+     * @protected
+     * @param {IBrowserWindowConfig} config
+     * @memberof BlendRunner
+     */
+    protected calculateCenter(config: IBrowserWindowConfig) {
+        var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : (<any>screen).left,
+            dualScreenTop = window.screenTop != undefined ? window.screenTop : (<any>screen).top,
+            width = window.innerWidth
+                ? window.innerWidth
+                : document.documentElement.clientWidth
+                ? document.documentElement.clientWidth
+                : screen.width,
+            height = window.innerHeight
+                ? window.innerHeight
+                : document.documentElement.clientHeight
+                ? document.documentElement.clientHeight
+                : screen.height;
+
+        config.width = config.width || width / 1.5;
+        config.height = config.height || height / 1.5;
+
+        var w = config.width || width * 0.5,
+            h = config.height || height * 0.5;
+
+        config.left = width / 2 - w / 2 + dualScreenLeft;
+        config.top = height / 2 - h / 2 + dualScreenTop;
+    }
+
+    /**
      * Opens a URL and tries to execute a remote function that
      * should run tests. The remote function is called using BlendRunner
      * as the `t` parameter.
@@ -779,7 +816,12 @@ export class BlendRunner extends Assert {
      * @param {string} [remoteGlobalFunction]
      * @memberof BlendRunner
      */
-    public itRemote(testName: string, url: string, remoteGlobalFunction?: string) {
+    public inBrowser(
+        testName: string,
+        url: string,
+        remoteGlobalFunction?: string,
+        windowConfig?: IBrowserWindowConfig
+    ) {
         var me = this;
         me.openUrl(
             url,
@@ -798,8 +840,47 @@ export class BlendRunner extends Assert {
                     fn[hash].apply(ctx, [t]);
                 }
             },
-            testName
+            testName,
+            windowConfig
         );
+    }
+
+    /**
+     * Given an IBrowserWindowConfig, this function create
+     * a `windowFeatures` string that is used in the window.open
+     *
+     * @protected
+     * @param {IBrowserWindowConfig} config
+     * @returns {string}
+     * @memberof BlendRunner
+     */
+    protected createWindowFeatures(config: IBrowserWindowConfig): string {
+        var me = this,
+            result: Array<string> = [];
+
+        // Do the defaults
+        config = config || <any>{ width: false, height: false, top: false, left: false, center: true };
+
+        me.forEach(config, (value: any, key: string) => {
+            if (me.is_boolean(value)) {
+                if (value === true) {
+                    if (key === 'center') {
+                        me.calculateCenter(config);
+                    }
+                }
+            }
+        });
+
+        me.forEach(config, (value: any, key: string) => {
+            if (me.is_boolean(value)) {
+                if (value === true) {
+                    result.push(key);
+                }
+            } else {
+                result.push(`${key}=${value}`);
+            }
+        });
+        return result.join(',');
     }
 
     /**
@@ -809,13 +890,18 @@ export class BlendRunner extends Assert {
      * @param {(t: IAssertionProvider, win: Window) => any} callable
      * @memberof BlendRunner
      */
-    public openUrl(url: string, callable: (t: IAssertionProvider, win: Window) => any, testName?: string) {
+    public openUrl(
+        url: string,
+        callable: (t: IAssertionProvider, win: Window) => any,
+        testName?: string,
+        windowConfig?: IBrowserWindowConfig
+    ) {
         var me = this,
             windowHasErrors: boolean = false;
         me.it(testName || url, function(t: IAssertionProvider) {
             url = url || 'about:blank';
             var orgDone = t.done;
-            var win = window.open(url, '_blank');
+            var win = window.open(url, '_blank', me.createWindowFeatures(windowConfig));
             win.addEventListener('error', function(evt: ErrorEvent) {
                 t.assertEqual(
                     JSON.stringify(
