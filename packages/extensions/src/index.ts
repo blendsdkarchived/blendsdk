@@ -1,5 +1,5 @@
-require('./HTMLElement');
-require('./String');
-require('./Array');
-require('./ClassList');
+import './HTMLElement';
+import './String';
+import './Array';
+import './ClassList';
 export * from './Types';

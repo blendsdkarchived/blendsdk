@@ -1,7 +1,7 @@
 {
-    "name": "@blendsdk/blendrunner",
-    "version": "0.0.9",
-    "description": "BlendSDK InBrowser Test Runner Framework",
+    "name": "@blendsdk/blendsdk",
+    "version": "0.0.7",
+    "description": "BlendSDK HTML5 Web Application Framework for TypeScript",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
     "repository": {
@@ -9,11 +9,14 @@
         "url": "https://github.com/blendsdk/blendsdk"
     },
     "scripts": {
-        "build": "npm run clean && npm run build:lib &&  echo 'all done'",
+        "build": "npm run clean && npm run build:lib && npm run rollup",
         "build:lib": "../../node_modules/.bin/tsc -p ./",
-        "clean": "../../node_modules/.bin/rimraf .build dist"
+        "clean": "../../node_modules/.bin/rimraf .build dist",
+        "rollup": "../../node_modules/.bin/rollup --config"
     },
-    "main": "dist/index.js",
+    "main": "dist/index.cjs.js",
+    "module": "dist/index.esm.js",
+    "browser": "dist/index.umd.js",
     "types": "dist/index.d.ts",
     "keywords": [
         "typescript",
@@ -22,9 +25,7 @@
         "javascript",
         "html5",
         "UI",
-        "components",
-        "testing",
-        "test framework"
+        "components"
     ],
     "gitHead": "3cf0c717504e5e6ee768f9423eec41a997662df9"
 }

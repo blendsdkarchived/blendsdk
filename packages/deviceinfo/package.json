@@ -1,7 +1,7 @@
 {
-    "name": "@blendsdk/blendrunner",
+    "name": "@blendsdk/deviceinfo",
     "version": "0.0.9",
-    "description": "BlendSDK InBrowser Test Runner Framework",
+    "description": "The BlendSDK DeviceInfo package",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
     "repository": {
@@ -9,7 +9,7 @@
         "url": "https://github.com/blendsdk/blendsdk"
     },
     "scripts": {
-        "build": "npm run clean && npm run build:lib &&  echo 'all done'",
+        "build": "npm run clean && npm run build:lib && echo 'all done'",
         "build:lib": "../../node_modules/.bin/tsc -p ./",
         "clean": "../../node_modules/.bin/rimraf .build dist"
     },
@@ -22,9 +22,7 @@
         "javascript",
         "html5",
         "UI",
-        "components",
-        "testing",
-        "test framework"
+        "components"
     ],
     "gitHead": "3cf0c717504e5e6ee768f9423eec41a997662df9"
 }

@@ -1,7 +1,7 @@
 {
     "name": "@blendsdk/core",
-    "version": "0.0.8",
-    "description": "Set core classes for BlendSDK",
+    "version": "0.0.9",
+    "description": "The BlendSDK core package",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
     "repository": {
@@ -9,22 +9,23 @@
         "url": "https://github.com/blendsdk/blendsdk"
     },
     "scripts": {
-        "build": "npm run clean && npm run build:lib && npm run rollup && echo 'all done'",
+        "build": "npm run clean && npm run build:lib && echo 'all done'",
         "build:lib": "../../node_modules/.bin/tsc -p ./",
-        "clean": "../../node_modules/.bin/rimraf .build dist",
-        "rollup": "../../node_modules/.bin/rollup --config"
+        "clean": "../../node_modules/.bin/rimraf .build dist"
     },
-    "main": "dist/index.cjs.js",
-    "module": "dist/index.esm.js",
-    "browser": "dist/index.umd.js",
+    "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "keywords": [
         "typescript",
         "framework",
         "library",
-        "extension",
         "javascript",
-        "language"
+        "html5",
+        "UI",
+        "components"
     ],
+    "dependencies": {
+        "@blendsdk/extensions": "0.0.9"
+    },
     "gitHead": "3cf0c717504e5e6ee768f9423eec41a997662df9"
 }
