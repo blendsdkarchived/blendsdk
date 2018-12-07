@@ -22,11 +22,10 @@
         "typescript",
         "framework",
         "library",
-        "extension",
         "javascript",
-        "language",
         "html5",
-        "UI"
+        "UI",
+        "components"
     ],
     "gitHead": "3cf0c717504e5e6ee768f9423eec41a997662df9"
 }

@@ -1,7 +1,7 @@
 {
     "name": "tests",
     "private": true,
-    "version": "0.0.8",
+    "version": "0.0.9",
     "description": "BlendSDK Tests",
     "main": "index.js",
     "scripts": {
@@ -15,8 +15,8 @@
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
     "dependencies": {
-        "@blendsdk/blendrunner": "^0.0.8",
-        "@blendsdk/extensions": "^0.0.8"
+        "@blendsdk/blendrunner": "^0.0.9",
+        "@blendsdk/extensions": "^0.0.9"
     },
     "devDependencies": {
         "rimraf": "^2.6.2"
