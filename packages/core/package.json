@@ -24,5 +24,8 @@
         "UI",
         "components"
     ],
+    "dependencies": {
+        "@blendsdk/extensions": "0.0.9"
+    },
     "gitHead": "3cf0c717504e5e6ee768f9423eec41a997662df9"
 }

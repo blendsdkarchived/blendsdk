@@ -1,5 +1,5 @@
 {
-    "name": "@blendsdk/extensions",
+    "name": "@blendsdk/blendsdk",
     "version": "0.0.7",
     "description": "BlendSDK HTML5 Web Application Framework for TypeScript",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
