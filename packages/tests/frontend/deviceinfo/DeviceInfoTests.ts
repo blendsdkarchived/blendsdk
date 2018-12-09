@@ -1,56 +1,56 @@
-import { ITestDescription, IAssertionProvider, IDescribeProvider } from '@blendsdk/blendrunner';
-import { Assets } from './Assets';
-import { IDeviceInfo } from '@blendsdk/deviceinfo';
-import { Blend } from '@blendsdk/core';
-import { deviceInfoTests, IDeviceInfoTest } from './DeviceInfoSpecs';
+import { IAssertionProvider, IDescribeProvider, ITestDescription } from "@blendsdk/blendrunner";
+import { Blend } from "@blendsdk/core";
+import { IDeviceInfo } from "@blendsdk/deviceinfo";
+import { Assets } from "./Assets";
+import { deviceInfoTests, IDeviceInfoTest } from "./DeviceInfoSpecs";
 
 export default function(t: IDescribeProvider) {
-    t.describe('DeviceInfo Tests', (t: ITestDescription) => {
-        var currentTest = 0;
+    t.describe("DeviceInfo Tests", (t: ITestDescription) => {
+        const currentTest = 0;
 
-        var builder = function(testCase: IDeviceInfoTest, userAgent: string, index: number) {
+        const builder = (testCase: IDeviceInfoTest, userAgent: string, index: number) => {
             t.it(userAgent || testCase.name, (t: IAssertionProvider) => {
                 /**
                  * Mock window.cordova when Cordova is expected
                  */
                 if (testCase.expected.Cordova) {
-                    (<any>window).cordova = true;
+                    (window as any).cordova = true;
                 }
-                var deviceInfo = new Assets.DeviceInfo(userAgent),
-                    actual = deviceInfo.getInformation(),
-                    expected: IDeviceInfo = {
-                        iOS: false,
-                        AndroidOS: false,
-                        AndroidStock: false,
-                        IEMobile: false,
-                        Chrome: false,
-                        Safari: false,
-                        Firefox: false,
-                        Opera: false,
-                        Yandex: false,
-                        UCBrowser: false,
-                        Cordova: false,
-                        Electron: false,
-                        Windows: false,
-                        Linux: false,
-                        OSX: false,
-                        iPhone: false,
-                        iPad: false,
-                        iPod: false,
-                        Edge: false,
-                        IE: false,
-                        Unsupported: false,
-                        Device: false,
-                        Desktop: true
-                    };
+                const deviceInfo = new Assets.DeviceInfo(userAgent),
+                    actual = deviceInfo.getInformation();
+                let expected: IDeviceInfo = {
+                    iOS: false,
+                    AndroidOS: false,
+                    AndroidStock: false,
+                    IEMobile: false,
+                    Chrome: false,
+                    Safari: false,
+                    Firefox: false,
+                    Opera: false,
+                    Yandex: false,
+                    UCBrowser: false,
+                    Cordova: false,
+                    Electron: false,
+                    Windows: false,
+                    Linux: false,
+                    OSX: false,
+                    iPhone: false,
+                    iPad: false,
+                    iPod: false,
+                    Edge: false,
+                    IE: false,
+                    Unsupported: false,
+                    Device: false,
+                    Desktop: true
+                };
 
                 expected = Blend.apply(expected, testCase.expected, {
                     overwrite: true
                 });
 
                 if (!t.assertEqual(actual, expected, testCase.name)) {
-                    var diff = {};
-                    Blend.forEach(actual, function(value: boolean, key: string) {
+                    const diff = {};
+                    Blend.forEach(actual, (value: boolean, key: string) => {
                         if (actual[key] !== expected[key]) {
                             diff[key] = value;
                         }
@@ -65,16 +65,16 @@ export default function(t: IDescribeProvider) {
                  * Cleanup cordova tests
                  */
                 if (testCase.expected.Cordova) {
-                    delete (<any>window).cordova;
+                    delete (window as any).cordova;
                 }
 
                 t.done();
             });
         };
 
-        Blend.forEach(deviceInfoTests, function(test: IDeviceInfoTest, index: number) {
-            var userAgents = Blend.wrapInArray(test.userAgent);
-            Blend.forEach(userAgents, function(userAgent: string, index: number) {
+        Blend.forEach(deviceInfoTests, (test: IDeviceInfoTest, index: number) => {
+            const userAgents = Blend.wrapInArray(test.userAgent);
+            Blend.forEach(userAgents, (userAgent: string, index: number) => {
                 builder(test, userAgent, index);
             });
         });

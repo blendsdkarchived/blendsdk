@@ -1,4 +1,4 @@
-import { IComponentConfig, Blend, Component } from '@blendsdk/core';
+import { Blend, Component, IComponentConfig } from "@blendsdk/core";
 
 export namespace Assets {
     export interface ITestPersonConfig extends IComponentConfig {
@@ -10,22 +10,22 @@ export namespace Assets {
     export class Person extends Component<IComponentConfig> {
         protected config: ITestPersonConfig;
 
-        public getName(): string {
-            return this.config.name;
-        }
-
         public constructor(config?: ITestPersonConfig) {
             super(config);
-            var me = this;
-            me.configDefaults(<ITestPersonConfig>{
-                name: 'No Name!'
-            });
+            const me = this;
+            me.configDefaults({
+                name: "No Name!"
+            } as ITestPersonConfig);
+        }
+
+        public getName(): string {
+            return this.config.name;
         }
     }
 
     export class Greeter extends Component<IComponentConfig> {
         public sayHello(name: string) {
-            return 'Hello ' + (name || '');
+            return "Hello " + (name || "");
         }
     }
 }
