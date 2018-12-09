@@ -68,42 +68,14 @@ export class DeviceInfoSingleton {
     protected userAgent: string;
 
     public constructor(nav?: Navigator) {
-        var me = this;
+        const me = this;
         nav = nav || navigator;
-        me.userAgent = '';
+        me.userAgent = "";
         if (nav) {
             if (nav.userAgent) {
                 me.userAgent = nav.userAgent;
             }
         }
-    }
-
-    /**
-     * Detects is we are running inside an Electron shell
-     *
-     * @private
-     * @returns {boolean}
-     * @memberof DeviceInformation
-     * @license https://github.com/cheton/is-electron (MIT) Original source is modified!
-     */
-    private isElectron(): boolean {
-        var me = this;
-        // Renderer process
-        if (window && (<any>window).process && (<any>window).process.type === 'renderer') {
-            return true;
-        }
-
-        // Main process
-        if (typeof process !== 'undefined' && process.versions && !!(<any>process).versions.electron) {
-            return true;
-        }
-
-        // Detect the user agent when the `nodeIntegration` option is set to true
-        if (me.userAgent.indexOf('Electron') >= 0) {
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -114,7 +86,7 @@ export class DeviceInfoSingleton {
      * @memberof DeviceInformation
      */
     public getInformation(): IDeviceInfo {
-        var me = this,
+        const me = this,
             // Look for 'Chrome'
             chrome = /\bChrome\b|\bCriOS\b/.test(me.userAgent),
             // Look for 'Macintosh'
@@ -138,7 +110,8 @@ export class DeviceInfoSingleton {
             // Look for 'UCBrowser' (from China)
             ucbrowser = /\bUCBrowser\b/.test(me.userAgent),
             // Look for 'Android'
-            androidos = /\bAndroid\b/.test(me.userAgent),
+            // tslint:disable-next-line:variable-name
+            _androidos = /\bAndroid\b/.test(me.userAgent),
             // Look for 'Linux'
             linux = /\bLinux\b/.test(me.userAgent),
             // Look for 'Tablet'
@@ -148,7 +121,8 @@ export class DeviceInfoSingleton {
             // Look for 'Silk-Accelerated' (Amazon Kindle)
             slickacc = /\bSilk\-Accelerated\b/.test(me.userAgent),
             // Calculate Android OS
-            androidos = (androidos && linux) || (androidos && tablet) || (androidos && mobile) || (linux && slickacc),
+            androidos =
+                (_androidos && linux) || (_androidos && tablet) || (_androidos && mobile) || (linux && slickacc),
             // Look for 'Windows NT'
             windows = /\bWindows\ NT\b/.test(me.userAgent),
             // Look for 'Trident'
@@ -165,18 +139,19 @@ export class DeviceInfoSingleton {
             winphone = /\bWindows\ Phone\b/.test(me.userAgent),
             // Canculate for MS Phone or Windows Phone
             msphone = iemobile || winphone,
-            cordova = !!(<any>window).cordova,
+            cordova = !!(window as any).cordova,
             electron = me.isElectron();
         /**
          * Combine the tokens and return the IDeviceInformation
          */
-        var result: IDeviceInfo = {
+        const result: IDeviceInfo = {
             iOS: iphone || ipad || ipod,
+            // tslint:disable-next-line:object-literal-sort-keys
             AndroidOS: androidos && !msphone,
             AndroidStock: (androidos && linux && safari && !chrome) || (linux && slickacc) /* Amazon Kindle */,
             IEMobile: msphone && !msie,
             Chrome: (chrome && !opera && !yandex && !edge && !msphone) || cordova || electron,
-            Safari: safari && !chrome && !opera && !firefox && !androidos && !linux,
+            Safari: safari && !chrome && !opera && !firefox && !_androidos && !linux,
             Firefox: firefox,
             Cordova: cordova,
             Opera: opera,
@@ -198,6 +173,34 @@ export class DeviceInfoSingleton {
         result.Device = !msie && (result.iOS || result.AndroidOS || result.AndroidStock || winphone || msphone);
         result.Desktop = !result.Device;
         return result;
+    }
+
+    /**
+     * Detects is we are running inside an Electron shell
+     *
+     * @protected
+     * @returns {boolean}
+     * @memberof DeviceInformation
+     * @license https://github.com/cheton/is-electron (MIT) Original source is modified!
+     */
+    protected isElectron(): boolean {
+        const me = this;
+        // Renderer process
+        if (window && (window as any).process && (window as any).process.type === "renderer") {
+            return true;
+        }
+
+        // Main process
+        if (typeof process !== "undefined" && process.versions && !!(process as any).versions.electron) {
+            return true;
+        }
+
+        // Detect the user agent when the `nodeIntegration` option is set to true
+        if (me.userAgent.indexOf("Electron") >= 0) {
+            return true;
+        }
+
+        return false;
     }
 }
 
