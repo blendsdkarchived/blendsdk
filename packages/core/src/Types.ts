@@ -77,6 +77,7 @@ export interface IDictionary {
  * @interface IUILayoutConfig
  * @extends {IDictionary}
  */
+// tslint:disable-next-line:no-empty-interface
 export interface IUILayoutConfig {}
 
 /**
