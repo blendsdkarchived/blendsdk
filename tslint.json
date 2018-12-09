@@ -1,0 +1,15 @@
+{
+    "defaultSeverity": "error",
+    "linterOptions": {
+        "exclude": ["**/node_modules/**/*", "**/dist/**/*"]
+    },
+    "extends": ["tslint:recommended"],
+    "jsRules": {},
+    "rules": {
+        "trailing-comma": false,
+        "indent": false,
+        "arrow-parens": false,
+        "one-variable-per-declaration": false
+    },
+    "rulesDirectory": []
+}
