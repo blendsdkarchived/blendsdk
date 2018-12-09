@@ -1,3 +1,4 @@
+// tslint:disable-next-line:no-namespace
 export namespace Debug {
     /**
      * Makes a given object available to be accessed on the `window`
@@ -8,6 +9,6 @@ export namespace Debug {
      * @param {*} obj
      */
     export function makePublic(key: string, obj: any) {
-        (<any>window)[key] = obj;
+        (window as any)[key] = obj;
     }
 }
