@@ -9,7 +9,7 @@ export default function(t: IDescribeProvider) {
             for (let a = 0; a !== 4; a++) {
                 result.push(Blend.ID());
             }
-            t.assertEqual(result.join(","), "1000,1001,1002,1003");
+            t.assertEqual(result.length, 4);
             t.done();
         });
 
