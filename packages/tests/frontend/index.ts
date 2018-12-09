@@ -1,6 +1,8 @@
 import { t, TestRunner } from "@blendsdk/blendrunner";
 import ComponentTests from "./component/ComponentTests";
 import BlendTests from "./core/BlendTests";
+import BEMTests from "./css/BEMTests";
+import CSSTests from "./css/CSSTests";
 import DeviceInfoTests from "./deviceinfo/DeviceInfoTests";
 import DomTests from "./dom/DomTests";
 import ExtensionsTests from "./extensions/ExtensionsTets";
@@ -19,6 +21,8 @@ import ExtensionsTests from "./extensions/ExtensionsTets";
 // StackTests(t);
 // AjaxTests(t);
 // IconTests(t);
+BEMTests(t);
+CSSTests(t);
 DomTests(t);
 // FilteredCollectionTests(t);
 // CollectionTests(t);

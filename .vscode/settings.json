@@ -8,5 +8,7 @@
     "prettier.tabWidth": 4,
     "prettier.trailingComma": "none",
     "typescript.format.enable": true,
-    "editor.formatOnSave": true
+	"editor.formatOnSave": true,
+	"typescript.extension.sortImports.quoteStyle": "double",
+	"typescript.extension.sortImports.sortOnSave": true
 }
