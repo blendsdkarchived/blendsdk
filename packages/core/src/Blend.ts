@@ -1,12 +1,13 @@
-import { IDictionary, TConfigurableClass, IAbstractComponent } from './Types';
-import { BLEND_VERSION } from './Version';
+import { IAbstractComponent, IDictionary, TConfigurableClass, TFunction } from "./Types";
+import { BLEND_VERSION } from "./Version";
 
+// tslint:disable-next-line:no-namespace
 export namespace Blend {
     /**
      * The identifier for the {Blend.ID} method
      * @private
      */
-    var _ID = 1000;
+    let _ID = 1000;
     /**
      * Contains the current Blend version
      */
@@ -14,20 +15,16 @@ export namespace Blend {
     /**
      * Configuration property for placing the framework a debugging state
      */
-    export var DEBUG: boolean = false;
+    export let DEBUG: boolean = false;
     /**
      * The base font size that is used in all rem calculation
      */
-    export var BASE_FONT_SIZE = 16;
+    export let BASE_FONT_SIZE = 16;
     /**
      * The base URL of BlendSDK. This should be a static map to the
      * node_modules/@blend
      */
-    export var BASE_URL = '/blendsdk';
-    /**
-     * A dictionary of color names and color values.
-     */
-    var colorPalette: IDictionary;
+    export let BASE_URL = "/blendsdk";
 
     /**
      * The Blend.requestAnimationFrame() method tells the browser that you wish to perform
@@ -60,7 +57,7 @@ export namespace Blend {
      * @returns
      */
     export function isEventName(value: string) {
-        return Blend.isString(value) && value.indexOf('on') === 0 && value != 'on';
+        return Blend.isString(value) && value.indexOf("on") === 0 && value !== "on";
     }
 
     /**
@@ -70,25 +67,12 @@ export namespace Blend {
      * @param {IArguments} args
      * @returns {Array<any>}
      */
-    export function argumentsToArray(args: IArguments): Array<any> {
-        var result: Array<any> = [];
+    export function argumentsToArray(args: IArguments): any[] {
+        const result: any[] = [];
         Blend.forEach(args, (item: any) => {
             result.push(item);
         });
         return result;
-    }
-
-    /**
-     * Runs a function in parallel.
-     *
-     * @export
-     * @param {Function} work
-     * @param {Function} doneCallback
-     */
-    export function runAsync(work: Function, doneCallback?: Function) {
-        setTimeout(function() {
-            work(doneCallback);
-        }, 1);
     }
 
     /**
@@ -103,11 +87,11 @@ export namespace Blend {
      * @memberof ScrollableContainer
      */
     export function shallowClone(src: any): any {
-        var dst: any = {};
-        for (var k in src) {
+        const dst: any = {};
+        for (const k in src) {
             if (Blend.isArray(src[k])) {
                 dst[k] = [];
-                src[k].forEach(function(i: any) {
+                src[k].forEach((i: any) => {
                     dst[k].push(i);
                 });
             } else {
@@ -181,8 +165,8 @@ export namespace Blend {
      * @returns {number}
      */
     export function ID(): number {
-        return (function(a) {
-            var r = a;
+        return (a => {
+            const r = a;
             return r;
         })(_ID++);
     }
@@ -207,63 +191,19 @@ export namespace Blend {
     ): T {
         if (!Blend.isNullOrUndef(clazz)) {
             if (Blend.isClass(clazz)) {
-                return new (<any>clazz)(config || {});
+                return new (clazz as any)(config || {});
             } else {
-                if (Blend.DEBUG && (!Blend.isObject(clazz) || !(<IAbstractComponent>clazz).getUID)) {
+                if (Blend.DEBUG && (!Blend.isObject(clazz) || !(clazz as IAbstractComponent).getUID)) {
+                    // tslint:disable-next-line:no-console
                     console.warn(
-                        'The provided clazz parameter seems not to be an Object or an instance of Blend.core.Component!'
+                        "The provided clazz parameter seems not to be an Object or an instance of Blend.core.Component!"
                     );
                 }
-                return <any>clazz;
+                return clazz as any;
             }
         } else {
-            throw new Error('Unable to create a component based on the given class: ' + clazz);
+            throw new Error("Unable to create a component based on the given class: " + clazz);
         }
-    }
-
-    /**
-     * Gets a class' base hierarchy. For example `Component/Layout/HBox`
-     *
-     * @export
-     * @param {TConfigurableClass} clazz
-     * @returns {string}
-     */
-    export function getClassPath(clazz: TConfigurableClass): string {
-        var nameExtract = /^function\s?([^\s(]*)/,
-            parts: Array<any> = [clazz.toString().match(nameExtract)[1]],
-            p: any,
-            r: any;
-        while ((p = Object.getPrototypeOf(clazz)) !== null) {
-            r = p.toString().match(nameExtract);
-            if (r && r[1] && r[1].trim() !== '') {
-                parts.push(r[1]);
-            }
-            clazz = p;
-        }
-        return parts.reverse().join('/');
-    }
-
-    /**
-     * Gets the class name of an object.
-     *
-     * @export
-     * @param {*} obj
-     * @returns {string}
-     */
-    export function getClassName(obj: any): string {
-        var result = null;
-        if (Blend.isObject(obj) && !Blend.isNullOrUndef(obj.constructor)) {
-            result = obj.constructor.name || null;
-            if (result === null) {
-                // try the hard way
-                var str = obj.constructor.toString().trim();
-                if (str !== '') {
-                    str = str.substr(9); // function and space
-                    result = str.substr(0, str.indexOf('('));
-                }
-            }
-        }
-        return result;
     }
 
     /**
@@ -280,14 +220,15 @@ export namespace Blend {
      * @param {boolean} immediate
      * @returns {Function}
      */
-    export function debounce<T>(delay: number, callback: Function, scope?: any, immediate?: boolean): T {
-        var timeout: number;
+    // tslint:disable-next-line:no-shadowed-variable
+    export function debounce(delay: number, callback: TFunction, scope?: any, immediate?: boolean): TFunction {
+        let timeout: any;
         immediate = immediate || false;
-        return <any>function() {
+        return function() {
+            const me = this;
             scope = scope || me;
-            var me = this,
-                args = arguments,
-                later = function() {
+            const args = arguments;
+            const later = () => {
                     timeout = null;
                     if (!immediate) {
                         callback.apply(scope, args);
@@ -295,7 +236,7 @@ export namespace Blend {
                 },
                 callNow = immediate && !timeout;
             clearTimeout(timeout);
-            timeout = <any>setTimeout(later, delay);
+            timeout = setTimeout(later, delay);
             if (callNow) {
                 callback.apply(scope, args);
             }
@@ -322,9 +263,9 @@ export namespace Blend {
      * @param {Function} callback
      * @param {*} [scope]
      */
-    export function delay(ms: number, callback: Function, scope?: any) {
+    export function delay(ms: number, callback: TFunction, scope?: any) {
         scope = scope || window;
-        setTimeout(function() {
+        setTimeout(() => {
             callback.apply(scope, []);
         }, ms);
     }
@@ -341,14 +282,14 @@ export namespace Blend {
      * @returns {*}
      */
     export function apply<T>(target: any, source: any, options?: { overwrite?: boolean; mergeArrays?: boolean }): any {
-        var key: any,
-            targetKeys = Object.keys(target || {}),
-            targetHasKey = function(key: string): boolean {
-                return targetKeys.indexOf(key) !== -1;
+        let key: any;
+        const targetKeys = Object.keys(target || {}),
+            targetHasKey = (k: string): boolean => {
+                return targetKeys.indexOf(k) !== -1;
             };
         options = options || {
-            overwrite: false,
-            mergeArrays: false
+            mergeArrays: false,
+            overwrite: false
         };
 
         if (!Blend.isNullOrUndef(target) && !Blend.isNullOrUndef(source)) {
@@ -374,7 +315,7 @@ export namespace Blend {
                 }
             }
         }
-        return <T>target;
+        return target as T;
     }
 
     /**
@@ -385,7 +326,7 @@ export namespace Blend {
      * @param {*} obj
      * @returns {Array<T>}
      */
-    export function wrapInArray<T>(obj: any): Array<T> {
+    export function wrapInArray<T>(obj: any): T[] {
         return Blend.isArray(obj) ? obj : Blend.isNullOrUndef(obj) ? [] : [obj];
     }
 
@@ -406,26 +347,27 @@ export namespace Blend {
         callback: (item: T, index: number | string, scope: any) => any | boolean,
         scope?: any
     ) {
-        var key: any,
-            isHTMLCollection = function(obj: any): boolean {
-                return (
-                    (obj.constructor && obj.constructor.name && obj.constructor.name === 'HTMLCollection') ||
-                    obj.toString() == '[object HTMLCollection]'
-                );
-            };
+        let key: any;
+        const isHTMLCollection = (elObj: any): boolean => {
+            return (
+                (elObj.constructor && elObj.constructor.name && elObj.constructor.name === "HTMLCollection") ||
+                elObj.toString() === "[object HTMLCollection]"
+            );
+        };
         if (obj) {
             if (Blend.isFunction(obj)) {
                 return;
             } else if (Blend.isArray(obj)) {
-                var length: number = obj.length;
+                // tslint:disable-next-line:no-shadowed-variable
+                const length: number = obj.length;
                 for (key = 0; key < length; key++) {
                     if (callback.call(scope, obj[key], key, obj) === false) {
                         break;
                     }
                 }
             } else if (isHTMLCollection(obj) || Blend.isInstanceOf(obj, NodeList)) {
-                var length: number = obj.length,
-                    el: HTMLElement;
+                const length: number = obj.length;
+                let el: HTMLElement;
                 for (key = 0; key !== length; key++) {
                     el = obj.item(key);
                     if (callback.call(scope, el, key, obj) === false) {
@@ -452,7 +394,7 @@ export namespace Blend {
      * @returns {boolean}
      */
     export function isDate(value: any): boolean {
-        return Object.prototype.toString.apply(value) === '[object Date]';
+        return Object.prototype.toString.apply(value) === "[object Date]";
     }
 
     /**
@@ -463,7 +405,7 @@ export namespace Blend {
      * @returns {boolean}
      */
     export function isNumeric(value: any): boolean {
-        return Object.prototype.toString.apply(value) === '[object Number]';
+        return Object.prototype.toString.apply(value) === "[object Number]";
     }
 
     /**
@@ -481,21 +423,21 @@ export namespace Blend {
             return false;
         }
 
-        var hc = '[object HTMLCollection]';
-        if (obj.toString() === hc && clazz === 'HTMLCollection') {
+        const hc = "[object HTMLCollection]";
+        if (obj.toString() === hc && clazz === "HTMLCollection") {
             return true;
         } else {
             if (Blend.isString(clazz)) {
-                var fn = new Function(
-                    '',
-                    ' try { return ' +
+                const fn = new Function(
+                    "",
+                    " try { return " +
                         clazz +
-                        ' } catch(e) { if(console && console.log) {console.log(e);};  return null };'
+                        " } catch(e) { if(console && console.log) {console.log(e);};  return null };"
                 );
                 clazz = fn();
             }
             try {
-                var res = obj instanceof clazz;
+                const res = obj instanceof clazz;
                 return res;
             } catch (e) {
                 return false;
@@ -511,7 +453,7 @@ export namespace Blend {
      * @returns {boolean}
      */
     export function isBoolean(value: any): boolean {
-        return typeof value === 'boolean';
+        return typeof value === "boolean";
     }
 
     /**
@@ -523,8 +465,8 @@ export namespace Blend {
      */
     export function isObject(value: any): boolean {
         return (
-            typeof value === 'object' &&
-            (typeof value !== 'function' &&
+            typeof value === "object" &&
+            (typeof value !== "function" &&
                 value !== null &&
                 value !== undefined &&
                 !Blend.isRegExp(value) &&
@@ -552,7 +494,7 @@ export namespace Blend {
      * @returns {boolean}
      */
     export function isArray(value: any): boolean {
-        return Object.prototype.toString.apply(value) === '[object Array]';
+        return Object.prototype.toString.apply(value) === "[object Array]";
     }
 
     /**
@@ -563,7 +505,7 @@ export namespace Blend {
      * @returns {boolean}
      */
     export function isString(value: any): boolean {
-        return typeof value === 'string';
+        return typeof value === "string";
     }
 
     /**
@@ -574,7 +516,7 @@ export namespace Blend {
      * @returns {boolean}
      */
     export function isFunction(value: any): boolean {
-        return typeof value === 'function';
+        return typeof value === "function";
     }
 
     /**
@@ -585,7 +527,7 @@ export namespace Blend {
      * @returns {boolean}
      */
     export function isNullOrUndef(value: any): boolean {
-        return value === null || value === undefined || value === 'undefined';
+        return value === null || value === undefined || value === "undefined";
     }
 
     /**
@@ -598,8 +540,8 @@ export namespace Blend {
     export function isClass(clazz: any): boolean {
         return (
             Blend.isFunction(clazz) &&
-            Blend.isObject((<any>clazz).prototype) &&
-            Blend.isFunction((<any>clazz.prototype).constructor)
+            Blend.isObject((clazz as any).prototype) &&
+            Blend.isFunction((clazz.prototype as any).constructor)
         );
     }
 }

@@ -1,4 +1,10 @@
 /**
+ * Type describing a type of generic function
+ * @type
+ */
+export type TFunction = (...args) => any;
+
+/**
  * Interface for implementing a Component
  *
  * @export

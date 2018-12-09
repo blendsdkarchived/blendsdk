@@ -1,5 +1,5 @@
-import { Blend } from './Blend';
-import { IAbstractComponent, IComponentConfig } from './Types';
+import { Blend } from "./Blend";
+import { IAbstractComponent, IComponentConfig } from "./Types";
 
 /**
  * Type describing a Component with its minimal configuration type.
@@ -22,7 +22,7 @@ export abstract class Component<T extends IComponentConfig> implements IAbstract
      *
      * @export
      */
-    static KEY_UID = '_uid';
+    public static KEY_UID = "_uid";
 
     /**
      * references the unique for this component.
@@ -49,34 +49,14 @@ export abstract class Component<T extends IComponentConfig> implements IAbstract
      * @memberOf Component
      */
     public constructor(config?: T) {
-        var me = this;
-        me.config = config || <T>{};
-        me.configDefaults(<IComponentConfig>{
-            userData: {},
-            id: null
-        });
+        const me = this;
+        me.config = config || ({} as T);
+        me.configDefaults({
+            id: null,
+            userData: {}
+        } as IComponentConfig);
         me.uid = Blend.ID().toString();
     }
-
-    /**
-     * Apply default values to the class configuration object.
-     *
-     * @protected
-     * @param {IComponentConfig} defaults
-     * @memberof Component
-     */
-    protected configDefaults(defaults: IComponentConfig) {
-        var me = this;
-        Blend.apply(me.config, defaults || {});
-    }
-
-    /**
-     * Initializes this component.
-     *
-     * @protected
-     * @memberof Component
-     */
-    protected initComponent() {}
 
     /**
      * Sets a custom data value in this component.
@@ -89,12 +69,12 @@ export abstract class Component<T extends IComponentConfig> implements IAbstract
      * @memberof Component
      */
     public setUserData(key: string | object, value?: any): this {
-        var me = this,
-            value = value || undefined;
+        const me = this;
+        value = value || undefined;
         if (Blend.isObject(key)) {
-            me.config.userData = <any>key;
+            me.config.userData = key as any;
         } else if (Blend.isString(key)) {
-            me.config.userData[<string>key] = value;
+            me.config.userData[key as string] = value;
         }
         return me;
     }
@@ -109,13 +89,13 @@ export abstract class Component<T extends IComponentConfig> implements IAbstract
      * @returns {T}
      * @memberof Component
      */
-    public getUserData<T>(key?: string, defaultValue?: T): T {
-        var me = this,
-            key = key || null;
+    public getUserData<R>(key?: string, defaultValue?: R): R {
+        const me = this;
+        key = key || null;
         if (key === null) {
-            return <T>(me.config.userData || {});
+            return (me.config.userData || {}) as R;
         } else if (Blend.isString(key)) {
-            return me.config.userData[<string>key] || defaultValue || undefined;
+            return me.config.userData[key as string] || defaultValue || undefined;
         }
     }
 
@@ -153,15 +133,17 @@ export abstract class Component<T extends IComponentConfig> implements IAbstract
      * @returns {T}
      * @memberof Component
      */
-    public applyMethod<T>(methodName: string, arg?: Array<any>): T {
-        var fn: Function = <Function>(<any>this)[methodName];
+    public applyMethod<R>(methodName: string, arg?: any[]): R {
+        const fn: (() => any) = (this as any)[methodName] as (() => any);
         if (fn) {
-            return <T>fn.apply(this, arg || []);
+            return fn.apply(this, arg || []) as R;
         } else {
+            // tslint:disable-next-line:no-console
             if (console && console.trace) {
+                // tslint:disable-next-line:no-console
                 console.trace(`${this} does not implement ${methodName}`);
             }
-            return <T>undefined;
+            return undefined as R;
         }
     }
     /**
@@ -170,7 +152,7 @@ export abstract class Component<T extends IComponentConfig> implements IAbstract
      * @memberOf Component
      */
     public destroy() {
-        var me: any = this;
+        const me: any = this;
         if (me.setParent) {
             me.setParent(null);
         }
@@ -179,10 +161,31 @@ export abstract class Component<T extends IComponentConfig> implements IAbstract
          * If the property has a `destroy` function then
          * we call it before removing the property
          */
-        Object.keys(me).forEach(function(prop) {
+        Object.keys(me).forEach(prop => {
             me[prop] = null;
             delete me[prop];
         });
         delete me.config;
     }
+
+    /**
+     * Apply default values to the class configuration object.
+     *
+     * @protected
+     * @param {IComponentConfig} defaults
+     * @memberof Component
+     */
+    protected configDefaults(defaults: IComponentConfig) {
+        const me = this;
+        Blend.apply(me.config, defaults || {});
+    }
+
+    /**
+     * Initializes this component.
+     *
+     * @protected
+     * @memberof Component
+     */
+    // tslint:disable-next-line:no-empty
+    protected initComponent() {}
 }

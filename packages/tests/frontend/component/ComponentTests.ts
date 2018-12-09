@@ -3,6 +3,18 @@ import { Assets } from "../core/Assets";
 
 export default function(t: IDescribeProvider) {
     t.describe("Core Component Tests", (t: ITestDescription) => {
+        t.it("Should destroy the component correctly", (t: IAssertionProvider) => {
+            const cmp = new Assets.TestComponent({
+                userData: {
+                    a: 100,
+                    b: true
+                }
+            });
+            cmp.destroy();
+            t.assertNotExists((cmp as any).userData);
+            t.done();
+        });
+
         t.it("UserData", (t: IAssertionProvider) => {
             const cmp = new Assets.TestComponent({
                 userData: {

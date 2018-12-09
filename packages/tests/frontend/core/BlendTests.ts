@@ -4,6 +4,33 @@ import { Assets } from "./Assets";
 
 export default function(t: IDescribeProvider) {
     t.describe("Blend Core", (t: ITestDescription) => {
+        t.it("Blend.ID", (t: IAssertionProvider) => {
+            const result = [];
+            for (let a = 0; a !== 4; a++) {
+                result.push(Blend.ID());
+            }
+            t.assertEqual(result.join(","), "1000,1001,1002,1003");
+            t.done();
+        });
+
+        t.it("Blend.shallowClone", (t: IAssertionProvider) => {
+            const a = { a: 1, b: 1 };
+            const b = Blend.shallowClone(a);
+            t.assertEqual(JSON.stringify(b), '{"a":1,"b":1}');
+            t.done();
+        });
+
+        t.it("Blend.argumentsToArray", (t: IAssertionProvider) => {
+            // tslint:disable-next-line:only-arrow-functions
+            const fn = function(a: number, b: number): void {
+                const args = Blend.argumentsToArray(arguments);
+                t.assertTrue(Blend.isArray(args));
+            };
+
+            fn(1, 2);
+            t.done();
+        });
+
         t.it("Blend.wrapInArray", (t: IAssertionProvider) => {
             const a: number[] = [1, 2, 3, 4],
                 b: number[] = Blend.wrapInArray(a);
@@ -126,16 +153,6 @@ export default function(t: IDescribeProvider) {
             t.assertFalse(Blend.isArray(undefined));
             t.assertFalse(Blend.isArray(document.children), "test the document.children");
             t.assertFalse(Blend.isArray({ length: 0 }));
-            t.done();
-        });
-
-        t.it("Blend.getClassName", (t: IAssertionProvider) => {
-            const c = new Assets.TestComponent();
-            const o = {};
-
-            t.assertEqual(Blend.getClassName(c), "TestComponent");
-            t.assertEqual(Blend.getClassName(o), "Object");
-
             t.done();
         });
 
