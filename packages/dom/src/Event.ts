@@ -1,5 +1,6 @@
-import { DOMElement } from './Dom';
+import { DOMElement } from "./Dom";
 
+// tslint:disable-next-line:no-namespace
 export namespace DOMEvent {
     /**
      * Given an Event (usually a mouse or a touch event) this function
@@ -11,12 +12,12 @@ export namespace DOMEvent {
      * @returns {HTMLElement}
      */
     export function getReferencedTarget(event: MouseEvent | TouchEvent): DOMElement {
-        var targetEl: HTMLElement = <HTMLElement>event.target || null;
-        var currentEl: HTMLElement = <HTMLElement>event.currentTarget || null;
+        const targetEl: HTMLElement = (event.target as HTMLElement) || null,
+            currentEl: HTMLElement = (event.currentTarget as HTMLElement) || null;
         if (targetEl === currentEl) {
             return DOMElement.getElement(currentEl);
         } else {
-            var $el = DOMElement.getElement(targetEl);
+            const $el = DOMElement.getElement(targetEl);
             return $el.getReferencedParent() || DOMElement.getElement(currentEl);
         }
     }

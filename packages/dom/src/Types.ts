@@ -1,4 +1,4 @@
-import { IDictionary } from '@blendsdk/core';
+import { IDictionary } from "@blendsdk/core";
 
 /**
  * Interface for configuring an object that can be converted to a css class attribute
@@ -93,7 +93,7 @@ export interface ICreateElementConfig {
      * @type {(string | Array<string>)}
      * @memberof ICreateElementConfig
      */
-    css?: string | Array<string>;
+    css?: string | string[];
     /**
      * The inline styles of the element.
      *

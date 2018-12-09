@@ -1,6 +1,7 @@
-import { Blend, Component } from '@blendsdk/core';
-import { ICreateElementConfig, IHTMLElementProvider, ICssClassDictionary } from './Types';
+import { Blend, Component } from "@blendsdk/core";
+import { ICreateElementConfig, ICssClassDictionary, IHTMLElementProvider } from "./Types";
 
+// tslint:disable-next-line:no-namespace
 export namespace Dom {
     /**
      * Finds an element using a CSS selector. This method internally uses querySelector.
@@ -12,7 +13,7 @@ export namespace Dom {
      * @returns {(T | null)}
      */
     export function findElement<T extends HTMLElement>(selector: string, fromRoot?: HTMLElement | Document): T | null {
-        return <T>(fromRoot || document).querySelector(selector);
+        return (fromRoot || document).querySelector(selector) as T;
     }
 
     /**
@@ -27,8 +28,8 @@ export namespace Dom {
                 el.children[0].parentElement.removeChild(el.children[0]);
             }
             // perhaps overkill!
-            el.textContent = '';
-            el.innerHTML = '';
+            el.textContent = "";
+            el.innerHTML = "";
         }
     }
 
@@ -45,7 +46,7 @@ export namespace Dom {
         selector: string,
         fromRoot?: HTMLElement | Document
     ): NodeListOf<T> {
-        return <NodeListOf<T>>(fromRoot || document).querySelectorAll(selector);
+        return (fromRoot || document).querySelectorAll(selector) as NodeListOf<T>;
     }
 
     /**
@@ -72,20 +73,20 @@ export namespace Dom {
             // TODO:1110 Check if there is a better way!
             // Node to skip(fix for) SVGElement
 
-            return <T>conf;
+            return conf as T;
         } else {
-            var config: ICreateElementConfig = <any>conf;
+            let config: ICreateElementConfig = conf as any;
             /**
              * Normalize the config for processing
              */
             config = config || {};
-            config.tag = config.tag || 'DIV';
+            config.tag = config.tag || "DIV";
             refCallback = refCallback || null;
 
-            var el: HTMLElement;
+            let el: HTMLElement;
 
-            if (config.tag.toLowerCase() === 'svg' || config.isSVG === true) {
-                el = <any>window.document.createElementNS('http://www.w3.org/2000/svg', config.tag);
+            if (config.tag.toLowerCase() === "svg" || config.isSVG === true) {
+                el = window.document.createElementNS("http://www.w3.org/2000/svg", config.tag) as any;
                 config.isSVG = true;
             } else {
                 el = window.document.createElement(config.tag);
@@ -94,9 +95,9 @@ export namespace Dom {
             /**
              * Internal function to parse the data-* values
              */
-            var parseData = function(value: any) {
+            const parseData = (value: any) => {
                 if (Blend.isNullOrUndef(value)) {
-                    value = 'null';
+                    value = "null";
                 }
                 if (Blend.isObject(value) || Blend.isArray(value)) {
                     return JSON.stringify(value);
@@ -122,13 +123,13 @@ export namespace Dom {
             }
 
             if (config.data) {
-                Blend.forEach(config.data, function(item: any, key: string) {
-                    el.setAttribute('data-' + key, parseData(item));
+                Blend.forEach(config.data, (item: any, key: string) => {
+                    el.setAttribute("data-" + key, parseData(item));
                 });
             }
 
             if (config.attrs) {
-                Blend.forEach(config.attrs, function(item: any, key: string) {
+                Blend.forEach(config.attrs, (item: any, key: string) => {
                     if (item !== undefined) {
                         el.setAttribute(key, parseData(item));
                     }
@@ -136,7 +137,7 @@ export namespace Dom {
             }
 
             if (config.listeners) {
-                Blend.forEach(config.listeners, function(item: EventListenerOrEventListenerObject, key: string) {
+                Blend.forEach(config.listeners, (item: EventListenerOrEventListenerObject, key: string) => {
                     if (!Blend.isNullOrUndef(item)) {
                         el.addEventListener(key, item, false);
                     }
@@ -145,24 +146,24 @@ export namespace Dom {
 
             if (config.css) {
                 el.setAttribute(
-                    'class',
+                    "class",
                     Blend.wrapInArray(config.css)
-                        .join(' ')
-                        .replace(/\s\s+/g, ' ')
+                        .join(" ")
+                        .replace(/\s\s+/g, " ")
                 );
             }
 
             if (config.style) {
-                var styles: Array<string> = [];
-                Blend.forEach(config.style, function(rule: string, key: string) {
+                const styles: string[] = [];
+                Blend.forEach(config.style, (rule: string, key: string) => {
                     if (rule) {
-                        key = key.replace(/_/m, '-');
+                        key = key.replace(/_/m, "-");
                         styles.push(`${key}:${rule}`);
                     }
                 });
-                var t = styles.join(';');
+                const t = styles.join(";");
                 if (t.length !== 0) {
-                    el.setAttribute('style', t);
+                    el.setAttribute("style", t);
                 }
             }
 
@@ -173,23 +174,23 @@ export namespace Dom {
                 // if (Blend.isInstanceOf(config.children, Blend.ui.Collection)) {
                 //     (<Blend.ui.Collection<Blend.dom.Component>>(<any>config).children).renderTo(el);
                 // } else {
-                Blend.wrapInArray(config.children).forEach(function(item: any) {
+                Blend.wrapInArray(config.children).forEach((item: any) => {
                     if (Blend.isString(item)) {
                         el.appendChild(window.document.createTextNode(item));
                     } else if (Blend.isInstanceOf(item, HTMLElement) || Blend.isInstanceOf(item, SVGElement)) {
-                        el.appendChild(<HTMLElement>item);
-                        var $el = DOMElement.getElement(<HTMLElement>item);
+                        el.appendChild(item as HTMLElement);
+                        const $el = DOMElement.getElement(item as HTMLElement);
                         if ($el.getReference() && refCallback) {
                             refCallback($el.getReference(), item);
                         }
-                    } else if ((<IHTMLElementProvider>item).getElement) {
+                    } else if ((item as IHTMLElementProvider).getElement) {
                         el.appendChild(item.getElement());
                     } else {
-                        (<ICreateElementConfig>item).isSVG = config.isSVG || false;
-                        el.appendChild(Dom.createElement(<ICreateElementConfig>item, refCallback));
+                        (item as ICreateElementConfig).isSVG = config.isSVG || false;
+                        el.appendChild(Dom.createElement(item as ICreateElementConfig, refCallback));
                     }
                 });
-                //}
+                // }
             }
 
             if (config.reference) {
@@ -201,7 +202,7 @@ export namespace Dom {
                     refCallback(config.reference, el);
                 }
             }
-            return <T>el;
+            return el as T;
         }
     }
 }
@@ -219,6 +220,16 @@ export namespace Dom {
  */
 export class DOMElement {
     /**
+     * Wraps an HTMLElement within a Blend.dom.Element for easy manipulation
+     *
+     * @export
+     * @param {HTMLElement} el
+     * @returns {Blend.dom.Element}
+     */
+    public static getElement(el: HTMLElement): DOMElement {
+        return new DOMElement(el);
+    }
+    /**
      * Internal reference to the HTMLElement
      *
      * @protected
@@ -228,17 +239,17 @@ export class DOMElement {
     protected el: HTMLElement;
 
     /**
-     *Creates an instance of Element.
+     * Creates an instance of Element.
      * @param {(HTMLElement | string | ICreateElementConfig)} [el]
      * @memberof Element
      */
     public constructor(el?: HTMLElement | string | ICreateElementConfig) {
-        var me = this;
+        const me = this;
         me.el = Dom.createElement(
-            Blend.isString(el) ? { tag: <any>el } : Blend.isNullOrUndef(el) ? {} : <any>el,
-            function(ref: string, el: HTMLElement) {
-                if (ref !== '..') {
-                    (<any>me)[ref] = el;
+            Blend.isString(el) ? { tag: el as any } : Blend.isNullOrUndef(el) ? {} : (el as any),
+            (ref: string, elem: HTMLElement) => {
+                if (ref !== "..") {
+                    (me as any)[ref] = elem;
                 }
             }
         );
@@ -252,7 +263,7 @@ export class DOMElement {
      * @memberof Element
      */
     public isTypeOf(tag: string): boolean {
-        var me = this;
+        const me = this;
         return tag.toLowerCase() === me.el.tagName.toLowerCase();
     }
 
@@ -264,7 +275,7 @@ export class DOMElement {
      * @memberof Element
      */
     public hasClass(className: string): boolean {
-        var me = this;
+        const me = this;
         if (me.el) {
             return me.el.classList.contains(className);
         } else {
@@ -316,19 +327,19 @@ export class DOMElement {
      * @param {(string | Array<string>)} css
      * @memberof Element
      */
-    public setCssClass(css: string | Array<string> | ICssClassDictionary, prefix?: string) {
-        var me = this,
-            selector = function(key: string): string {
-                var parts = [prefix || 'b'].concat((key.replace(/([A-Z])/g, ' $1') || '').split(' '));
+    public setCssClass(css: string | string[] | ICssClassDictionary, prefix?: string) {
+        const me = this,
+            selector = (key: string): string => {
+                const parts = [prefix || "b"].concat((key.replace(/([A-Z])/g, " $1") || "").split(" "));
                 parts.forEach((part: string, index: number) => {
                     parts[index] = part.trim().toLocaleLowerCase();
                 });
-                return parts.join('-').trim();
+                return parts.join("-").trim();
             };
         if (Blend.isObject(css)) {
-            var rules: ICssClassDictionary = <any>css;
-            Blend.forEach(rules, function(value: true | false | null | undefined, key: string) {
-                var sel = selector(key);
+            const rules: ICssClassDictionary = css as any;
+            Blend.forEach(rules, (value: true | false | null | undefined, key: string) => {
+                const sel = selector(key);
                 if (value === true && !me.el.classList.contains(sel)) {
                     me.el.classList.add(sel);
                 } else if (value === false) {
@@ -367,7 +378,7 @@ export class DOMElement {
      * @memberof Element
      */
     public getEl<T extends HTMLElement>(): T | null {
-        return <T>this.el;
+        return this.el as T;
     }
 
     /**
@@ -378,7 +389,7 @@ export class DOMElement {
      * @memberof Element
      */
     public setReference(value: string): this {
-        this.setData('reference', value);
+        this.setData("reference", value);
         return this;
     }
 
@@ -403,10 +414,10 @@ export class DOMElement {
      * @memberof Element
      */
     public getReferencedParent(): DOMElement | null {
-        var me = this,
+        const me = this,
             ref = me.getReference();
         if (ref) {
-            if (ref === '..' && me.el.parentElement) {
+            if (ref === ".." && me.el.parentElement) {
                 return DOMElement.getElement(me.el.parentElement).getReferencedParent();
             } else {
                 return DOMElement.getElement(me.el);
@@ -426,8 +437,8 @@ export class DOMElement {
      * @memberof Element
      */
     public findParentByClass(cssClass: string): HTMLElement {
-        var me = this,
-            result: HTMLElement = null,
+        const me = this;
+        let result: HTMLElement = null,
             search = me.el;
         while (search !== null) {
             if (search.classList.contains(cssClass)) {
@@ -447,7 +458,7 @@ export class DOMElement {
      * @memberof Element
      */
     public getReference(): string {
-        return this.getData<string>('reference');
+        return this.getData<string>("reference");
     }
 
     /**
@@ -460,7 +471,7 @@ export class DOMElement {
      * @memberof Element
      */
     public getData<T>(key: string, defaultValue?: T): T {
-        var me = this;
+        const me = this;
         if (me.el && me.el.$blend) {
             return me.el.$blend[key] || defaultValue;
         } else {
@@ -477,7 +488,7 @@ export class DOMElement {
      * @memberof Element
      */
     public setData(key: string, value: any): this {
-        var me = this;
+        const me = this;
         if (me.el) {
             if (!me.el.$blend) {
                 me.el.$blend = {};
@@ -498,7 +509,7 @@ export class DOMElement {
      * @memberof Element
      */
     public setUID(id?: string): this {
-        var me = this;
+        const me = this;
         me.setData(Component.KEY_UID, id || Blend.ID());
         return me;
     }
@@ -511,18 +522,7 @@ export class DOMElement {
      * @memberof Element
      */
     public getUID(): string {
-        var me = this;
+        const me = this;
         return me.getData(Component.KEY_UID);
-    }
-
-    /**
-     * Wraps an HTMLElement within a Blend.dom.Element for easy manipulation
-     *
-     * @export
-     * @param {HTMLElement} el
-     * @returns {Blend.dom.Element}
-     */
-    public static getElement(el: HTMLElement): DOMElement {
-        return new DOMElement(el);
     }
 }

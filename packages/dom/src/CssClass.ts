@@ -1,4 +1,4 @@
-import { Blend, IDictionary } from '@blendsdk/core';
+import { Blend, IDictionary } from "@blendsdk/core";
 
 /**
  * Type for defining a CssClass function. This
@@ -45,7 +45,7 @@ export interface ICssClass<T> {
      * @returns {T}
      * @memberof ICssClass
      */
-    addRule(rules: string | Array<string>): T;
+    addRule(rules: string | string[]): T;
 }
 
 /**
@@ -66,6 +66,19 @@ export interface ICssClass<T> {
  * @implements {ICssClass<any>}
  */
 export class CssClass implements ICssClass<any> {
+    /**
+     * Creates an instance of {Blend.dom.CssClass} type casted to
+     * an interface of T
+     *
+     * @export
+     * @template T
+     * @param {Array<string>} cssKeys
+     * @param {HTMLElement} [el]
+     * @returns {T}
+     */
+    public static create<T extends ICssClass<T>>(cssKeys: string[], el?: HTMLElement): T {
+        return (new CssClass(cssKeys, el) as any) as T;
+    }
     /**
      * Reference to the HTMLElement
      * on which this class operates
@@ -94,7 +107,7 @@ export class CssClass implements ICssClass<any> {
      * @type {Array<string>}
      * @memberof CssClass
      */
-    protected cssKeysCache: Array<string>;
+    protected cssKeysCache: string[];
     /**
      * A prefix to be removed from the css rules.
      *
@@ -128,28 +141,14 @@ export class CssClass implements ICssClass<any> {
      * @param {string} [removePrefix]
      * @memberof CssClass
      */
-    public constructor(cssKeys: Array<string>, el?: HTMLElement, removePrefix?: string) {
-        var me = this;
+    public constructor(cssKeys: string[], el?: HTMLElement, removePrefix?: string) {
+        const me = this;
         me.el = el;
         me.cssKeysCache = cssKeys;
         me.cssKeys = {};
-        me.removePrefix = removePrefix || 'b-';
+        me.removePrefix = removePrefix || "b-";
         me.buildSetters();
         me.synced = false;
-    }
-
-    /**
-     * Creates an instance of {Blend.dom.CssClass} type casted to
-     * an interface of T
-     *
-     * @export
-     * @template T
-     * @param {Array<string>} cssKeys
-     * @param {HTMLElement} [el]
-     * @returns {T}
-     */
-    public static create<T extends ICssClass<T>>(cssKeys: Array<string>, el?: HTMLElement): T {
-        return <T>(<any>new CssClass(cssKeys, el));
     }
 
     /**
@@ -159,7 +158,7 @@ export class CssClass implements ICssClass<any> {
      * @memberof CssClass
      */
     public addRule(rules: string | string[]) {
-        var me = this;
+        const me = this;
         me.cssKeysCache = me.cssKeysCache.concat(Blend.wrapInArray(rules));
         me.re = null;
         me.buildSetters();
@@ -174,33 +173,32 @@ export class CssClass implements ICssClass<any> {
      * @memberof CssClass
      */
     public serialize(el?: HTMLElement): this {
-        var me = this,
-            list: Array<string>,
-            current: string,
+        const me = this,
             element: HTMLElement = el || me.el;
+        let list: string[], current: string;
 
         if (element && !me.synced) {
-            current = element.getAttribute('class') || '';
+            current = element.getAttribute("class") || "";
             list = current
-                .replace(me.re, '')
+                .replace(me.re, "")
                 .trim()
-                .split(' ');
-            list = list.length == 1 && list[0] === '' ? [] : list;
-            Blend.forEach(me.cssKeys, function(value: true | false, key: string) {
-                if (value == true) {
+                .split(" ");
+            list = list.length === 1 && list[0] === "" ? [] : list;
+            Blend.forEach(me.cssKeys, (val: true | false, key: string) => {
+                if (val === true) {
                     list.push(key);
                 }
             });
             if (list.length !== 0) {
-                var value = list
+                const value = list
                     .unique()
-                    .join(' ')
+                    .join(" ")
                     .trim();
                 if (value !== current) {
-                    element.setAttribute('class', list.join(' ').trim());
+                    element.setAttribute("class", list.join(" ").trim());
                 }
             } else {
-                element.removeAttribute('class');
+                element.removeAttribute("class");
             }
             me.synced = true;
         }
@@ -215,8 +213,8 @@ export class CssClass implements ICssClass<any> {
      * @memberof CssClass
      */
     public setAll(state: boolean | -1): this {
-        var me = this;
-        Blend.forEach(me.cssKeys, function(value: true | false, key: string) {
+        const me = this;
+        Blend.forEach(me.cssKeys, (value: true | false, key: string) => {
             me.set(key, state);
         });
         return me;
@@ -231,7 +229,7 @@ export class CssClass implements ICssClass<any> {
      * @memberof CssClass
      */
     public set(key: string, state: boolean | -1): this {
-        var me = this;
+        const me = this;
         if (state === undefined) {
             state = true;
         }
@@ -253,14 +251,14 @@ export class CssClass implements ICssClass<any> {
      * @memberof CssClass
      */
     protected createSetterName(key: string, removeMethodPrefix: string) {
-        var ar = key
+        const ar = key
             .trim()
-            .replace(removeMethodPrefix || '', '')
-            .split('-');
-        ar.forEach(function(part: string, index: number) {
+            .replace(removeMethodPrefix || "", "")
+            .split("-");
+        ar.forEach((part: string, index: number) => {
             ar[index] = index === 0 ? part.toLocaleLowerCase() : part.ucFirst();
         });
-        return ar.join('');
+        return ar.join("");
     }
 
     /**
@@ -271,12 +269,12 @@ export class CssClass implements ICssClass<any> {
      * @memberof CssClass
      */
     protected createSplitterRegExp() {
-        var me = this,
-            result: Array<string> = [];
-        me.cssKeysCache.forEach(function(key: string) {
+        const me = this,
+            result: string[] = [];
+        me.cssKeysCache.forEach((key: string) => {
             result.push(`\\b${key}\\b(\\s|$)`);
         });
-        me.re = new RegExp(result.join('|'), 'gi');
+        me.re = new RegExp(result.join("|"), "gi");
     }
 
     /**
@@ -287,19 +285,20 @@ export class CssClass implements ICssClass<any> {
      * @memberof CssClass
      */
     protected buildSetters() {
-        var host: any = this,
-            me = this,
-            setterName: string;
+        const host: any = this,
+            me = this;
+
+        let setterName: string;
 
         if (!me.re) {
             me.createSplitterRegExp();
         }
 
-        me.cssKeysCache.forEach(function(item: string) {
+        me.cssKeysCache.forEach((item: string) => {
             setterName = me.createSetterName(item, me.removePrefix);
             if (!host[setterName]) {
                 me.cssKeys[item] = undefined; // reset the key set to undefined
-                host[setterName] = (function(itm) {
+                host[setterName] = (itm => {
                     return function(state: boolean | -1) {
                         me.set(itm, state);
                         return this;
