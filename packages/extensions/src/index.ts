@@ -1,5 +1,5 @@
-import './HTMLElement';
-import './String';
-import './Array';
-import './ClassList';
-export * from './Types';
+import "./Array";
+import "./ClassList";
+import "./HTMLElement";
+import "./String";
+export * from "./Types";
