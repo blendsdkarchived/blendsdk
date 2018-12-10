@@ -8,8 +8,7 @@
     },
     "scripts": {
         "todo": "leasot -r vscode ./src/**/*.ts > TODO.md || true",
-        "test": "lerna run build && DEBUG=testapp:* packages/tests/bin/www",
-        "tslint": "tslint -c ./tslint.json './packages/**/src/*.ts'"
+        "test": "lerna run build && DEBUG=testapp:* packages/tests/bin/www"
     },
     "devDependencies": {
         "cookie-parser": "~1.4.3",
