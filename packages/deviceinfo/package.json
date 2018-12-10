@@ -10,7 +10,7 @@
     },
     "scripts": {
         "watch": "../../node_modules/.bin/watch 'npm run build' ./src",
-        "build": "npm run clean && npm run build:lib && echo 'all done'",
+        "build": "npm run clean && npm run tslint && npm run build:lib",
         "build:lib": "../../node_modules/.bin/tsc -p ./",
         "clean": "../../node_modules/.bin/rimraf .build dist",
         "tslint": "../../node_modules/.bin/tslint --config ../../tslint.json --project ./tsconfig.json"
