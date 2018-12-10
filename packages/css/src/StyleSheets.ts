@@ -2,9 +2,9 @@ import { IDictionary } from "@blendsdk/core";
 import { Sheet } from "./Sheet";
 
 /**
- * StyleSheetsSingleton renders and attaches Sheet objects to the
+ * StyleSheetsSingleton renders and attaches a stylesheet object to the
  * Browser DOM. It automatically caches selectors and skips styles that
- * already have been added to the browser DOM.
+ * are already have been added.
  *
  * @class CSSOMSingleton
  */
@@ -31,6 +31,14 @@ class StyleSheetsSingleton {
         document.head.appendChild(el);
     }
 
+    /**
+     * Renders the selectors to text.
+     *
+     * @protected
+     * @param {Sheet} sheet
+     * @returns {string}
+     * @memberof StyleSheetsSingleton
+     */
     protected render(sheet: Sheet): string {
         const me = this,
             items = sheet.render(),
@@ -46,5 +54,8 @@ class StyleSheetsSingleton {
     }
 }
 
+/**
+ * Exported instance to be used globally.
+ */
 const StyleSheets: StyleSheetsSingleton = new StyleSheetsSingleton();
 export { StyleSheets };
