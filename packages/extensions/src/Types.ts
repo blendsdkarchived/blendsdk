@@ -5,6 +5,7 @@ declare global {
      * @interface Array
      * @template T
      */
+    // tslint:disable-next-line:interface-name
     interface Array<T> {
         /**
          * Removes duplicate values from an array.
@@ -13,7 +14,7 @@ declare global {
          *
          * @memberOf Array
          */
-        unique(): Array<T>;
+        unique(): T[];
         /**
          * Removes an element at a given index and returns the removed element
          * if the element is actually removed from the array.
@@ -33,7 +34,7 @@ declare global {
          * @returns {Array<any>}
          * @memberof Array
          */
-        insertAt(index: number, item: any): Array<any>;
+        insertAt(index: number, item: any): any[];
         /**
          * Gets a random item from this Array.
          *
@@ -50,7 +51,7 @@ declare global {
          * @returns {Array<any>}
          * @memberof Array
          */
-        intersect(ar: Array<any>): Array<any>;
+        intersect(ar: any[]): any[];
     }
 
     /**
@@ -58,6 +59,7 @@ declare global {
      *
      * @interface String
      */
+    // tslint:disable-next-line:interface-name
     export interface String {
         /**
          * Uppercase the first character of this string.
@@ -95,7 +97,7 @@ declare global {
          *
          * @memberOf String
          */
-        inArray(list: Array<string>): boolean;
+        inArray(list: string[]): boolean;
         /**
          * Removes whitespace from both ends of a string.
          *
@@ -134,6 +136,7 @@ declare global {
      *
      * @interface DOMTokenList
      */
+    // tslint:disable-next-line:interface-name
     export interface DOMTokenList {
         /**
          * Replaces a css class with another on the space position.
@@ -158,6 +161,7 @@ declare global {
      * @interface HTMLElement
      */
 
+    // tslint:disable-next-line:interface-name
     interface HTMLElement {
         /**
          * @internal

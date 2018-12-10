@@ -1,35 +1,35 @@
-if (!(<any>Array.prototype).intersect) {
+if (!(Array.prototype as any).intersect) {
     // TODO:1115 Create test for `array intersect(....)`
-    (<any>Array.prototype).intersect = function(ar: Array<any>) {
-        return this.filter(function(el: any) {
+    (Array.prototype as any).intersect = function(ar: any[]) {
+        return this.filter((el: any) => {
             return ar.indexOf(el) !== -1;
         });
     };
 }
 
-if (!(<any>Array.prototype).random) {
-    (<any>Array.prototype).random = function() {
+if (!(Array.prototype as any).random) {
+    (Array.prototype as any).random = function() {
         return this[Math.floor(Math.random() * this.length + 0)];
     };
 }
 
-if (!(<any>Array.prototype).unique) {
-    (<any>Array.prototype).unique = function() {
-        return this.filter(function(item: any, i: any, allItems: any) {
+if (!(Array.prototype as any).unique) {
+    (Array.prototype as any).unique = function() {
+        return this.filter((item: any, i: any, allItems: any) => {
             return i === allItems.indexOf(item);
         });
     };
 }
 
-if (!(<any>Array.prototype).removeAt) {
-    (<any>Array.prototype).removeAt = function(index: number): any {
-        var removed: Array<any> = this.splice(index, 1);
+if (!(Array.prototype as any).removeAt) {
+    (Array.prototype as any).removeAt = function(index: number): any {
+        const removed: any[] = this.splice(index, 1);
         return removed.length > 0 ? removed[0] : null;
     };
 }
 
-if (!(<any>Array.prototype).insertAt) {
-    (<any>Array.prototype).insertAt = function(index: number, item: any): Array<any> {
+if (!(Array.prototype as any).insertAt) {
+    (Array.prototype as any).insertAt = function(index: number, item: any): any[] {
         this.splice(index, 0, item);
         return this;
     };
