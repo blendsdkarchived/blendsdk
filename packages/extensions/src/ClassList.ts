@@ -1,3 +1,6 @@
+// tslint:disable:no-shadowed-variable
+// tslint:disable:no-var-keyword
+// tslint:disable:only-arrow-functions
 (function() {
     const BlendDOMException = function(type: string, message: string) {
         this.name = type;
@@ -38,8 +41,7 @@
      * Once the support for IE11 has been propped then this polyfill
      * can be removed from Blend.
      */
-    // tslint:disable-next-line:no-shadowed-variable
-    const ClassList = (el: Element) => {
+    const ClassList = function(el: Element) {
         const me = this;
 
         me.$refresh = () => {
@@ -164,7 +166,7 @@
      * Function that is used to create a new instance of ClassList
      * for en Element instance
      */
-    const classListBuilder = () => {
+    const classListBuilder = function() {
         return new (ClassList as any)(this);
     };
 
