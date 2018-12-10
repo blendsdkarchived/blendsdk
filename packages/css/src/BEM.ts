@@ -1,5 +1,4 @@
 import { CSSRule } from "./CSSRule";
-import { Sheet } from "./Sheet";
 import { IStyleSet } from "./Types";
 
 // tslint:disable-next-line:no-namespace
