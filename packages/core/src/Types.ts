@@ -1,3 +1,5 @@
+import { Component } from "./Component";
+
 /**
  * Type describing a type of generic function
  * @type
