@@ -6,6 +6,7 @@ import CSSTests from "./css/CSSTests";
 import DeviceInfoTests from "./deviceinfo/DeviceInfoTests";
 import DomTests from "./dom/DomTests";
 import ExtensionsTests from "./extensions/ExtensionsTets";
+import MVCTests from "./mvc/MVCTests";
 
 // import CollectionTests from './collection/CollectionTests';
 // import FilteredCollectionTests from './collection/FilteredCollectionTests';
@@ -21,6 +22,7 @@ import ExtensionsTests from "./extensions/ExtensionsTets";
 // StackTests(t);
 // AjaxTests(t);
 // IconTests(t);
+MVCTests(t);
 BEMTests(t);
 CSSTests(t);
 DomTests(t);

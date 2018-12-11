@@ -22,7 +22,8 @@
         "@blendsdk/core": "^0.0.9",
         "@blendsdk/deviceinfo": "^0.0.9",
         "@blendsdk/dom": "^0.0.9",
-        "@blendsdk/css": "^0.0.9"
+        "@blendsdk/css": "^0.0.9",
+        "@blendsdk/mvc": "0.0.9"
     },
     "devDependencies": {
         "rimraf": "^2.6.2",
