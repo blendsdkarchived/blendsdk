@@ -26,6 +26,7 @@ export interface IHTMLElementProvider {
  *
  * @interface HTMLElement
  */
+// tslint:disable-next-line:interface-name
 export interface HTMLElement {
     /**
      * @internal
