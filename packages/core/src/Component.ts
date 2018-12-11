@@ -54,7 +54,7 @@ export abstract class Component<T extends IComponentConfig> implements IAbstract
         me.configDefaults({
             id: null,
             userData: {}
-        } as IComponentConfig);
+        } as T);
         me.uid = Blend.ID().toString();
     }
 
@@ -175,7 +175,7 @@ export abstract class Component<T extends IComponentConfig> implements IAbstract
      * @param {IComponentConfig} defaults
      * @memberof Component
      */
-    protected configDefaults(defaults: IComponentConfig) {
+    protected configDefaults(defaults: T) {
         const me = this;
         Blend.apply(me.config, defaults || {});
     }
