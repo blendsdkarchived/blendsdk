@@ -39,6 +39,26 @@ export namespace CSS {
     }
 
     /**
+     * Creates a CSS rules representing `::before`
+     *
+     * @export
+     * @param {(IStyleSet | CSSRule | Array<IStyleSet | CSSRule>)} styles
+     */
+    export function before(styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
+        return and("::before", styles);
+    }
+
+    /**
+     * Creates a CSS rules representing `::after`
+     *
+     * @export
+     * @param {(IStyleSet | CSSRule | Array<IStyleSet | CSSRule>)} styles
+     */
+    export function after(styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
+        return and("::after", styles);
+    }
+
+    /**
      * Creates a CSS rules representing a composed selector.
      * For example `.A.B`
      *

@@ -1,10 +1,5 @@
 import { Blend } from "@blendsdk/core";
-import {
-	ICssFlattenProvider,
-	IRenderedCSSRule,
-	IStyleSet,
-	TCssRenderer
-	} from "./Types";
+import { ICssFlattenProvider, IRenderedCSSRule, IStyleSet, TCssRenderer } from "./Types";
 
 /**
  * CSSRule provides a tree like structure optionally representing
@@ -41,6 +36,14 @@ export class CSSRule implements ICssFlattenProvider {
      * @memberof CSSRule
      */
     protected relHandler: (parent: string, current: string) => string;
+    /**
+     * List of composed selectors to be added in the final render.
+     *
+     * @protected
+     * @type {string[]}
+     * @memberof CSSRule
+     */
+    protected composed: string[];
 
     /**
      * Creates an instance of CSSRule.
@@ -55,6 +58,7 @@ export class CSSRule implements ICssFlattenProvider {
         relHandler?: (parent: string, current: string) => string
     ) {
         this.selector = selector;
+        this.composed = [];
         this.styles = Blend.wrapInArray(styles || []);
         this.relHandler =
             relHandler ||
@@ -88,6 +92,18 @@ export class CSSRule implements ICssFlattenProvider {
     }
 
     /**
+     * One or more selectors that is used to make a composition style.
+     * The final render would look like: `.this-selector , .compose1 , .compose2`
+     *
+     * @param {string} selector
+     * @memberof CSSRule
+     */
+    public compose(selector: string | string[]): this {
+        this.composed = this.composed.concat(Blend.wrapInArray(selector));
+        return this;
+    }
+
+    /**
      * Configure the parent to child relationship.
      *
      * @param {string} selector
@@ -95,6 +111,19 @@ export class CSSRule implements ICssFlattenProvider {
      */
     public relateTo(selector: string) {
         this.selector = this.relHandler(selector, this.selector);
+    }
+
+    /**
+     * Renders the composed selector.
+     *
+     * @protected
+     * @returns {string}
+     * @memberof CSSRule
+     */
+    protected renderSelector(): string {
+        const me = this,
+            res = [me.selector].concat(me.composed);
+        return res.join(",");
     }
 
     /**
@@ -118,10 +147,12 @@ export class CSSRule implements ICssFlattenProvider {
                     styles.push(`${key}:${value}`);
                 }
             });
-            styles.push("");
+            if (styles.length !== 0) {
+                styles.push("");
+            }
             return {
-                css: `${me.selector} {${styles.join(";")}}`,
-                selector: me.selector
+                css: `${me.renderSelector()} {${styles.join(";")}}`,
+                selector: styles.length !== 0 ? me.selector : "" // skips the empty selectors
             };
         };
     }

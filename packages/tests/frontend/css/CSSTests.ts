@@ -11,6 +11,18 @@ export default function(t: IDescribeProvider) {
             t.done();
         });
 
+        t.it("Should create ::after", (t: IAssertionProvider) => {
+            const result = (StyleSheets as any).render(stylesheet(CSS.block(".sel", [CSS.after({ color: "red" })])));
+            t.assertEqual(result, ".sel::after {color:red;}");
+            t.done();
+        });
+
+        t.it("Should create composed", (t: IAssertionProvider) => {
+            const result = (StyleSheets as any).render(stylesheet(CSS.block("html", { color: "red" }).compose("body")));
+            t.assertEqual(result, "html,body {color:red;}");
+            t.done();
+        });
+
         t.inBrowser("Should render and attach", "/browser/css_render.html");
 
         t.it("Should render precededBy", (t: IAssertionProvider) => {

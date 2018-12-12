@@ -44,10 +44,12 @@ class StyleSheetsSingleton {
             items = sheet.render(),
             result: string[] = [];
         items.forEach(item => {
-            const hash = item.selector.hash();
-            if (!me.cache[hash]) {
-                me.cache[hash] = true;
-                result.push(item.css);
+            if (item.selector !== "") {
+                const hash = item.selector.hash();
+                if (!me.cache[hash]) {
+                    me.cache[hash] = true;
+                    result.push(item.css);
+                }
             }
         });
         return result.join("\n");
