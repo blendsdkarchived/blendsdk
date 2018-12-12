@@ -1,27 +1,20 @@
-import { BlendRunner } from './BlendRunner';
-import { Dom } from './Dom';
-import { BlendRunnerUIStyles } from './BlendRunnerUIStyles';
-import { Core } from './Core';
+// tslint:disable:max-line-length
+import { BlendRunner } from "./BlendRunner";
+import { BlendRunnerUIStyles } from "./BlendRunnerUIStyles";
+import { Core } from "./Core";
+import { Dom } from "./Dom";
 import {
-    ITestSpecification,
-    ITestSpecDictionary,
-    ICallable,
-    ICreateElementConfig,
-    IProgress,
-    IAssertStatus,
-    IAssertLog
-} from './Types';
-import {
+    ClockIcon,
     FailIcon,
     PassIcon,
     SmallClipBoardIcon,
     SmallFailIcon,
     SmallPassIcon,
     SmallWatchIcon,
-    ClockIcon,
     ZoomInIcon
-} from './Icons';
-import { RotationCSS } from './Rotating';
+} from "./Icons";
+import { RotationCSS } from "./Rotating";
+import { IAssertLog, IAssertStatus, ICallable, ICreateElementConfig, ITestSpecification } from "./Types";
 
 interface IURLSelection {
     suite: string;
@@ -66,10 +59,42 @@ export class BlendRunnerUI extends Core {
      */
     public constructor(runner: BlendRunner) {
         super();
-        var me = this;
+        const me = this;
         me.runner = runner;
         me.isStarted = false;
         me.totalPassed = me.totalFailed = me.totalPending = 0;
+    }
+
+    /**
+     * Start testing
+     *
+     * @memberof BlendRunnerUI
+     */
+    public start() {
+        const me = this,
+            documentReadyHandler = () => {
+                if (!me.isStarted) {
+                    me.isStarted = true;
+                    me.iniUI();
+                    me.queueTests();
+                    me.runner.onAssertStatus((status: IAssertStatus) => {
+                        window.requestAnimationFrame(() => {
+                            me.setTestSuiteStatus(status);
+                            me.setTestStatus(status);
+                        });
+                    });
+                    me.runner.run(() => {
+                        setTimeout(() => {
+                            window.scrollTo(0, document.body.scrollHeight);
+                        }, 300);
+                    });
+                }
+            };
+        if (window.document.readyState === "complete") {
+            documentReadyHandler.apply(me, []);
+        } else {
+            window.addEventListener("load", documentReadyHandler);
+        }
     }
 
     /**
@@ -79,16 +104,16 @@ export class BlendRunnerUI extends Core {
      * @memberof BlendRunnerUI
      */
     protected loadRobotoFonts() {
-        var linkEl = Dom.createElement({
-            tag: 'link',
+        const linkEl = Dom.createElement({
+            tag: "link",
             attrs: {
                 href:
-                    'http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900',
-                rel: 'stylesheet',
-                type: 'text/css'
+                    "http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900",
+                rel: "stylesheet",
+                type: "text/css"
             }
         });
-        var rotating = document.createElement('style');
+        const rotating = document.createElement("style");
         rotating.textContent = RotationCSS();
         document.head.appendChild(linkEl);
         document.head.appendChild(rotating);
@@ -101,43 +126,43 @@ export class BlendRunnerUI extends Core {
      * @memberof BlendRunnerUI
      */
     protected iniUI() {
-        var me = this;
+        const me = this;
         me.loadRobotoFonts();
         BlendRunnerUIStyles.instance().render();
-        var headerElement = Dom.createElement(
+        const headerElement = Dom.createElement(
             {
-                css: ['x-header', 'x-scrolling'],
+                css: ["x-header", "x-scrolling"],
                 children: [
                     {
-                        css: 'x-pctbar',
+                        css: "x-pctbar",
                         children: [
                             {
-                                css: 'x-pct-pass',
-                                reference: 'totalPassedElement'
+                                css: "x-pct-pass",
+                                reference: "totalPassedElement"
                             },
                             {
-                                css: 'x-pct-fail',
-                                reference: 'totalFailedElement'
+                                css: "x-pct-fail",
+                                reference: "totalFailedElement"
                             },
                             {
-                                css: 'x-pct-pending',
-                                reference: 'totalPendingElement'
+                                css: "x-pct-pending",
+                                reference: "totalPendingElement"
                             }
                         ]
                     },
                     {
-                        css: 'x-toolbar',
+                        css: "x-toolbar",
                         children: [
                             {
-                                css: 'x-title',
+                                css: "x-title",
                                 textContent: document.title
                             }
                         ]
                     }
                 ]
             },
-            function(ref: string, element: HTMLElement) {
-                (<any>me)[ref] = element;
+            (ref: string, element: HTMLElement) => {
+                (me as any)[ref] = element;
             }
         );
         document.body.appendChild(headerElement);
@@ -152,12 +177,12 @@ export class BlendRunnerUI extends Core {
      * @memberof BlendRunnerUI
      */
     protected parseHash(): IURLSelection {
-        var me = this,
+        const me = this,
             result: IURLSelection = {
                 suite: null,
                 test: null
             },
-            hash = (window.location.hash.replace(/#/gi, '') || '').split('/');
+            hash = (window.location.hash.replace(/#/gi, "") || "").split("/");
         if (me.is_array(hash)) {
             result.suite = hash[0] ? decodeURIComponent(hash[0]) : null;
             result.test = hash[1] ? decodeURIComponent(hash[1]) : null;
@@ -166,44 +191,44 @@ export class BlendRunnerUI extends Core {
     }
 
     protected createCards() {
-        var me = this,
+        const me = this,
             specs = me.runner.getSpecs(),
             queued = me.runner.getQueuedTests();
         me.totalFailed = 0;
         me.totalPassed = 0;
-        me.forEach(queued, function(testDefIds: Array<string>, testSpecId: string) {
-            var testSpec = specs[testSpecId];
-            var tests: Array<ICreateElementConfig> = [];
+        me.forEach(queued, (testDefIds: string[], testSpecId: string) => {
+            const testSpec = specs[testSpecId];
+            const tests: ICreateElementConfig[] = [];
 
-            testDefIds.forEach(function(defId: string) {
-                var testDef = testSpec.testSpecs[defId];
+            testDefIds.forEach((defId: string) => {
+                const testDef = testSpec.testSpecs[defId];
                 me.totalPending += 1;
                 tests.push({
-                    css: ['x-test'],
+                    css: ["x-test"],
                     data: {
                         test: `t${testSpecId}-${defId}`
                     },
                     children: [
                         {
-                            css: ['x-ui', 'x-row'],
+                            css: ["x-ui", "x-row"],
                             children: [
                                 ClockIcon(),
                                 FailIcon(),
                                 PassIcon(),
                                 {
-                                    css: 'x-title',
+                                    css: "x-title",
                                     textContent: testDef.name
                                 },
                                 {
-                                    css: 'x-spacer'
+                                    css: "x-spacer"
                                 },
                                 {
-                                    css: ['x-row', 'x-duration', 'x-part'],
+                                    css: ["x-row", "x-duration", "x-part"],
                                     children: [
                                         SmallWatchIcon(),
                                         {
-                                            css: 'x-value',
-                                            textContent: 0 + 'ms',
+                                            css: "x-value",
+                                            textContent: 0 + "ms",
                                             data: {
                                                 duration: `t${testSpecId}-${defId}`
                                             }
@@ -211,11 +236,11 @@ export class BlendRunnerUI extends Core {
                                     ]
                                 },
                                 {
-                                    css: 'x-isolate',
-                                    tag: 'A',
+                                    css: "x-isolate",
+                                    tag: "A",
                                     attrs: {
-                                        target: '_blank',
-                                        href: `${location.href.replace(location.hash, '')}#${encodeURIComponent(
+                                        target: "_blank",
+                                        href: `${location.href.replace(location.hash, "")}#${encodeURIComponent(
                                             testSpec.name
                                         )}/${encodeURIComponent(testDef.name)}`
                                     },
@@ -224,7 +249,7 @@ export class BlendRunnerUI extends Core {
                             ]
                         },
                         {
-                            css: 'x-result',
+                            css: "x-result",
                             data: {
                                 result: `t${testSpecId}-${defId}`
                             }
@@ -233,29 +258,29 @@ export class BlendRunnerUI extends Core {
                 });
             });
 
-            var card = Dom.createElement({
-                css: 'x-card',
+            const card = Dom.createElement({
+                css: "x-card",
                 data: {
                     spec: `d${testSpecId}`
                 },
-                children: <Array<ICreateElementConfig>>[
+                children: [
                     {
-                        css: 'x-card-header',
+                        css: "x-card-header",
                         children: [
                             {
-                                css: 'x-title',
+                                css: "x-title",
                                 textContent: testSpec.name
                             },
                             {
-                                css: ['x-stats', 'x-row'],
+                                css: ["x-stats", "x-row"],
                                 children: [
                                     {
-                                        css: ['x-row', 'x-duration', 'x-part'],
+                                        css: ["x-row", "x-duration", "x-part"],
                                         children: [
                                             SmallWatchIcon(),
                                             {
-                                                css: 'x-value',
-                                                textContent: 0 + 'ms',
+                                                css: "x-value",
+                                                textContent: 0 + "ms",
                                                 data: {
                                                     duration: `d${testSpecId}`
                                                 }
@@ -263,21 +288,21 @@ export class BlendRunnerUI extends Core {
                                         ]
                                     },
                                     {
-                                        css: ['x-row', 'x-num-tests', 'x-part'],
+                                        css: ["x-row", "x-num-tests", "x-part"],
                                         children: [
                                             SmallClipBoardIcon(),
                                             {
-                                                css: 'x-value',
+                                                css: "x-value",
                                                 textContent: tests.length
                                             }
                                         ]
                                     },
                                     {
-                                        css: ['x-row', 'x-passed', 'x-part'],
+                                        css: ["x-row", "x-passed", "x-part"],
                                         children: [
                                             SmallPassIcon(),
                                             {
-                                                css: 'x-value',
+                                                css: "x-value",
                                                 textContent: 0,
                                                 data: {
                                                     passes: `d${testSpecId}`
@@ -286,11 +311,11 @@ export class BlendRunnerUI extends Core {
                                         ]
                                     },
                                     {
-                                        css: ['x-row', 'x-failed', 'x-part'],
+                                        css: ["x-row", "x-failed", "x-part"],
                                         children: [
                                             SmallFailIcon(),
                                             {
-                                                css: 'x-value',
+                                                css: "x-value",
                                                 textContent: 0,
                                                 data: {
                                                     fails: `d${testSpecId}`
@@ -299,14 +324,14 @@ export class BlendRunnerUI extends Core {
                                         ]
                                     },
                                     {
-                                        css: 'x-spacer'
+                                        css: "x-spacer"
                                     },
                                     {
-                                        css: 'x-isolate',
-                                        tag: 'A',
+                                        css: "x-isolate",
+                                        tag: "A",
                                         attrs: {
-                                            target: '_blank',
-                                            href: `${location.href.replace(location.hash, '')}#${encodeURIComponent(
+                                            target: "_blank",
+                                            href: `${location.href.replace(location.hash, "")}#${encodeURIComponent(
                                                 testSpec.name
                                             )}`
                                         },
@@ -316,7 +341,7 @@ export class BlendRunnerUI extends Core {
                             }
                         ]
                     }
-                ].concat(<any>tests)
+                ].concat(tests as any) as ICreateElementConfig[]
             });
             document.body.appendChild(card);
             me.setTotalCounts();
@@ -324,8 +349,8 @@ export class BlendRunnerUI extends Core {
     }
 
     protected setTotalCounts() {
-        var me = this;
-        window.requestAnimationFrame(function() {
+        const me = this;
+        window.requestAnimationFrame(() => {
             me.totalPendingElement.style.flex = me.totalPending.toString();
             me.totalPassedElement.style.flex = me.totalPassed.toString();
             me.totalFailedElement.style.flex = me.totalFailed.toString();
@@ -339,17 +364,17 @@ export class BlendRunnerUI extends Core {
      * @memberof BlendRunnerUI
      */
     protected queueTests() {
-        var me = this,
+        const me = this,
             specs = me.runner.getSpecs(),
             search = me.parseHash();
         if (search.suite) {
-            me.forEach(specs, function(testSpec: ITestSpecification, testSpecId: string) {
+            me.forEach(specs, (testSpec: ITestSpecification, testSpecId: string) => {
                 if (testSpec.name === search.suite) {
-                    me.forEach(testSpec.testSpecs, function(testDef: ICallable, testId: string) {
-                        var test = me.is_null(search.test) ? testDef.name : search.test;
+                    me.forEach(testSpec.testSpecs, (testDef: ICallable, testId: string) => {
+                        const test = me.is_null(search.test) ? testDef.name : search.test;
                         if (test === testDef.name) {
-                            (function(a, b) {
-                                me.runner.queueTest(testSpecId, testId);
+                            ((pTestSpecId: string, pTestId: string) => {
+                                me.runner.queueTest(pTestSpecId, pTestId);
                             })(testSpecId, testId);
                         }
                     });
@@ -372,31 +397,31 @@ export class BlendRunnerUI extends Core {
     }
 
     protected setTestSuiteData(id: string, duration: number, totalPassed: number, totalFails: number) {
-        var me = this;
-        var durationElement = document.querySelector(`[data-duration="d${id}"]`);
+        const me = this;
+        const durationElement = document.querySelector(`[data-duration="d${id}"]`);
         if (durationElement) {
             durationElement.textContent = me.calcDuration(duration);
         }
-        var passesElement = document.querySelector(`[data-passes="d${id}"]`);
+        const passesElement = document.querySelector(`[data-passes="d${id}"]`);
         if (passesElement) {
             passesElement.textContent = `${totalPassed}`;
         }
-        var failsElement = document.querySelector(`[data-fails="d${id}"]`);
+        const failsElement = document.querySelector(`[data-fails="d${id}"]`);
         if (failsElement) {
             failsElement.textContent = `${totalFails}`;
         }
     }
 
     protected setTestSuiteStatus(status: IAssertStatus) {
-        var me = this;
-        var specElement: HTMLElement = document.querySelector(`[data-spec="d${status.specId}"]`);
+        const me = this;
+        const specElement: HTMLElement = document.querySelector(`[data-spec="d${status.specId}"]`);
         if (specElement) {
             specElement.scrollIntoView(false);
             if (me.runner.isTestSuiteStart(status)) {
-                specElement.classList.add('x-testing');
+                specElement.classList.add("x-testing");
                 me.setTestSuiteData(status.specId, 0, 0, 0);
             } else if (me.runner.isTestSuiteEnd(status)) {
-                specElement.classList.remove('x-testing');
+                specElement.classList.remove("x-testing");
                 me.setTestSuiteData(
                     status.specId,
                     status.spec.duration,
@@ -408,40 +433,40 @@ export class BlendRunnerUI extends Core {
     }
 
     protected setTestStatusData(specId: string, id: string, duration: number) {
-        var me = this;
-        var durationElement = document.querySelector(`[data-duration="t${specId}-${id}"]`);
+        const me = this;
+        const durationElement = document.querySelector(`[data-duration="t${specId}-${id}"]`);
         if (durationElement) {
             durationElement.textContent = me.calcDuration(duration);
         }
     }
 
     protected setTestResult(specId: string, id: string, test: ICallable) {
-        var me = this;
-        var resultElement = document.querySelector(`[data-result="t${specId}-${id}"]`);
-        var parseValue = function(value: any): ICreateElementConfig {
+        const me = this;
+        const resultElement = document.querySelector(`[data-result="t${specId}-${id}"]`);
+        const parseValue = (value: any): ICreateElementConfig => {
             return {
-                tag: 'pre',
+                tag: "pre",
                 textContent: me.is_object(value) || me.is_array(value) ? JSON.stringify(value, null, 2) : value
             };
         };
         if (resultElement) {
             test.assertLog.forEach((log: IAssertLog) => {
-                if (log.status !== 'pass') {
+                if (log.status !== "pass") {
                     resultElement.appendChild(
                         Dom.createElement({
-                            css: ['x-assert', 'x-row'],
+                            css: ["x-assert", "x-row"],
                             children: [
                                 {
-                                    tag: 'pre',
-                                    css: 'x-log',
+                                    tag: "pre",
+                                    css: "x-log",
                                     textContent: log.log
                                 },
                                 {
-                                    css: 'x-actual',
+                                    css: "x-actual",
                                     children: [parseValue(log.actual)]
                                 },
                                 {
-                                    css: 'x-expected',
+                                    css: "x-expected",
                                     children: [parseValue(log.expected)]
                                 }
                             ]
@@ -453,26 +478,26 @@ export class BlendRunnerUI extends Core {
     }
 
     protected setTestStatus(status: IAssertStatus) {
-        var me = this;
-        var testElement: HTMLElement = document.querySelector(`[data-test="t${status.specId}-${status.testId}"]`);
+        const me = this;
+        const testElement: HTMLElement = document.querySelector(`[data-test="t${status.specId}-${status.testId}"]`);
         if (testElement !== null) {
             testElement.scrollIntoView(false);
-            testElement.classList.remove('x-pass');
-            testElement.classList.remove('x-fail');
+            testElement.classList.remove("x-pass");
+            testElement.classList.remove("x-fail");
             if (me.runner.isTestStart(status)) {
                 me.setTestStatusData(status.specId, status.testId, 0);
-                testElement.classList.add('x-testing');
-                testElement.classList.add('x-waiting');
+                testElement.classList.add("x-testing");
+                testElement.classList.add("x-waiting");
             } else if (me.runner.isTestEnd(status)) {
-                testElement.classList.remove('x-testing');
-                testElement.classList.remove('x-waiting');
+                testElement.classList.remove("x-testing");
+                testElement.classList.remove("x-waiting");
                 me.setTestStatusData(status.specId, status.testId, status.test.duration);
                 if (status.test.numFailed === 0) {
-                    testElement.classList.add('x-pass');
+                    testElement.classList.add("x-pass");
                     me.totalPassed += 1;
                     me.totalPending -= 1;
                 } else {
-                    testElement.classList.add('x-fail');
+                    testElement.classList.add("x-fail");
                     me.totalFailed += 1;
                     me.totalPending -= 1;
                     me.setTestResult(status.specId, status.testId, status.test);
@@ -480,37 +505,5 @@ export class BlendRunnerUI extends Core {
             }
         }
         me.setTotalCounts();
-    }
-
-    /**
-     * Start testing
-     *
-     * @memberof BlendRunnerUI
-     */
-    public start() {
-        var me = this,
-            documentReadyHandler = function() {
-                if (!me.isStarted) {
-                    me.isStarted = true;
-                    me.iniUI();
-                    me.queueTests();
-                    me.runner.onAssertStatus((status: IAssertStatus) => {
-                        window.requestAnimationFrame(function() {
-                            me.setTestSuiteStatus(status);
-                            me.setTestStatus(status);
-                        });
-                    });
-                    me.runner.run(function() {
-                        setTimeout(function() {
-                            window.scrollTo(0, document.body.scrollHeight);
-                        }, 300);
-                    });
-                }
-            };
-        if (window.document.readyState === 'complete') {
-            documentReadyHandler.apply(me, []);
-        } else {
-            window.addEventListener('load', documentReadyHandler);
-        }
     }
 }

@@ -1,3 +1,6 @@
+// tslint:disable:no-shadowed-variable
+// tslint:disable:no-console
+
 /**
  * Base class containing core utility functions.
  *
@@ -6,6 +9,17 @@
  * @class Core
  */
 export abstract class Core {
+    /**
+     * A console.log wrapper to log messages in the main runner window
+     *
+     * @param {*} [message]
+     * @param {...any[]} optionalParams
+     * @memberof Core
+     */
+    public log(message?: any, ...optionalParams: any[]) {
+        console.log.apply(window, arguments);
+    }
+
     /**
      * Gets the type of an object.
      *
@@ -16,21 +30,21 @@ export abstract class Core {
      * @memberOf Core
      */
     protected get_obj_type(obj: any): string {
-        var me = this;
+        const me = this;
         if (me.is_string(obj)) {
-            return 'string';
+            return "string";
         } else if (me.is_array(obj)) {
-            return 'array';
+            return "array";
         } else if (me.is_number(obj)) {
-            return 'number';
+            return "number";
         } else if (me.is_object(obj)) {
-            return 'object';
+            return "object";
         } else if (me.is_function(obj)) {
-            return 'function';
+            return "function";
         } else if (me.is_null(obj)) {
-            return 'null';
+            return "null";
         } else if (me.is_regexp(obj)) {
-            return 'regexp';
+            return "regexp";
         }
     }
 
@@ -51,27 +65,27 @@ export abstract class Core {
         callback: (item: T, index: number | string, scope: any) => any | boolean,
         scope?: any
     ) {
-        var me = this,
-            key: any,
-            isHTMLCollection = function(obj: any): boolean {
+        const me = this,
+            isHTMLCollection = (obj: any): boolean => {
                 return (
-                    (obj.constructor && obj.constructor.name && obj.constructor.name === 'HTMLCollection') ||
-                    obj.toString() == '[object HTMLCollection]'
+                    (obj.constructor && obj.constructor.name && obj.constructor.name === "HTMLCollection") ||
+                    obj.toString() === "[object HTMLCollection]"
                 );
             };
+        let key: any;
         if (obj) {
             if (me.is_function(obj)) {
                 return;
             } else if (me.is_array(obj)) {
-                var length: number = obj.length;
+                const length: number = obj.length;
                 for (key = 0; key < length; key++) {
                     if (callback.call(scope, obj[key], key, obj) === false) {
                         break;
                     }
                 }
             } else if (isHTMLCollection(obj) || me.is_instance_of(obj, NodeList)) {
-                var length: number = obj.length,
-                    el: HTMLElement;
+                const length: number = obj.length;
+                let el: HTMLElement;
                 for (key = 0; key !== length; key++) {
                     el = obj.item(key);
                     if (callback.call(scope, el, key, obj) === false) {
@@ -99,7 +113,7 @@ export abstract class Core {
      * @memberof Core
      */
     protected is_boolean(value: any): boolean {
-        return typeof value === 'boolean';
+        return typeof value === "boolean";
     }
 
     /**
@@ -117,22 +131,22 @@ export abstract class Core {
             return false;
         }
 
-        var me = this,
-            hc = '[object HTMLCollection]';
-        if (obj.toString() === hc && clazz === 'HTMLCollection') {
+        const me = this,
+            hc = "[object HTMLCollection]";
+        if (obj.toString() === hc && clazz === "HTMLCollection") {
             return true;
         } else {
             if (me.is_string(clazz)) {
-                var fn = new Function(
-                    '',
-                    ' try { return ' +
+                const fn = new Function(
+                    "",
+                    " try { return " +
                         clazz +
-                        ' } catch(e) { if(console && console.log) {console.log(e);};  return null };'
+                        " } catch(e) { if(console && console.log) {console.log(e);};  return null };"
                 );
                 clazz = fn();
             }
             try {
-                var res = obj instanceof clazz;
+                const res = obj instanceof clazz;
                 return res;
             } catch (e) {
                 return false;
@@ -150,7 +164,7 @@ export abstract class Core {
      * @memberOf Core
      */
     protected is_string(value: any): boolean {
-        return typeof value === 'string';
+        return typeof value === "string";
     }
 
     /**
@@ -161,8 +175,8 @@ export abstract class Core {
      * @param {*} obj
      * @returns {Array<T>}
      */
-    protected wrap_in_array<T>(obj: any): Array<T> {
-        var me = this;
+    protected wrap_in_array<T>(obj: any): T[] {
+        const me = this;
         return me.is_array(obj) ? obj : me.is_null(obj) ? [] : [obj];
     }
 
@@ -190,7 +204,7 @@ export abstract class Core {
      * @memberOf Core
      */
     protected is_array(value: any): boolean {
-        return Object.prototype.toString.apply(value) === '[object Array]';
+        return Object.prototype.toString.apply(value) === "[object Array]";
     }
     /**
      * Check if the value is an object.
@@ -202,9 +216,9 @@ export abstract class Core {
      * @memberOf Core
      */
     protected is_object(value: any): boolean {
-        var me = this;
+        const me = this;
         return (
-            typeof value === 'object' &&
+            typeof value === "object" &&
             !me.is_array(value) &&
             !me.is_function(value) &&
             !me.is_null(value) &&
@@ -247,17 +261,6 @@ export abstract class Core {
      * @memberOf Core
      */
     protected is_function(value: any): boolean {
-        return typeof value === 'function';
-    }
-
-    /**
-     * A console.log wrapper to log messages in the main runner window
-     *
-     * @param {*} [message]
-     * @param {...any[]} optionalParams
-     * @memberof Core
-     */
-    public log(message?: any, ...optionalParams: any[]) {
-        console.log.apply(window, arguments);
+        return typeof value === "function";
     }
 }

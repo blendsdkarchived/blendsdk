@@ -1,4 +1,10 @@
 /**
+ * Type describing a type of generic function
+ * @type
+ */
+export type TFunction = (...args) => any;
+
+/**
  * Interface for configuring an InBrowser Window
  *
  * @export
@@ -23,7 +29,7 @@ export interface ILogProvider {
 }
 
 export interface IDescribeProvider extends ILogProvider {
-    describe(specName: string, specFunction: (t: ITestDescription) => any): any;
+    describe(specName: string, specTFunction: (t: ITestDescription) => any): any;
     before(callable: (t: IFinishable) => any): any;
     after(callable: (t: IFinishable) => any): any;
     afterEach(callable: (t: IFinishable) => any): any;
@@ -37,8 +43,12 @@ export interface IDescribeProvider extends ILogProvider {
  */
 export interface ITestDescription {
     it(testName: string, testFn: (t: IAssertionProvider) => any): any;
-    openUrl(url: string, callable: (t: IAssertionProvider, win: Window) => any): any;
-    inBrowser(name: string, url: string, remoteGlobalFunction?: string, windowConfig?: IBrowserWindowConfig): any;
+    inBrowser(
+        name: string,
+        url: string,
+        remoteGlobalTFunction?: string | TFunction,
+        windowConfig?: IBrowserWindowConfig
+    ): any;
     before(beforeFn: (t: IFinishable) => any): any;
     after(afterFn: (t: IFinishable) => any): any;
     beforeEach(beforeEachFn: (t: IFinishable) => any): any;
@@ -68,8 +78,8 @@ export interface IAssertionProvider extends IFinishable {
     assertNotExists(actual: any, description?: string): boolean;
     assertEqual(actual: any, expected: any, description?: string): boolean;
     assertNotEqual(actual: any, expected: any, description?: string): boolean;
-    assertThrows(action: Function, criteria?: Function, description?: string): boolean;
-    delay(ms: number, callback: Function, scope?: any): void;
+    assertThrows(action: TFunction, criteria?: TFunction, description?: string): boolean;
+    delay(ms: number, callback: TFunction, scope?: any): void;
 }
 
 /**
@@ -105,7 +115,7 @@ export interface ICallable {
     numAsserts?: number;
     numPassed?: number;
     numFailed?: number;
-    assertLog?: Array<IAssertLog>;
+    assertLog?: IAssertLog[];
 }
 
 /**
@@ -148,7 +158,7 @@ export interface ITestSpecDictionary {
  * @interface IEventDictionary
  */
 export interface IEventDictionary {
-    [name: string]: Array<{ scope: any; fn: Function }>;
+    [name: string]: Array<{ scope: any; fn: TFunction }>;
 }
 
 /**
@@ -158,13 +168,13 @@ export interface IEventDictionary {
  * @interface ITestQueue
  */
 export interface ITestQueue {
-    [specId: string]: Array<string>;
+    [specId: string]: string[];
 }
 
 export enum eStatus {
-    EVENT_PROGRESS = 'progress',
-    EVENT_ASSERT_STATUS = 'assert_status',
-    EVENT_EXECUTION_STAGE_STATUS = 'exe_stage_status'
+    EVENT_PROGRESS = "progress",
+    EVENT_ASSERT_STATUS = "assert_status",
+    EVENT_EXECUTION_STAGE_STATUS = "exe_stage_status"
 }
 
 /**
@@ -275,7 +285,7 @@ export interface ICreateElementConfig {
      * @type {(string | Array<string>)}
      * @memberof ICreateElementConfig
      */
-    css?: string | Array<string>;
+    css?: string | string[];
     /**
      * The inline styles of the element.
      *
@@ -338,6 +348,7 @@ export interface ICreateElementConfig {
 }
 
 declare global {
+    // tslint:disable-next-line:interface-name
     interface HTMLElement {
         /**
          * @internal

@@ -1,8 +1,13 @@
+// tslint:disable:member-ordering
+// tslint:disable:forin
+// tslint:disable:no-shadowed-variable
+// tslint:disable:no-string-literal
 import { Assert } from "./Assert";
 import {
     eStatus,
     IAssertionProvider,
     IAssertStatus,
+    IBrowserWindowConfig,
     ICallable,
     IEventDictionary,
     IExecutionStageStatus,
@@ -12,7 +17,7 @@ import {
     ITestDescription,
     ITestQueue,
     ITestSpecification,
-    IBrowserWindowConfig
+    TFunction
 } from "./Types";
 import { showPlash } from "./Welcome";
 
@@ -93,10 +98,10 @@ export class BlendRunner extends Assert {
      * This function is changed during the execution of all
      * test specifications.
      *
-     * @type {Function}
+     * @type {TFunction}
      * @memberof BlendRunner
      */
-    public done: Function;
+    public done: TFunction;
 
     /**
      * Reference to the dynamically assigned setTimeout function.
@@ -129,7 +134,7 @@ export class BlendRunner extends Assert {
      * @memberof BlendRunner
      */
     public getSpecs(): ISpecDictionary {
-        var me = this;
+        const me = this;
         return me.specs;
     }
 
@@ -140,7 +145,7 @@ export class BlendRunner extends Assert {
      * @memberof BlendRunner
      */
     public getQueuedTests(): ITestQueue {
-        var me = this;
+        const me = this;
         return me.testQueue;
     }
 
@@ -156,29 +161,29 @@ export class BlendRunner extends Assert {
      * @memberOf BlendRunner
      */
     protected assert(status: string, actual: any, expected: any, log?: string) {
-        var me = this;
+        const me = this;
         if (me.currentTestId) {
             log += " [Assert: " + (me.specs[me.currentSpecId].testSpecs[me.currentTestId].numAsserts + 1) + "]";
             if (status === "pass") {
                 me.specs[me.currentSpecId].testSpecs[me.currentTestId].numAsserts += 1;
                 me.specs[me.currentSpecId].testSpecs[me.currentTestId].numPassed += 1;
                 me.specs[me.currentSpecId].numAssertsPassed += 1;
-                me.specs[me.currentSpecId].numAsserts + 1;
+                me.specs[me.currentSpecId].numAsserts += 1;
             } else if (status === "fail") {
                 me.specs[me.currentSpecId].testSpecs[me.currentTestId].numAsserts += 1;
                 me.specs[me.currentSpecId].testSpecs[me.currentTestId].numFailed += 1;
                 me.specs[me.currentSpecId].numAssertsFailed += 1;
-                me.specs[me.currentSpecId].numAsserts + 1;
+                me.specs[me.currentSpecId].numAsserts += 1;
             } else {
                 me.specs[me.currentSpecId].testSpecs[me.currentTestId].numFailed += 1;
                 me.specs[me.currentSpecId].numAssertsFailed += 1;
             }
 
             me.specs[me.currentSpecId].testSpecs[me.currentTestId].assertLog.push({
-                status: status,
-                actual: actual,
-                expected: expected,
-                log: log
+                status,
+                actual,
+                expected,
+                log
             });
             if (status !== "timeout") {
                 me.notifyAssertionStatus("assert", me.currentSpecId, me.currentTestId);
@@ -193,7 +198,7 @@ export class BlendRunner extends Assert {
      * @memberof BlendRunner
      */
     protected autoQueue() {
-        var me = this;
+        const me = this;
         if (Object.keys(me.testQueue).length === 0) {
             me.queueAllTests();
         }
@@ -225,15 +230,15 @@ export class BlendRunner extends Assert {
      * @memberOf BlendRunner
      */
     protected notifyAssertionStatus(stage: string, specId: string, testId: string) {
-        var me = this,
+        const me = this,
             spec = me.specs[specId],
             test = me.specs[specId].testSpecs[testId] || null;
         me.notify(eStatus.EVENT_ASSERT_STATUS, {
-            stage: stage,
-            spec: spec,
-            test: test,
-            testId: testId,
-            specId: specId
+            stage,
+            spec,
+            test,
+            testId,
+            specId
         });
     }
 
@@ -271,10 +276,10 @@ export class BlendRunner extends Assert {
      * @memberOf BlendRunner
      */
     protected processDuration(stage: string, specId: string, testId: string) {
-        var me = this;
-        return function(t: IFinishable) {
-            var spec = me.specs[specId];
-            var test = spec.testSpecs[testId] || null;
+        const me = this;
+        return (t: IFinishable) => {
+            const spec = me.specs[specId],
+                test = spec.testSpecs[testId] || null;
             me.currentSpecId = null;
             me.currentTestId = null;
             if (test) {
@@ -296,8 +301,8 @@ export class BlendRunner extends Assert {
                     spec.duration = new Date().getTime();
                 } else {
                     spec.duration = new Date().getTime() - spec.duration;
-                    for (var i in spec.testSpecs) {
-                        var tst = spec.testSpecs[i];
+                    for (const i in spec.testSpecs) {
+                        const tst = spec.testSpecs[i];
                         if (tst.numFailed !== 0) {
                             spec.numTestsFailed += 1;
                         } else {
@@ -320,13 +325,13 @@ export class BlendRunner extends Assert {
      * @param {string} testId
      * @param {string} stage
      * @param {ICallable} c
-     * @returns {Function}
+     * @returns {TFunction}
      *
      * @memberOf BlendRunner
      */
-    protected createInvoker(specId: string, testId: string, stage: string, c: ICallable): Function {
-        var me = this;
-        return function(t: IFinishable) {
+    protected createInvoker(specId: string, testId: string, stage: string, c: ICallable): TFunction {
+        const me = this;
+        return (t: IFinishable) => {
             me.currentProgress.pct = 0;
             me.currentProgress.current = 0;
             me.currentProgress.total = 0;
@@ -342,18 +347,18 @@ export class BlendRunner extends Assert {
      * Creates an execution plan based on the items provided in the spec queue.
      *
      * @protected
-     * @returns {Array<Function>}
+     * @returns {Array<TFunction>}
      *
      * @memberOf BlendRunner
      */
-    protected createExecutionPlan(): Array<Function> {
-        var me = this,
-            ep: Array<Function> = [];
+    protected createExecutionPlan(): TFunction[] {
+        const me = this,
+            ep: TFunction[] = [];
 
         me.autoQueue();
 
-        for (var specId in me.testQueue) {
-            var spec = me.specs[specId];
+        for (const specId in me.testQueue) {
+            const spec = me.specs[specId];
 
             // set startup time spec
             ep.push(me.processDuration("start", specId, null));
@@ -363,8 +368,8 @@ export class BlendRunner extends Assert {
                 ep.push(me.createInvoker(specId, null, "before", spec.beforeFn));
             }
 
-            me.testQueue[specId].forEach(function(testId: string) {
-                var testSpec: ICallable = me.specs[specId].testSpecs[testId];
+            me.testQueue[specId].forEach((testId: string) => {
+                const testSpec: ICallable = me.specs[specId].testSpecs[testId];
 
                 // set the startup time of the test
                 ep.push(me.processDuration("start", specId, testId));
@@ -410,8 +415,8 @@ export class BlendRunner extends Assert {
      * @memberOf BlendRunner
      */
     protected notifyProgress(pct: number, current: number, total: number) {
-        var me = this,
-            mkStage = function(
+        const me = this,
+            mkStage = (
                 pct: number,
                 current: number,
                 total: number,
@@ -419,7 +424,7 @@ export class BlendRunner extends Assert {
                 testId: string,
                 stage: string,
                 description: string
-            ): IProgress {
+            ): IProgress => {
                 return {
                     total: total || 0,
                     pct: Math.round(pct || 0),
@@ -451,19 +456,20 @@ export class BlendRunner extends Assert {
     /**
      * Run the specified tests.
      *
-     * @param {Function} [done]
+     * @param {TFunction} [done]
      * @param {number} [defaultTimeout]
      * @memberof BlendRunner
      */
-    public run(done?: Function, defaultTimeout?: number) {
-        var me = this,
-            nextItem = 0,
-            currentItem = -1,
-            step: number,
+    public run(done?: TFunction, defaultTimeout?: number) {
+        const me = this,
+            plan: TFunction[] = me.createExecutionPlan();
+
+        let step: number,
             timeoutChecker: any,
             timeoutAmount: number,
-            currentPct: number = 0,
-            plan: Array<Function> = me.createExecutionPlan();
+            nextItem = 0,
+            currentItem = -1,
+            currentPct: number = 0;
 
         defaultTimeout = defaultTimeout || 5000; // 10 seconds!
         timeoutAmount = defaultTimeout;
@@ -472,11 +478,11 @@ export class BlendRunner extends Assert {
         /**
          * Setup the done function
          */
-        me.done = function() {
+        me.done = () => {
             currentPct += step;
             nextItem++;
             me.notifyProgress(currentPct, nextItem, plan.length);
-            setTimeout(function() {
+            setTimeout(() => {
                 runNext();
             }, 1);
         };
@@ -484,12 +490,12 @@ export class BlendRunner extends Assert {
         /**
          * Setup the setTimeout utility function to act inside test test context
          */
-        me.setTimeout = function(value: number) {
+        me.setTimeout = (value: number) => {
             timeoutAmount = value;
         };
 
-        var runNext = function() {
-            var exeItem = plan[nextItem] || null;
+        const runNext = () => {
+            const exeItem = plan[nextItem] || null;
             if (exeItem) {
                 me.notifyProgress(currentPct, nextItem, plan.length);
                 if (currentItem !== nextItem) {
@@ -497,8 +503,8 @@ export class BlendRunner extends Assert {
                     if (timeoutChecker) {
                         clearTimeout(timeoutChecker);
                     }
-                    timeoutChecker = setTimeout(function() {
-                        var spec: ICallable = me.specs[me.currentSpecId].testSpecs[me.currentTestId];
+                    timeoutChecker = setTimeout(() => {
+                        const spec: ICallable = me.specs[me.currentSpecId].testSpecs[me.currentTestId];
                         me.timedout();
                         clearTimeout(timeoutChecker);
                         me.done();
@@ -510,6 +516,7 @@ export class BlendRunner extends Assert {
                 if (me.is_function(done)) {
                     done();
                 } else {
+                    // tslint:disable-next-line:no-console
                     console.log("All done");
                 }
             }
@@ -526,7 +533,7 @@ export class BlendRunner extends Assert {
      * @memberOf BlendRunner
      */
     public clearQueue() {
-        var me = this;
+        const me = this;
         me.testQueue = {};
     }
 
@@ -547,12 +554,12 @@ export class BlendRunner extends Assert {
      * @memberOf BlendRunner
      */
     public queueAllTests() {
-        var me = this,
+        const me = this,
             specs = Object.keys(me.specs);
-        specs.forEach(function(specId: string) {
-            var tests = Object.keys(me.specs[specId].testSpecs);
+        specs.forEach((specId: string) => {
+            const tests = Object.keys(me.specs[specId].testSpecs);
             if (tests.length > 0) {
-                tests.forEach(function(testId: string) {
+                tests.forEach((testId: string) => {
                     me.queueTest(specId, testId);
                 });
             }
@@ -568,9 +575,8 @@ export class BlendRunner extends Assert {
      * @memberOf BlendRunner
      */
     public queueTest(specId: string, testId: string) {
-        var me = this,
-            spec: ITestSpecification,
-            test: ICallable;
+        const me = this;
+        let spec: ITestSpecification, test: ICallable;
 
         spec = me.specs[specId] || null;
         if (spec) {
@@ -590,17 +596,17 @@ export class BlendRunner extends Assert {
      * @memberof BlendRunner
      */
     public reset() {
-        var me = this;
-        for (var specId in me.specs) {
-            var spec = me.specs[specId];
+        const me = this;
+        for (const specId in me.specs) {
+            const spec = me.specs[specId];
             spec.numAsserts = 0;
             spec.numAssertsFailed = 0;
             spec.numAssertsPassed = 0;
             spec.numTests = 0;
             spec.numTestsFailed = 0;
             spec.numTestsPassed = 0;
-            for (var testId in spec.testSpecs) {
-                var test = spec.testSpecs[testId];
+            for (const testId in spec.testSpecs) {
+                const test = spec.testSpecs[testId];
                 test.assertLog = [];
                 test.numAsserts = 0;
                 test.numFailed = 0;
@@ -614,18 +620,18 @@ export class BlendRunner extends Assert {
      *
      * @protected
      * @param {string} eventName
-     * @param {Function} handler
+     * @param {TFunction} handler
      * @param {*} scope
      *
      * @memberOf BlendRunner
      */
-    protected on(eventName: string, handler: Function, scope: any) {
-        var me = this;
+    protected on(eventName: string, handler: TFunction, scope: any) {
+        const me = this;
         if (!me.events[eventName]) {
             me.events[eventName] = [];
         }
         me.events[eventName].push({
-            scope: scope,
+            scope,
             fn: handler
         });
     }
@@ -638,7 +644,7 @@ export class BlendRunner extends Assert {
      * @memberof BlendRunner
      */
     public isTestSuiteStart(status: IAssertStatus): boolean {
-        var me = this;
+        const me = this;
         return status.stage === "start" && !me.is_null(status.specId) && me.is_null(status.test);
     }
 
@@ -650,7 +656,7 @@ export class BlendRunner extends Assert {
      * @memberof BlendRunner
      */
     public isTestSuiteEnd(status: IAssertStatus): boolean {
-        var me = this;
+        const me = this;
         return status.stage === "end" && !me.is_null(status.specId) && me.is_null(status.test);
     }
 
@@ -662,7 +668,7 @@ export class BlendRunner extends Assert {
      * @memberof BlendRunner
      */
     public isTestStart(status: IAssertStatus): boolean {
-        var me = this;
+        const me = this;
         return status.stage === "start" && !me.is_null(status.test) && !me.is_null(status.test);
     }
 
@@ -674,7 +680,7 @@ export class BlendRunner extends Assert {
      * @memberof BlendRunner
      */
     public isTestEnd(status: IAssertStatus): boolean {
-        var me = this;
+        const me = this;
         return (
             (status.stage === "end" || status.stage === "timeout") &&
             !me.is_null(status.test) &&
@@ -691,7 +697,7 @@ export class BlendRunner extends Assert {
      * @memberOf BlendRunner
      */
     public onProgress(handler: (stage: IProgress) => any, scope?: any) {
-        var me = this;
+        const me = this;
         me.on(eStatus.EVENT_PROGRESS, handler, scope || me);
     }
 
@@ -706,7 +712,7 @@ export class BlendRunner extends Assert {
      * @memberOf BlendRunner
      */
     public onExecutionStageStatus(handler: (status: IExecutionStageStatus) => any, scope?: any) {
-        var me = this;
+        const me = this;
         me.on(eStatus.EVENT_EXECUTION_STAGE_STATUS, handler, scope || me);
     }
 
@@ -719,7 +725,7 @@ export class BlendRunner extends Assert {
      * @memberOf BlendRunner
      */
     public onAssertStatus(handler: (status: IAssertStatus) => any, scope?: any) {
-        var me = this;
+        const me = this;
         me.on(eStatus.EVENT_ASSERT_STATUS, handler, scope || me);
     }
 
@@ -732,11 +738,11 @@ export class BlendRunner extends Assert {
      *
      * @memberOf BlendRunner
      */
-    protected notify(eventName: string, ...args: Array<any>) {
-        var me = this;
+    protected notify(eventName: string, ...args: any[]) {
+        const me = this;
         if (me.events[eventName]) {
-            me.events[eventName].forEach(function(handler: { scope: any; fn: Function }) {
-                window.requestAnimationFrame(function() {
+            me.events[eventName].forEach((handler: { scope: any; fn: TFunction }) => {
+                window.requestAnimationFrame(() => {
                     handler.fn.apply(handler.scope, args);
                 });
             });
@@ -754,17 +760,17 @@ export class BlendRunner extends Assert {
      * @memberOf BlendRunner
      */
     protected notifyExecutionStageStatus(stage: string, error: Error, status: string, specId: string, testId: string) {
-        var me = this,
+        const me = this,
             spec = me.specs[specId],
             test = me.specs[specId].testSpecs[testId] || null;
         me.notify(eStatus.EVENT_EXECUTION_STAGE_STATUS, {
-            error: error,
-            status: status,
-            stage: stage,
-            spec: spec,
-            test: test,
-            testId: testId,
-            specId: specId
+            error,
+            status,
+            stage,
+            spec,
+            test,
+            testId,
+            specId
         });
     }
 
@@ -780,8 +786,8 @@ export class BlendRunner extends Assert {
      * @memberof BlendRunner
      */
     protected calculateCenter(config: IBrowserWindowConfig) {
-        var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : (<any>screen).left,
-            dualScreenTop = window.screenTop != undefined ? window.screenTop : (<any>screen).top,
+        const dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : (screen as any).left,
+            dualScreenTop = window.screenTop !== undefined ? window.screenTop : (screen as any).top,
             width = window.innerWidth
                 ? window.innerWidth
                 : document.documentElement.clientWidth
@@ -796,7 +802,7 @@ export class BlendRunner extends Assert {
         config.width = config.width || width / 1.5;
         config.height = config.height || height / 1.5;
 
-        var w = config.width || width * 0.5,
+        const w = config.width || width * 0.5,
             h = config.height || height * 0.5;
 
         config.left = width / 2 - w / 2 + dualScreenLeft;
@@ -818,10 +824,10 @@ export class BlendRunner extends Assert {
     public inBrowser(
         testName: string,
         url: string,
-        remoteGlobalFunction?: string,
+        remoteGlobalFunction?: string | TFunction,
         windowConfig?: IBrowserWindowConfig
     ) {
-        var me = this;
+        const me = this;
         me.openUrl(
             url,
             (t: IAssertionProvider, win: Window) => {
@@ -830,11 +836,17 @@ export class BlendRunner extends Assert {
                  * Otherwise an exported object either called (app|test|bundle) containing
                  * a function called `remoteGlobalFunction` or the #hash
                  */
-                var ctx: any = win,
+                const ctx: any = win,
                     hash = win.location.hash.replace("#", ""),
-                    fn = ctx[remoteGlobalFunction] || ctx["app"] || ctx["test"] || ctx["bundle"] || ctx[hash] || null;
+                    fn =
+                        ctx[remoteGlobalFunction as string] ||
+                        ctx["app"] ||
+                        ctx["test"] ||
+                        ctx["bundle"] ||
+                        ctx[hash] ||
+                        (remoteGlobalFunction as TFunction);
                 if (me.is_function(fn)) {
-                    fn.apply(ctx, [t]);
+                    fn.apply(ctx, [t, win]);
                 } else if (me.is_object(fn) && me.is_function(fn[hash])) {
                     fn[hash].apply(ctx, [t]);
                 }
@@ -854,11 +866,11 @@ export class BlendRunner extends Assert {
      * @memberof BlendRunner
      */
     protected createWindowFeatures(config: IBrowserWindowConfig): string {
-        var me = this,
-            result: Array<string> = [];
+        const me = this,
+            result: string[] = [];
 
         // Do the defaults
-        config = config || <any>{ width: false, height: false, top: false, left: false, center: true };
+        config = config || ({ width: false, height: false, top: false, left: false, center: true } as any);
 
         me.forEach(config, (value: any, key: string) => {
             if (me.is_boolean(value)) {
@@ -889,19 +901,19 @@ export class BlendRunner extends Assert {
      * @param {(t: IAssertionProvider, win: Window) => any} callable
      * @memberof BlendRunner
      */
-    public openUrl(
+    protected openUrl(
         url: string,
         callable: (t: IAssertionProvider, win: Window) => any,
         testName?: string,
         windowConfig?: IBrowserWindowConfig
     ) {
-        var me = this,
-            windowHasErrors: boolean = false;
-        me.it(testName || url, function(t: IAssertionProvider) {
+        const me = this;
+        let windowHasErrors: boolean = false;
+        me.it(testName || url, (t: IAssertionProvider) => {
             url = url || "about:blank";
-            var orgDone = t.done;
-            var win = window.open(url, "_blank", me.createWindowFeatures(windowConfig));
-            win.addEventListener("error", function(evt: ErrorEvent) {
+            const orgDone = t.done;
+            let win = window.open(url, "_blank", me.createWindowFeatures(windowConfig));
+            win.addEventListener("error", (evt: ErrorEvent) => {
                 t.assertEqual(
                     JSON.stringify(
                         {
@@ -921,8 +933,8 @@ export class BlendRunner extends Assert {
                 return false;
             });
             t.assertExists(win, `${url} was not blocked.`);
-            t.done = function() {
-                setTimeout(function() {
+            t.done = () => {
+                setTimeout(() => {
                     if (win && !windowHasErrors) {
                         win.close();
                         win = null;
@@ -934,7 +946,7 @@ export class BlendRunner extends Assert {
             if (url === "about:blank") {
                 callable(t, win);
             } else {
-                win.addEventListener("load", function() {
+                win.addEventListener("load", () => {
                     callable(t, win);
                 });
             }
@@ -950,12 +962,12 @@ export class BlendRunner extends Assert {
      * @memberOf BlendRunner
      */
     public it(testName: string, callable: (t: IAssertionProvider) => any) {
-        var me = this;
+        const me = this;
         me.currentSpec.testSpecs[me.newID()] = {
             name: testName,
-            fn: function(t: IAssertionProvider) {
-                var spec = me.specs[me.currentSpecId];
-                var test = me.specs[me.currentSpecId].testSpecs[me.currentTestId];
+            fn(t: IAssertionProvider) {
+                const spec = me.specs[me.currentSpecId],
+                    test = me.specs[me.currentSpecId].testSpecs[me.currentTestId];
                 try {
                     if (spec.beforeEachStatus === "error") {
                         throw new Error(
@@ -987,12 +999,12 @@ export class BlendRunner extends Assert {
      * @memberOf BlendRunner
      */
     public beforeEach(callable: (t: IFinishable) => any) {
-        var me = this;
+        const me = this;
         me.currentSpec.beforeEachFn = {
             name: "before each",
-            fn: function(t: IFinishable) {
-                var spec = me.specs[me.currentSpecId];
-                var test = me.specs[me.currentSpecId].testSpecs[me.currentTestId];
+            fn(t: IFinishable) {
+                const spec = me.specs[me.currentSpecId],
+                    test = me.specs[me.currentSpecId].testSpecs[me.currentTestId];
                 try {
                     if (spec.beforeStatus === "error") {
                         throw new Error(
@@ -1034,12 +1046,12 @@ export class BlendRunner extends Assert {
      * @memberOf BlendRunner
      */
     public afterEach(callable: (t: IFinishable) => any) {
-        var me = this;
+        const me = this;
         me.currentSpec.afterEachFn = {
             name: "after each",
-            fn: function(t: IFinishable) {
-                var spec = me.specs[me.currentSpecId];
-                var test = me.specs[me.currentSpecId].testSpecs[me.currentTestId];
+            fn(t: IFinishable) {
+                const spec = me.specs[me.currentSpecId],
+                    test = me.specs[me.currentSpecId].testSpecs[me.currentTestId];
                 try {
                     if (spec.beforeEachStatus === "error") {
                         throw new Error(
@@ -1083,11 +1095,11 @@ export class BlendRunner extends Assert {
      * @memberOf BlendRunner
      */
     public after(callable: (t: IFinishable) => any) {
-        var me = this;
+        const me = this;
         me.currentSpec.afterFn = {
             name: "after",
-            fn: function(t: IFinishable) {
-                var spec = me.specs[me.currentSpecId];
+            fn(t: IFinishable) {
+                const spec = me.specs[me.currentSpecId];
                 try {
                     if (spec.beforeStatus === "error") {
                         throw new Error(
@@ -1123,11 +1135,11 @@ export class BlendRunner extends Assert {
      * @memberOf BlendRunner
      */
     public before(callable: (t: IFinishable) => any) {
-        var me = this;
+        const me = this;
         me.currentSpec.beforeFn = {
             name: "before",
-            fn: function(t: IFinishable) {
-                var spec = me.specs[me.currentSpecId];
+            fn(t: IFinishable) {
+                const spec = me.specs[me.currentSpecId];
                 try {
                     callable(t);
                     spec.beforeStatus = "ok";
@@ -1157,7 +1169,7 @@ export class BlendRunner extends Assert {
      * @memberOf BlendRunner
      */
     public describe(specName: string, specFunction: (t: ITestDescription) => any): any {
-        var me = this,
+        const me = this,
             testSpec: ITestSpecification = {
                 name: specName,
                 beforeFn: null,

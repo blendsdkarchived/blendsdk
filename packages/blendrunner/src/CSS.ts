@@ -1,4 +1,7 @@
-import { ICSSStyles } from './CSSStyles';
+// tslint:disable-next-line:max-classes-per-file
+
+import { ICSSStyles } from "./CSSStyles";
+import { Selector } from "./Selector";
 
 /**
  * Interface that is used to call the protected
@@ -6,7 +9,7 @@ import { ICSSStyles } from './CSSStyles';
  *
  * @interface IAddSelector
  */
-interface ISheetProvider {
+export interface ISheetProvider {
     addSelector(selector: Selector): any;
 }
 
@@ -34,7 +37,7 @@ export class Sheet {
      * @type {Array<Selector>}
      * @memberof Sheet
      */
-    protected selectors: Array<Selector>;
+    protected selectors: Selector[];
     /**
      * A dictionary of variables of this Sheet.
      *
@@ -49,7 +52,7 @@ export class Sheet {
      * @memberof Sheet
      */
     public constructor(variables?: ISheetVariables) {
-        var me = this;
+        const me = this;
         me.selectors = [];
         me.variables = variables || {};
     }
@@ -62,7 +65,7 @@ export class Sheet {
      * @memberof Sheet
      */
     public set(variable: string, value: any) {
-        var me = this;
+        const me = this;
         me.variables[variable] = value;
     }
 
@@ -76,20 +79,8 @@ export class Sheet {
      * @memberof Sheet
      */
     public get(variable: string): any {
-        var me = this;
+        const me = this;
         return me.variables[variable] || variable;
-    }
-
-    /**
-     * Adds a selector to the list of selectors in this Sheet
-     *
-     * @protected
-     * @param {Selector} selector
-     * @memberof Sheet
-     */
-    protected addSelector(selector: Selector) {
-        var me = this;
-        me.selectors.push(selector);
     }
 
     /**
@@ -101,7 +92,7 @@ export class Sheet {
      * @memberof Sheet
      */
     public rule(selector: string, styles?: ICSSStyles): Selector {
-        var me = this;
+        const me = this;
         return new Selector(selector, me, styles);
     }
 
@@ -111,115 +102,25 @@ export class Sheet {
      * @memberof Sheet
      */
     public render() {
-        var me = this,
-            rules: Array<string> = [];
+        const me = this,
+            rules: string[] = [];
         me.selectors.forEach((sel: Selector) => {
             rules.push(sel.render());
         });
-        var styleEl = document.createElement('STYLE');
-        styleEl.innerHTML = rules.join('');
+        const styleEl = document.createElement("STYLE");
+        styleEl.innerHTML = rules.join("");
         document.head.appendChild(styleEl);
     }
-}
 
-/**
- * This class represents a CSS selector.
- *
- * @class Selector
- */
-class Selector {
     /**
-     * The CSS selector key
+     * Adds a selector to the list of selectors in this Sheet
      *
      * @protected
-     * @type {string}
-     * @memberof Selector
+     * @param {Selector} selector
+     * @memberof Sheet
      */
-    protected selector: string;
-    /**
-     * Reference to the parent Sheet
-     *
-     * @protected
-     * @type {Sheet}
-     * @memberof Selector
-     */
-    protected sheet: Sheet;
-    /**
-     * A dictionary of the CSS styles.
-     *
-     * @protected
-     * @type {ICSSStyles}
-     * @memberof Selector
-     */
-    protected styles: ICSSStyles;
-
-    /**
-     * Creates an instance of Selector.
-     * @param {string} selector
-     * @param {Sheet} sheet
-     * @param {ICSSStyles} [styles]
-     * @memberof Selector
-     */
-    public constructor(selector: string, sheet: Sheet, styles?: ICSSStyles) {
-        var me = this;
-        me.selector = selector;
-        me.sheet = sheet;
-        me.styles = styles || {};
-        (<ISheetProvider>(<any>sheet)).addSelector(me);
-    }
-    /**
-     * Renders the selector into a string.
-     *
-     * @returns {string}
-     * @memberof Selector
-     */
-    public render(): string {
-        var me = this,
-            result: Array<string> = [];
-        for (var key in me.styles) {
-            var rule = key.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
-            var value = me.sheet.get(me.styles[key]);
-            result.push(`${rule}:${value}`);
-        }
-        return `${me.selector}{${result.join(';')}}`;
-    }
-
-    /**
-     * Creates a child selector `.parent > .child`
-     *
-     * @param {string} selector
-     * @param {ICSSStyles} [styles]
-     * @returns {Selector}
-     * @memberof Selector
-     */
-    public child(selector: string, styles?: ICSSStyles): Selector {
-        var me = this;
-        return new Selector(`${me.selector} > ${selector}`, me.sheet, styles);
-    }
-
-    /**
-     * Creates a nested selector `.parent .nested`
-     *
-     * @param {string} selector
-     * @param {ICSSStyles} [styles]
-     * @returns {Selector}
-     * @memberof Selector
-     */
-    public nest(selector: string, styles?: ICSSStyles): Selector {
-        var me = this;
-        return new Selector(`${me.selector} ${selector}`, me.sheet, styles);
-    }
-
-    /**
-     * Creates a complemented selector `.selector1.selector2`
-     *
-     * @param {string} selector
-     * @param {ICSSStyles} [styles]
-     * @returns {Selector}
-     * @memberof Selector
-     */
-    public and(selector: string, styles?: ICSSStyles): Selector {
-        var me = this;
-        return new Selector(`${me.selector}${selector}`, me.sheet, styles);
+    protected addSelector(selector: Selector) {
+        const me = this;
+        me.selectors.push(selector);
     }
 }

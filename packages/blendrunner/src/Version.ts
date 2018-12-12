@@ -1,1 +1,1 @@
-export const BLEND_RUNNER_VERSION: string = 'dev';
+export const BLEND_RUNNER_VERSION: string = "dev";

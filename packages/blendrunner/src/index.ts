@@ -1,14 +1,14 @@
-import { BlendRunnerUI } from './BlendRunnerUI';
-import { BlendRunner } from './BlendRunner';
-import { IDescribeProvider } from './Types';
-import { Sheet } from './CSS';
+import { BlendRunner } from "./BlendRunner";
+import { BlendRunnerUI } from "./BlendRunnerUI";
+import { Sheet } from "./CSS";
+import { IDescribeProvider } from "./Types";
 
-var win: any = window;
+const win: any = window;
 
-const t: IDescribeProvider = win.runner || <IDescribeProvider>new BlendRunner();
-const TestRunner: BlendRunnerUI = new BlendRunnerUI(<any>t);
-const ABOUT_BLANK = 'about:blank';
+const t: IDescribeProvider = win.runner || (new BlendRunner() as IDescribeProvider);
+const TestRunner: BlendRunnerUI = new BlendRunnerUI(t as any);
+const ABOUT_BLANK = "about:blank";
 
-export * from './Types';
-export * from './CSSStyles';
+export * from "./Types";
+export * from "./CSSStyles";
 export { t, TestRunner, ABOUT_BLANK, Sheet };

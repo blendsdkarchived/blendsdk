@@ -1,5 +1,5 @@
-import { ICreateElementConfig, IDictionary } from './Types';
-import { Core } from './Core';
+import { Core } from "./Core";
+import { ICreateElementConfig, IDictionary } from "./Types";
 
 class DomSingleton extends Core {
     /**
@@ -22,25 +22,25 @@ class DomSingleton extends Core {
         conf?: HTMLElement | ICreateElementConfig,
         refCallback?: (reference: string, element: HTMLElement) => any
     ): T {
-        var me = this;
+        const me = this;
         if (conf instanceof HTMLElement || conf instanceof Node) {
             // TODO:1110 Check if there is a better way!
             // Node to skip(fix for) SVGElement
 
-            return <T>conf;
+            return conf as T;
         } else {
-            var config: ICreateElementConfig = <any>conf;
+            let config: ICreateElementConfig = conf as any;
             /**
              * Normalize the config for processing
              */
             config = config || {};
-            config.tag = config.tag || 'DIV';
+            config.tag = config.tag || "DIV";
             refCallback = refCallback || null;
 
-            var el: HTMLElement;
+            let el: HTMLElement;
 
-            if (config.tag.toLowerCase() === 'svg' || config.isSVG === true) {
-                el = <any>window.document.createElementNS('http://www.w3.org/2000/svg', config.tag);
+            if (config.tag.toLowerCase() === "svg" || config.isSVG === true) {
+                el = window.document.createElementNS("http://www.w3.org/2000/svg", config.tag) as any;
                 config.isSVG = true;
             } else {
                 el = window.document.createElement(config.tag);
@@ -49,9 +49,9 @@ class DomSingleton extends Core {
             /**
              * Internal function to parse the data-* values
              */
-            var parseData = function(value: any) {
+            const parseData = (value: any) => {
                 if (me.is_null(value)) {
-                    value = 'null';
+                    value = "null";
                 }
                 if (me.is_object(value) || me.is_array(value)) {
                     return JSON.stringify(value);
@@ -77,13 +77,13 @@ class DomSingleton extends Core {
             }
 
             if (config.data) {
-                me.forEach(config.data, function(item: any, key: string) {
-                    el.setAttribute('data-' + key, parseData(item));
+                me.forEach(config.data, (item: any, key: string) => {
+                    el.setAttribute("data-" + key, parseData(item));
                 });
             }
 
             if (config.attrs) {
-                me.forEach(config.attrs, function(item: any, key: string) {
+                me.forEach(config.attrs, (item: any, key: string) => {
                     if (item !== undefined) {
                         el.setAttribute(key, parseData(item));
                     }
@@ -91,7 +91,7 @@ class DomSingleton extends Core {
             }
 
             if (config.listeners) {
-                me.forEach(config.listeners, function(item: EventListenerOrEventListenerObject, key: string) {
+                me.forEach(config.listeners, (item: EventListenerOrEventListenerObject, key: string) => {
                     if (!me.is_null(item)) {
                         el.addEventListener(key, item, false);
                     }
@@ -100,25 +100,25 @@ class DomSingleton extends Core {
 
             if (config.css) {
                 el.setAttribute(
-                    'class',
+                    "class",
                     me
                         .wrap_in_array(config.css)
-                        .join(' ')
-                        .replace(/\s\s+/g, ' ')
+                        .join(" ")
+                        .replace(/\s\s+/g, " ")
                 );
             }
 
             if (config.style) {
-                var styles: Array<string> = [];
-                me.forEach(config.style, function(rule: string, key: string) {
+                const styles: string[] = [];
+                me.forEach(config.style, (rule: string, key: string) => {
                     if (rule) {
-                        key = key.replace(/_/m, '-');
+                        key = key.replace(/_/m, "-");
                         styles.push(`${key}:${rule}`);
                     }
                 });
-                var t = styles.join(';');
+                const t = styles.join(";");
                 if (t.length !== 0) {
-                    el.setAttribute('style', t);
+                    el.setAttribute("style", t);
                 }
             }
 
@@ -126,14 +126,14 @@ class DomSingleton extends Core {
              * The children accepts either a function or string/item/items[]
              */
             if (config.children) {
-                me.wrap_in_array(config.children).forEach(function(item: any) {
+                me.wrap_in_array(config.children).forEach((item: any) => {
                     if (me.is_string(item)) {
                         el.appendChild(window.document.createTextNode(item));
                     } else if (me.is_instance_of(item, HTMLElement) || me.is_instance_of(item, SVGElement)) {
-                        el.appendChild(<HTMLElement>item);
+                        el.appendChild(item as HTMLElement);
                     } else {
-                        (<ICreateElementConfig>item).isSVG = config.isSVG || false;
-                        el.appendChild(me.createElement(<ICreateElementConfig>item, refCallback));
+                        (item as ICreateElementConfig).isSVG = config.isSVG || false;
+                        el.appendChild(me.createElement(item as ICreateElementConfig, refCallback));
                     }
                 });
             }
@@ -147,7 +147,7 @@ class DomSingleton extends Core {
                     refCallback(config.reference, el);
                 }
             }
-            return <T>el;
+            return el as T;
         }
     }
 }
