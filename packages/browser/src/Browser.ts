@@ -72,6 +72,7 @@ class BrowserSingleton {
         const me = this;
         me.isQueueComplete = false;
         me.isStarted = false;
+        me.isBrowserReady = false;
         me.readyQueue = [];
         me.sheetQueue = [];
     }
