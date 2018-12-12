@@ -18,16 +18,16 @@ export default function(t: IAssertionProvider) {
             css: "component"
         });
 
-    Blend.delay(150, () => {
+    Blend.delay(100, () => {
         StyleSheets.attach(sheet);
         document.body.appendChild(el);
-        Blend.delay(150, () => {
+        Blend.delay(100, () => {
             const rect = el.getBoundingClientRect();
             const styles = window.getComputedStyle(el);
-            t.assertEqual(rect.top, 10);
-            t.assertEqual(rect.left, 10);
-            t.assertEqual(rect.width, 200);
-            t.assertEqual(rect.height, 200);
+            t.assertEqual(rect.top, 10, "top");
+            t.assertEqual(rect.left, 10, "left");
+            t.assertEqual(rect.width, 200, "width");
+            t.assertEqual(rect.height, 200, "height");
             t.assertEqual(styles.backgroundColor.toString().replace(/\s/gi, ""), "rgb(0,255,255)");
             t.done();
         });

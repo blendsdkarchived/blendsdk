@@ -15,9 +15,8 @@ export default function(t: IDescribeProvider) {
 
             t.delay(200, () => {
                 t.assertEqual(ctrl.Count, 4);
+                t.done();
             });
-
-            t.done();
         });
 
         t.it("Should handle event cycle", (t: IAssertionProvider) => {

@@ -49,6 +49,11 @@ export namespace Assets {
     export class CounterController extends Controller {
         protected count: number;
 
+        public constructor() {
+            super({});
+            this.count = 0;
+        }
+
         public get Count() {
             return this.count;
         }
