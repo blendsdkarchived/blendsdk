@@ -1,4 +1,4 @@
-import { Assert } from './Assert';
+import { Assert } from "./Assert";
 import {
     eStatus,
     IAssertionProvider,
@@ -13,9 +13,8 @@ import {
     ITestQueue,
     ITestSpecification,
     IBrowserWindowConfig
-} from './Types';
-import { showPlash } from './Welcome';
-import { EFAULT } from 'constants';
+} from "./Types";
+import { showPlash } from "./Welcome";
 
 export class BlendRunner extends Assert {
     /**
@@ -159,13 +158,13 @@ export class BlendRunner extends Assert {
     protected assert(status: string, actual: any, expected: any, log?: string) {
         var me = this;
         if (me.currentTestId) {
-            log += ' [Assert: ' + (me.specs[me.currentSpecId].testSpecs[me.currentTestId].numAsserts + 1) + ']';
-            if (status === 'pass') {
+            log += " [Assert: " + (me.specs[me.currentSpecId].testSpecs[me.currentTestId].numAsserts + 1) + "]";
+            if (status === "pass") {
                 me.specs[me.currentSpecId].testSpecs[me.currentTestId].numAsserts += 1;
                 me.specs[me.currentSpecId].testSpecs[me.currentTestId].numPassed += 1;
                 me.specs[me.currentSpecId].numAssertsPassed += 1;
                 me.specs[me.currentSpecId].numAsserts + 1;
-            } else if (status === 'fail') {
+            } else if (status === "fail") {
                 me.specs[me.currentSpecId].testSpecs[me.currentTestId].numAsserts += 1;
                 me.specs[me.currentSpecId].testSpecs[me.currentTestId].numFailed += 1;
                 me.specs[me.currentSpecId].numAssertsFailed += 1;
@@ -181,8 +180,8 @@ export class BlendRunner extends Assert {
                 expected: expected,
                 log: log
             });
-            if (status !== 'timeout') {
-                me.notifyAssertionStatus('assert', me.currentSpecId, me.currentTestId);
+            if (status !== "timeout") {
+                me.notifyAssertionStatus("assert", me.currentSpecId, me.currentTestId);
             }
         }
     }
@@ -281,7 +280,7 @@ export class BlendRunner extends Assert {
             if (test) {
                 me.currentSpecId = specId;
                 me.currentTestId = testId;
-                if (stage === 'start') {
+                if (stage === "start") {
                     me.resetTestCounts(test);
                     me.notifyAssertionStatus(stage, specId, testId);
                     test.duration = new Date().getTime();
@@ -291,7 +290,7 @@ export class BlendRunner extends Assert {
                 }
             } else {
                 me.currentSpecId = specId;
-                if (stage === 'start') {
+                if (stage === "start") {
                     me.resetSpecificationCounts(spec);
                     me.notifyAssertionStatus(stage, specId, testId);
                     spec.duration = new Date().getTime();
@@ -357,43 +356,43 @@ export class BlendRunner extends Assert {
             var spec = me.specs[specId];
 
             // set startup time spec
-            ep.push(me.processDuration('start', specId, null));
+            ep.push(me.processDuration("start", specId, null));
 
             // invoke the spec before
             if (spec.beforeFn) {
-                ep.push(me.createInvoker(specId, null, 'before', spec.beforeFn));
+                ep.push(me.createInvoker(specId, null, "before", spec.beforeFn));
             }
 
             me.testQueue[specId].forEach(function(testId: string) {
                 var testSpec: ICallable = me.specs[specId].testSpecs[testId];
 
                 // set the startup time of the test
-                ep.push(me.processDuration('start', specId, testId));
+                ep.push(me.processDuration("start", specId, testId));
 
                 // set the before each of the test
                 if (spec.beforeEachFn) {
-                    ep.push(me.createInvoker(specId, testId, 'before-each', spec.beforeEachFn));
+                    ep.push(me.createInvoker(specId, testId, "before-each", spec.beforeEachFn));
                 }
 
                 // set the test
-                ep.push(me.createInvoker(specId, testId, 'test', testSpec));
+                ep.push(me.createInvoker(specId, testId, "test", testSpec));
 
                 // set the after each of the test
                 if (spec.afterEachFn) {
-                    ep.push(me.createInvoker(specId, testId, 'after-each', spec.afterEachFn));
+                    ep.push(me.createInvoker(specId, testId, "after-each", spec.afterEachFn));
                 }
 
                 // set the end time of the test
-                ep.push(me.processDuration('end', specId, testId));
+                ep.push(me.processDuration("end", specId, testId));
             });
 
             // set the after of the spec
             if (spec.afterFn) {
-                ep.push(me.createInvoker(specId, null, 'after', spec.afterFn));
+                ep.push(me.createInvoker(specId, null, "after", spec.afterFn));
             }
 
             // set the after time of the spec
-            ep.push(me.processDuration('end', specId, null));
+            ep.push(me.processDuration("end", specId, null));
         }
         return ep;
     }
@@ -511,7 +510,7 @@ export class BlendRunner extends Assert {
                 if (me.is_function(done)) {
                     done();
                 } else {
-                    console.log('All done');
+                    console.log("All done");
                 }
             }
         };
@@ -640,7 +639,7 @@ export class BlendRunner extends Assert {
      */
     public isTestSuiteStart(status: IAssertStatus): boolean {
         var me = this;
-        return status.stage === 'start' && !me.is_null(status.specId) && me.is_null(status.test);
+        return status.stage === "start" && !me.is_null(status.specId) && me.is_null(status.test);
     }
 
     /**
@@ -652,7 +651,7 @@ export class BlendRunner extends Assert {
      */
     public isTestSuiteEnd(status: IAssertStatus): boolean {
         var me = this;
-        return status.stage === 'end' && !me.is_null(status.specId) && me.is_null(status.test);
+        return status.stage === "end" && !me.is_null(status.specId) && me.is_null(status.test);
     }
 
     /**
@@ -664,7 +663,7 @@ export class BlendRunner extends Assert {
      */
     public isTestStart(status: IAssertStatus): boolean {
         var me = this;
-        return status.stage === 'start' && !me.is_null(status.test) && !me.is_null(status.test);
+        return status.stage === "start" && !me.is_null(status.test) && !me.is_null(status.test);
     }
 
     /**
@@ -677,7 +676,7 @@ export class BlendRunner extends Assert {
     public isTestEnd(status: IAssertStatus): boolean {
         var me = this;
         return (
-            (status.stage === 'end' || status.stage === 'timeout') &&
+            (status.stage === "end" || status.stage === "timeout") &&
             !me.is_null(status.test) &&
             !me.is_null(status.test)
         );
@@ -832,8 +831,8 @@ export class BlendRunner extends Assert {
                  * a function called `remoteGlobalFunction` or the #hash
                  */
                 var ctx: any = win,
-                    hash = win.location.hash.replace('#', ''),
-                    fn = ctx[remoteGlobalFunction] || ctx['app'] || ctx['test'] || ctx['bundle'] || ctx[hash] || null;
+                    hash = win.location.hash.replace("#", ""),
+                    fn = ctx[remoteGlobalFunction] || ctx["app"] || ctx["test"] || ctx["bundle"] || ctx[hash] || null;
                 if (me.is_function(fn)) {
                     fn.apply(ctx, [t]);
                 } else if (me.is_object(fn) && me.is_function(fn[hash])) {
@@ -864,7 +863,7 @@ export class BlendRunner extends Assert {
         me.forEach(config, (value: any, key: string) => {
             if (me.is_boolean(value)) {
                 if (value === true) {
-                    if (key === 'center') {
+                    if (key === "center") {
                         me.calculateCenter(config);
                     }
                 }
@@ -880,7 +879,7 @@ export class BlendRunner extends Assert {
                 result.push(`${key}=${value}`);
             }
         });
-        return result.join(',');
+        return result.join(",");
     }
 
     /**
@@ -899,10 +898,10 @@ export class BlendRunner extends Assert {
         var me = this,
             windowHasErrors: boolean = false;
         me.it(testName || url, function(t: IAssertionProvider) {
-            url = url || 'about:blank';
+            url = url || "about:blank";
             var orgDone = t.done;
-            var win = window.open(url, '_blank', me.createWindowFeatures(windowConfig));
-            win.addEventListener('error', function(evt: ErrorEvent) {
+            var win = window.open(url, "_blank", me.createWindowFeatures(windowConfig));
+            win.addEventListener("error", function(evt: ErrorEvent) {
                 t.assertEqual(
                     JSON.stringify(
                         {
@@ -915,7 +914,7 @@ export class BlendRunner extends Assert {
                         null,
                         2
                     ),
-                    ''
+                    ""
                 );
                 windowHasErrors = true;
                 t.done();
@@ -932,10 +931,10 @@ export class BlendRunner extends Assert {
                     orgDone.apply(t, []);
                 }, 300);
             };
-            if (url === 'about:blank') {
+            if (url === "about:blank") {
                 callable(t, win);
             } else {
-                win.addEventListener('load', function() {
+                win.addEventListener("load", function() {
                     callable(t, win);
                 });
             }
@@ -958,7 +957,7 @@ export class BlendRunner extends Assert {
                 var spec = me.specs[me.currentSpecId];
                 var test = me.specs[me.currentSpecId].testSpecs[me.currentTestId];
                 try {
-                    if (spec.beforeEachStatus === 'error') {
+                    if (spec.beforeEachStatus === "error") {
                         throw new Error(
                             `The "test" stage of [${test.name}] will not run because the "before each" stage of [${
                                 test.name
@@ -966,10 +965,10 @@ export class BlendRunner extends Assert {
                         );
                     } else {
                         callable(t);
-                        me.notifyExecutionStageStatus('test', null, 'ok', me.currentSpecId, me.currentTestId);
+                        me.notifyExecutionStageStatus("test", null, "ok", me.currentSpecId, me.currentTestId);
                     }
                 } catch (e) {
-                    me.notifyExecutionStageStatus('test', e, 'error', me.currentSpecId, me.currentTestId);
+                    me.notifyExecutionStageStatus("test", e, "error", me.currentSpecId, me.currentTestId);
                     me.done();
                 }
             },
@@ -990,12 +989,12 @@ export class BlendRunner extends Assert {
     public beforeEach(callable: (t: IFinishable) => any) {
         var me = this;
         me.currentSpec.beforeEachFn = {
-            name: 'before each',
+            name: "before each",
             fn: function(t: IFinishable) {
                 var spec = me.specs[me.currentSpecId];
                 var test = me.specs[me.currentSpecId].testSpecs[me.currentTestId];
                 try {
-                    if (spec.beforeStatus === 'error') {
+                    if (spec.beforeStatus === "error") {
                         throw new Error(
                             `The "before each" stage of [${test.name}] will not run because the "before" stage of [${
                                 spec.name
@@ -1003,9 +1002,9 @@ export class BlendRunner extends Assert {
                         );
                     } else {
                         callable(t);
-                        spec.beforeEachStatus = 'ok';
+                        spec.beforeEachStatus = "ok";
                         me.notifyExecutionStageStatus(
-                            'before-each',
+                            "before-each",
                             null,
                             spec.beforeEachStatus,
                             me.currentSpecId,
@@ -1013,9 +1012,9 @@ export class BlendRunner extends Assert {
                         );
                     }
                 } catch (e) {
-                    spec.beforeEachStatus = 'error';
+                    spec.beforeEachStatus = "error";
                     me.notifyExecutionStageStatus(
-                        'before-each',
+                        "before-each",
                         e,
                         spec.beforeEachStatus,
                         me.currentSpecId,
@@ -1037,12 +1036,12 @@ export class BlendRunner extends Assert {
     public afterEach(callable: (t: IFinishable) => any) {
         var me = this;
         me.currentSpec.afterEachFn = {
-            name: 'after each',
+            name: "after each",
             fn: function(t: IFinishable) {
                 var spec = me.specs[me.currentSpecId];
                 var test = me.specs[me.currentSpecId].testSpecs[me.currentTestId];
                 try {
-                    if (spec.beforeEachStatus === 'error') {
+                    if (spec.beforeEachStatus === "error") {
                         throw new Error(
                             `The "after each" stage of [${
                                 test.name
@@ -1052,9 +1051,9 @@ export class BlendRunner extends Assert {
                         );
                     } else {
                         callable(t);
-                        spec.afterEachStatus = 'ok';
+                        spec.afterEachStatus = "ok";
                         me.notifyExecutionStageStatus(
-                            'after-each',
+                            "after-each",
                             null,
                             spec.afterEachStatus,
                             me.currentSpecId,
@@ -1062,9 +1061,9 @@ export class BlendRunner extends Assert {
                         );
                     }
                 } catch (e) {
-                    spec.afterEachStatus = 'error';
+                    spec.afterEachStatus = "error";
                     me.notifyExecutionStageStatus(
-                        'after-each',
+                        "after-each",
                         e,
                         spec.afterEachStatus,
                         me.currentSpecId,
@@ -1086,11 +1085,11 @@ export class BlendRunner extends Assert {
     public after(callable: (t: IFinishable) => any) {
         var me = this;
         me.currentSpec.afterFn = {
-            name: 'after',
+            name: "after",
             fn: function(t: IFinishable) {
                 var spec = me.specs[me.currentSpecId];
                 try {
-                    if (spec.beforeStatus === 'error') {
+                    if (spec.beforeStatus === "error") {
                         throw new Error(
                             `The "after" stage of [${spec.name}] will not run because the "before" stage of [${
                                 spec.name
@@ -1098,9 +1097,9 @@ export class BlendRunner extends Assert {
                         );
                     } else {
                         callable(t);
-                        spec.afterStatus = 'ok';
+                        spec.afterStatus = "ok";
                         me.notifyExecutionStageStatus(
-                            'after',
+                            "after",
                             null,
                             spec.afterStatus,
                             me.currentSpecId,
@@ -1108,8 +1107,8 @@ export class BlendRunner extends Assert {
                         );
                     }
                 } catch (e) {
-                    spec.afterStatus = 'error';
-                    me.notifyExecutionStageStatus('after', e, spec.afterStatus, me.currentSpecId, me.currentTestId);
+                    spec.afterStatus = "error";
+                    me.notifyExecutionStageStatus("after", e, spec.afterStatus, me.currentSpecId, me.currentTestId);
                     me.done();
                 }
             }
@@ -1126,22 +1125,22 @@ export class BlendRunner extends Assert {
     public before(callable: (t: IFinishable) => any) {
         var me = this;
         me.currentSpec.beforeFn = {
-            name: 'before',
+            name: "before",
             fn: function(t: IFinishable) {
                 var spec = me.specs[me.currentSpecId];
                 try {
                     callable(t);
-                    spec.beforeStatus = 'ok';
+                    spec.beforeStatus = "ok";
                     me.notifyExecutionStageStatus(
-                        'before',
+                        "before",
                         null,
                         spec.beforeStatus,
                         me.currentSpecId,
                         me.currentTestId
                     );
                 } catch (e) {
-                    spec.beforeStatus = 'error';
-                    me.notifyExecutionStageStatus('before', e, spec.beforeStatus, me.currentSpecId, me.currentTestId);
+                    spec.beforeStatus = "error";
+                    me.notifyExecutionStageStatus("before", e, spec.beforeStatus, me.currentSpecId, me.currentTestId);
                     me.done();
                 }
             }
