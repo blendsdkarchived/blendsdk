@@ -37,7 +37,7 @@ export default function(t: IDescribeProvider) {
             t.done();
         });
 
-        t.inBrowser("Should render and attach", "/browser/css_render.html");
+        t.inBrowser("Should render", "/browser/css_render.html");
 
         t.it("Should render precededBy", (t: IAssertionProvider) => {
             const result = (StyleSheets as any).render(
