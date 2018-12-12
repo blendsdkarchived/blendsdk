@@ -11,6 +11,20 @@ export default function(t: IDescribeProvider) {
             t.done();
         });
 
+        t.it("Should create media query", (t: IAssertionProvider) => {
+            const result = (StyleSheets as any).render(
+                stylesheet(CSS.mediaQuery("print", CSS.block(".sel", [CSS.before({ color: "blue" })])))
+            );
+            t.assertEqual(result, "@media print {.sel::before {color:blue;}}");
+            t.done();
+        });
+
+        t.it("Should create ::before", (t: IAssertionProvider) => {
+            const result = (StyleSheets as any).render(stylesheet(CSS.block(".sel", [CSS.before({ color: "blue" })])));
+            t.assertEqual(result, ".sel::before {color:blue;}");
+            t.done();
+        });
+
         t.it("Should create ::after", (t: IAssertionProvider) => {
             const result = (StyleSheets as any).render(stylesheet(CSS.block(".sel", [CSS.after({ color: "red" })])));
             t.assertEqual(result, ".sel::after {color:red;}");

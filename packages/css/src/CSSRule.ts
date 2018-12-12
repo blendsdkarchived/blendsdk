@@ -139,17 +139,18 @@ export class CSSRule implements ICssFlattenProvider {
         return (): IRenderedCSSRule => {
             const styles = [];
             Blend.forEach(result, (value: any, key: string) => {
-                /**
-                 * Convert the camelCase keys to real css keys: borderWidth => border-width
-                 */
-                key = key.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
-                if (!Blend.isNullOrUndef(value)) {
-                    styles.push(`${key}:${value}`);
+                if (key === "rawContent") {
+                    styles.push(value);
+                } else {
+                    /**
+                     * Convert the camelCase keys to real css keys: borderWidth => border-width
+                     */
+                    key = key.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+                    if (!Blend.isNullOrUndef(value)) {
+                        styles.push(`${key}:${value};`);
+                    }
                 }
             });
-            if (styles.length !== 0) {
-                styles.push("");
-            }
             return {
                 css: `${me.renderSelector()} {${styles.join(";")}}`,
                 selector: styles.length !== 0 ? me.selector : "" // skips the empty selectors

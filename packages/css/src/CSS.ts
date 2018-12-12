@@ -114,6 +114,25 @@ export namespace CSS {
     export function block(selector: string, styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
         return new CSSRule(selector, styles);
     }
+
+    /**
+     * Creates a `@media query` CSS rule.
+     *
+     * @export
+     * @param {string} query
+     * @param {(CSSRule | CSSRule[])} rules
+     * @returns
+     */
+    export function mediaQuery(query: string, rules: CSSRule | CSSRule[]) {
+        const sheet = stylesheet(rules),
+            content: string[] = [];
+        sheet.render().forEach(item => {
+            if (item.selector !== "") {
+                content.push(item.css);
+            }
+        });
+        return block(`@media ${query}`, { rawContent: content.join("\n") });
+    }
 }
 
 /**
