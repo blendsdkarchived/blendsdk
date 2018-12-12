@@ -18,8 +18,8 @@ export class Sheet {
      * @param {(CSSRule | CSSRule[])} rules
      * @memberof Sheet
      */
-    public constructor(rules: CSSRule | CSSRule[]) {
-        this.rules = Blend.wrapInArray(rules);
+    public constructor(rules?: CSSRule | CSSRule[]) {
+        this.rules = Blend.wrapInArray(rules || []);
     }
 
     /**
