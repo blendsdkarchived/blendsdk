@@ -1,4 +1,5 @@
 import { t, TestRunner } from "@blendsdk/blendrunner";
+import AjaxTests from "./ajax/AjaxTests";
 import BrowserTests from "./browser/BrowserTests";
 import ComponentTests from "./component/ComponentTests";
 import BlendTests from "./core/BlendTests";
@@ -21,8 +22,9 @@ import MVCTests from "./mvc/MVCTests";
 // UICollectionTests(t);
 // MVCTests(t);
 // StackTests(t);
-// AjaxTests(t);
+
 // IconTests(t);
+AjaxTests(t);
 BrowserTests(t);
 MVCTests(t);
 BEMTests(t);
