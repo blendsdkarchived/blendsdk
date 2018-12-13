@@ -12,3 +12,4 @@ const ABOUT_BLANK = "about:blank";
 export * from "./Types";
 export * from "./CSSStyles";
 export { t, TestRunner, ABOUT_BLANK, Sheet };
+export * from "./Snapshot";

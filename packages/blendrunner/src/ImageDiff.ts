@@ -2,6 +2,16 @@ import html2canvas from "html2canvas";
 import { Dom } from "./Dom";
 
 /**
+ * html2canvas render options
+ */
+export const renderOptions = {
+    backgroundColor: null,
+    scale: 1,
+    allowTaint: true,
+    useCORS: true
+};
+
+/**
  * Interface for describing image information
  *
  * @export
@@ -35,7 +45,8 @@ function loadImage(url: string, done: (image: HTMLCanvasElement) => any) {
     const img = Dom.createElement<HTMLImageElement>({
         tag: "img",
         attrs: {
-            src: url
+            src: url,
+            crossOrigin: "Anonymous"
         },
         style: {
             position: "fixed",
@@ -82,7 +93,7 @@ function loadImage(url: string, done: (image: HTMLCanvasElement) => any) {
  * @param {number} value
  * @returns
  */
-function toPx(value: number) {
+export function toPx(value: number) {
     return `${value}px`;
 }
 
@@ -201,7 +212,7 @@ export function DiffImage(
     if (snapshot) {
         loadImage(imageUrl, (canvas1: HTMLCanvasElement) => {
             if (canvas1) {
-                snapshot(element, { backgroundColor: null, scale: 1 })
+                snapshot(element, renderOptions)
                     .then((canvas2: HTMLCanvasElement) => {
                         window.requestAnimationFrame(() => {
                             // put the snapshot on the screen
