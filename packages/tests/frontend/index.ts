@@ -8,11 +8,12 @@ import CSSTests from "./css/CSSTests";
 import DeviceInfoTests from "./deviceinfo/DeviceInfoTests";
 import DomTests from "./dom/DomTests";
 import ExtensionsTests from "./extensions/ExtensionsTets";
+import IconTests from "./icon/IconTests";
 import MVCTests from "./mvc/MVCTests";
 
 // import CollectionTests from './collection/CollectionTests';
 // import FilteredCollectionTests from './collection/FilteredCollectionTests';
-// import IconTests from './icon/IconTests';
+
 // import StackTests from './stack/StackTests';
 // import AjaxTests from './ajax/AjaxTests';
 // import MVCTests from './mvc/MVCTests';
@@ -23,7 +24,7 @@ import MVCTests from "./mvc/MVCTests";
 // MVCTests(t);
 // StackTests(t);
 
-// IconTests(t);
+IconTests(t);
 AjaxTests(t);
 BrowserTests(t);
 MVCTests(t);
@@ -37,4 +38,6 @@ DeviceInfoTests(t);
 ExtensionsTests(t);
 BlendTests(t);
 
-TestRunner.start();
+TestRunner.start({
+    hidePassed: true
+});
