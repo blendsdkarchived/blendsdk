@@ -13,12 +13,17 @@ import {
     SmallWatchIcon,
     ZoomInIcon
 } from "./Icons";
+import { imageDataToCanvas } from "./ImageDiff";
 import { RotationCSS } from "./Rotating";
-import { IAssertLog, IAssertStatus, ICallable, ICreateElementConfig, ITestSpecification } from "./Types";
+import { IAssertLog, IAssertStatus, ICallable, ICreateElementConfig, ITestSpecification, TFunction } from "./Types";
 
 interface IURLSelection {
     suite: string;
     test: string;
+}
+
+export interface IBlendRunnerUIOptions {
+    hidePassed?: boolean;
 }
 
 /**
@@ -51,6 +56,7 @@ export class BlendRunnerUI extends Core {
     protected totalPending: number;
     protected totalPassed: number;
     protected totalFailed: number;
+    protected options: IBlendRunnerUIOptions;
 
     /**
      * Creates an instance of BlendRunnerUI.
@@ -70,31 +76,62 @@ export class BlendRunnerUI extends Core {
      *
      * @memberof BlendRunnerUI
      */
-    public start() {
+    public start(options?: IBlendRunnerUIOptions) {
         const me = this,
             documentReadyHandler = () => {
                 if (!me.isStarted) {
                     me.isStarted = true;
-                    me.iniUI();
-                    me.queueTests();
-                    me.runner.onAssertStatus((status: IAssertStatus) => {
-                        window.requestAnimationFrame(() => {
-                            me.setTestSuiteStatus(status);
-                            me.setTestStatus(status);
+                    me.loadHTML2CanvasLIb((screenshotStatus: boolean) => {
+                        me.runner.canMakeScreenshots(screenshotStatus);
+                        me.iniUI();
+                        me.queueTests();
+                        me.runner.onAssertStatus((status: IAssertStatus) => {
+                            window.requestAnimationFrame(() => {
+                                me.setTestSuiteStatus(status);
+                                me.setTestStatus(status);
+                            });
                         });
-                    });
-                    me.runner.run(() => {
-                        setTimeout(() => {
-                            window.scrollTo(0, document.body.scrollHeight);
-                        }, 300);
+                        me.runner.run(() => {
+                            setTimeout(() => {
+                                window.scrollTo(0, document.body.scrollHeight);
+                            }, 300);
+                        });
                     });
                 }
             };
+
+        me.options = options || {
+            hidePassed: false
+        };
+
         if (window.document.readyState === "complete") {
             documentReadyHandler.apply(me, []);
         } else {
             window.addEventListener("load", documentReadyHandler);
         }
+    }
+
+    protected loadHTML2CanvasLIb(done: (status: boolean) => any) {
+        document.head.appendChild(
+            Dom.createElement({
+                tag: "script",
+                attrs: {
+                    src: "https://unpkg.com/html2canvas@latest/dist/html2canvas.min.js"
+                }
+            })
+        );
+        let timeout = 0;
+        const checker = setInterval(() => {
+            if ((window as any).html2canvas) {
+                clearInterval(checker);
+                done(true);
+            } else if (timeout > 50) {
+                clearInterval(checker);
+                done(false);
+            } else {
+                timeout += 1;
+            }
+        }, 100);
     }
 
     /**
@@ -422,6 +459,9 @@ export class BlendRunnerUI extends Core {
                 me.setTestSuiteData(status.specId, 0, 0, 0);
             } else if (me.runner.isTestSuiteEnd(status)) {
                 specElement.classList.remove("x-testing");
+                if (me.options.hidePassed) {
+                    specElement.classList.add("x-hide-passed");
+                }
                 me.setTestSuiteData(
                     status.specId,
                     status.spec.duration,
@@ -452,6 +492,33 @@ export class BlendRunnerUI extends Core {
         if (resultElement) {
             test.assertLog.forEach((log: IAssertLog) => {
                 if (log.status !== "pass") {
+                    let imageDiff: any = {} as ICreateElementConfig;
+                    if (log.imageDiff !== null) {
+                        imageDiff = Dom.createElement({
+                            css: "x-image-diff"
+                        });
+                        [
+                            { text: "Diff", image: log.imageDiff.diffImageData },
+                            { text: "Actual", image: log.imageDiff.imageDataA },
+                            { text: "Expected", image: log.imageDiff.imageDataB }
+                        ].forEach(item => {
+                            imageDiff.appendChild(
+                                Dom.createElement({
+                                    css: "x-img-sep",
+                                    children: [
+                                        {
+                                            textContent: item.text
+                                        },
+                                        imageDataToCanvas(
+                                            item.image.imageData,
+                                            item.image.size.width,
+                                            item.image.size.height
+                                        )
+                                    ]
+                                })
+                            );
+                        });
+                    }
                     resultElement.appendChild(
                         Dom.createElement({
                             css: ["x-assert", "x-row"],
@@ -468,7 +535,8 @@ export class BlendRunnerUI extends Core {
                                 {
                                     css: "x-expected",
                                     children: [parseValue(log.expected)]
-                                }
+                                },
+                                imageDiff
                             ]
                         })
                     );

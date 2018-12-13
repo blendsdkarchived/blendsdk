@@ -1,3 +1,5 @@
+import { IDiffImageResult } from "./ImageDiff";
+
 /**
  * Type describing a type of generic function
  * @type
@@ -79,6 +81,7 @@ export interface IAssertionProvider extends IFinishable {
     assertEqual(actual: any, expected: any, description?: string): boolean;
     assertNotEqual(actual: any, expected: any, description?: string): boolean;
     assertThrows(action: TFunction, criteria?: TFunction, description?: string): boolean;
+    assertImage(actual: HTMLElement, expected: string, done: TFunction, tolerance?: number, description?: string): any;
     delay(ms: number, callback: TFunction, scope?: any): void;
 }
 
@@ -93,6 +96,7 @@ export interface IAssertLog {
     expected: any;
     status: string;
     log: string;
+    imageDiff: IDiffImageResult;
 }
 /**
  * Interface for configuring a key/value dictionary

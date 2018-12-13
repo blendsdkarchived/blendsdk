@@ -1,6 +1,7 @@
 // tslint:disable:no-console
 import { Core } from "./Core";
-import { TFunction } from "./Types";
+import { DiffImage, IDiffImageResult } from "./ImageDiff";
+import { IAssertionProvider, TFunction } from "./Types";
 /**
  * Abstract class implementing an assert utility
  *
@@ -10,6 +11,47 @@ import { TFunction } from "./Types";
  * @extends {Core}
  */
 export abstract class Assert extends Core {
+    /**
+     * Assets image representation of an HTMLElement
+     * against an image and report the difference.
+     *
+     * @param actual
+     * @param expected
+     * @param done
+     * @param tolerance
+     * @param description
+     */
+    public assertImage(
+        actual: HTMLElement,
+        expected: string,
+        done: TFunction,
+        tolerance?: number,
+        description?: string
+    ) {
+        tolerance = tolerance || 0;
+        const me = this;
+        DiffImage(actual, expected, (result: IDiffImageResult, error: string) => {
+            if (error) {
+                me.assert("fail", error, "", `${error}; ${description || ""}`, result);
+                done();
+            } else {
+                if (result.diffPct <= tolerance) {
+                    me.assert("pass", result.diffPct, tolerance, description);
+                } else {
+                    me.assert(
+                        "fail",
+                        result.diffPct,
+                        tolerance,
+                        `Difference should have less than ${tolerance}%, but it was ${result.diffPct}%; ${description ||
+                            ""}`,
+                        result
+                    );
+                }
+                done();
+            }
+        });
+    }
+
     /**
      * Runs the given callback after given milliseconds.
      * This function is a wrapper around setTimeout
@@ -304,7 +346,13 @@ export abstract class Assert extends Core {
      *
      * @memberOf BlendRunner
      */
-    protected abstract assert(status: string, actual: any, expected: any, log?: string): any;
+    protected abstract assert(
+        status: string,
+        actual: any,
+        expected: any,
+        log: string,
+        imageDiff?: IDiffImageResult
+    ): any;
 
     /**
      * Mark a test as passed.

@@ -94,6 +94,30 @@ export class BlendRunnerUIStyles {
             paddingRight: px(0)
         });
 
+        me.sheet.rule(".x-hide-passed", {}).nest(".x-pass", {
+            display: "none"
+        });
+
+        const imgDiff = me.sheet.rule(".x-image-diff", {
+            width: pct(100),
+            display: "flex",
+            flexDirection: "column",
+            padding: px(DEF_PADDING),
+            margin: px(DEF_PADDING),
+            backgroundColor: "#FFF",
+            border: `${rem(1)} solid #e0e0e0`,
+            borderRadius: rem(3)
+        });
+        imgDiff.nest("canvas", {
+            border: `${rem(1)} dotted #e0e0e0`
+        });
+
+        imgDiff.nest(".x-img-sep", {
+            fontSize: rem(18),
+            color: "%value-color%",
+            padding: rem(DEF_PADDING / 2)
+        });
+
         me.sheet.rule("pre", {
             fontFamily: `"Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace`,
             fontSize: rem(13),

@@ -3,6 +3,7 @@
 // tslint:disable:no-shadowed-variable
 // tslint:disable:no-string-literal
 import { Assert } from "./Assert";
+import { IDiffImageResult } from "./ImageDiff";
 import {
     eStatus,
     IAssertionProvider,
@@ -85,6 +86,8 @@ export class BlendRunner extends Assert {
      */
     protected currentTestId: string;
 
+    protected allowScreenshots: boolean;
+
     /**
      * Cache of the registered event handlers.
      *
@@ -125,6 +128,11 @@ export class BlendRunner extends Assert {
         me.events = {};
         me.specs = {};
         me.ID = 0;
+        me.allowScreenshots = false;
+    }
+
+    public canMakeScreenshots(value: boolean) {
+        this.allowScreenshots = value;
     }
 
     /**
@@ -160,7 +168,7 @@ export class BlendRunner extends Assert {
      *
      * @memberOf BlendRunner
      */
-    protected assert(status: string, actual: any, expected: any, log?: string) {
+    protected assert(status: string, actual: any, expected: any, log: string, imageDiff: IDiffImageResult) {
         const me = this;
         if (me.currentTestId) {
             log += " [Assert: " + (me.specs[me.currentSpecId].testSpecs[me.currentTestId].numAsserts + 1) + "]";
@@ -183,7 +191,8 @@ export class BlendRunner extends Assert {
                 status,
                 actual,
                 expected,
-                log
+                log: log || null,
+                imageDiff: imageDiff || null
             });
             if (status !== "timeout") {
                 me.notifyAssertionStatus("assert", me.currentSpecId, me.currentTestId);
