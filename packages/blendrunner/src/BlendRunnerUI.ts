@@ -2,6 +2,7 @@
 import { BlendRunner } from "./BlendRunner";
 import { BlendRunnerUIStyles } from "./BlendRunnerUIStyles";
 import { Core } from "./Core";
+import { Sheet } from "./CSS";
 import { Dom } from "./Dom";
 import {
     ClockIcon,
@@ -94,6 +95,7 @@ export class BlendRunnerUI extends Core {
                         me.runner.run(() => {
                             setTimeout(() => {
                                 window.scrollTo(0, document.body.scrollHeight);
+                                me.createHideOnPassCSS();
                             }, 300);
                         });
                     });
@@ -108,6 +110,24 @@ export class BlendRunnerUI extends Core {
             documentReadyHandler.apply(me, []);
         } else {
             window.addEventListener("load", documentReadyHandler);
+        }
+    }
+
+    /**
+     * Renders CSS that os used to hide the passed tests.
+     * This needs to be done at the end to prevent scroll-jumping
+     *
+     * @protected
+     * @memberof BlendRunnerUI
+     */
+    protected createHideOnPassCSS() {
+        const me = this;
+        if (me.options.hidePassed) {
+            const sheet = new Sheet();
+            sheet.rule(".x-hide-passed", {}).nest(".x-pass", {
+                display: "none"
+            });
+            sheet.render();
         }
     }
 

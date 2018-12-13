@@ -94,10 +94,6 @@ export class BlendRunnerUIStyles {
             paddingRight: px(0)
         });
 
-        me.sheet.rule(".x-hide-passed", {}).nest(".x-pass", {
-            display: "none"
-        });
-
         const imgDiff = me.sheet.rule(".x-image-diff", {
             width: pct(100),
             display: "flex",
