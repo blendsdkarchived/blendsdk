@@ -184,7 +184,7 @@ function diffImageData(imgA: ImageData, imgB: ImageData, out: ImageData): number
 }
 
 /**
- * Finds differences between the graphical represenation of an
+ * Finds differences between the graphical representation of an
  * HTMLElement against an static image.
  *
  * @export
