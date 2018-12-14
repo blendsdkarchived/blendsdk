@@ -1,12 +1,21 @@
 // tslint:disable:no-shadowed-variable
 // tslint:disable:no-var-keyword
 // tslint:disable:only-arrow-functions
+// tslint:disable:variable-name
 (function() {
-    const BlendDOMException = function(type: string, message: string) {
+    const is_string = (value: any): boolean => {
+        return typeof value === "string";
+    };
+
+    const is_object = (value: any): boolean => {
+        return typeof value === "object";
+    };
+
+    function BlendDOMException(type: string, message: string) {
         this.name = type;
         this.code = (DOMException as any)[type];
         this.message = message;
-    };
+    }
 
     /**
      * Make the DOMx inherit from Error
@@ -22,10 +31,10 @@
      */
     const checkTokenAndGetIndex = (classList: string[], token: string) => {
         if (token === "") {
-            throw new (BlendDOMException("SYNTAX_ERR", "An invalid or illegal string was specified") as any)();
+            throw new BlendDOMException("SYNTAX_ERR", "An invalid or illegal string was specified");
         }
         if (/\s/.test(token)) {
-            throw new (BlendDOMException("INVALID_CHARACTER_ERR", "String contains an invalid character") as any)();
+            throw new BlendDOMException("INVALID_CHARACTER_ERR", "String contains an invalid character");
         }
         return classList.indexOf(token);
     };
@@ -78,14 +87,24 @@
     /**
      * Adds or removes a class name
      */
-    (ClassList.prototype as any).set = function(className: string, addRemove: boolean) {
-        const me = this;
+    (ClassList.prototype as any).set = function(className: string | object | string[], addRemove: boolean) {
+        const me = this,
+            css = is_string(className)
+                ? [className as string]
+                : is_object(className)
+                ? Object.keys(className as object).map(key => className[key])
+                : (className as string[]);
         addRemove = addRemove === undefined ? true : addRemove;
-        if (addRemove) {
-            me.add(className);
-        } else {
-            me.remove(className);
-        }
+
+        css.forEach(item => {
+            if (item !== "") {
+                if (addRemove) {
+                    me.add(item);
+                } else {
+                    me.remove(item);
+                }
+            }
+        });
     };
 
     /**

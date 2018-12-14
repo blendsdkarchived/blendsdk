@@ -151,23 +151,7 @@ declare global {
          *
          * @memberof DOMTokenList
          */
-        set: (className: string, addRemove: boolean) => void;
-    }
-
-    /**
-     * Extension interface for adding extra functionality
-     * to the native HTMLElement element.
-     *
-     * @interface HTMLElement
-     */
-
-    // tslint:disable-next-line:interface-name
-    interface HTMLElement {
-        /**
-         * @internal
-         * Internal property used to hold arbitrary data
-         */
-        $blend: any;
+        set: (className: string | object | string[], addRemove: boolean) => void;
     }
 }
 
