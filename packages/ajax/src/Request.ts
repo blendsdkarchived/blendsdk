@@ -2,6 +2,14 @@
 import { Blend } from "@blendsdk/core";
 import { IMVCComponentConfig, MVCComponent, TComponentEvent } from "@blendsdk/mvc";
 
+enum eAjaxRequestEvents {
+    onSuccess = "onSuccess",
+    onError = "onError",
+    onFinished = "onFinished",
+    onBeforeStart = "onBeforeStart",
+    onProgress = "onProgress"
+}
+
 // TODO:1068 Create POST tests
 // TODO:1069 Create PUT tests
 // TODO:1070 Create PATCH tests
@@ -107,28 +115,28 @@ export class AjaxRequest extends MVCComponent<IAjaxRequestConfig> {
         xhr.open(me.config.type, me.config.url);
         xhr.addEventListener("load", () => {
             if (xhr.status >= 200 && xhr.status < 300) {
-                me.dispatchEvent("onSuccess", [xhr]);
+                me.dispatchEvent(eAjaxRequestEvents.onSuccess, [xhr]);
             } else if (xhr.status >= 300 && xhr.status < 400) {
                 console.warn(`XHR responded with ${xhr.status}. which is not supported for now!`);
-                me.dispatchEvent("onSuccess", [xhr]);
+                me.dispatchEvent(eAjaxRequestEvents.onSuccess, [xhr]);
             } else if (xhr.status >= 400 && xhr.status <= 500) {
                 console.log(`XHR responded with client error: ${xhr.status}`);
-                me.dispatchEvent("onError", [xhr]);
+                me.dispatchEvent(eAjaxRequestEvents.onError, [xhr]);
             } else if (xhr.status >= 500) {
                 console.log(`XHR responded with server error: ${xhr.status}`);
-                me.dispatchEvent("onError", [xhr]);
+                me.dispatchEvent(eAjaxRequestEvents.onError, [xhr]);
             }
         });
         xhr.addEventListener("progress", () => {
-            me.dispatchEvent("onProgress", [xhr]);
+            me.dispatchEvent(eAjaxRequestEvents.onProgress, [xhr]);
         });
         xhr.addEventListener("error", () => {
-            me.dispatchEvent("onError", [xhr]);
+            me.dispatchEvent(eAjaxRequestEvents.onError, [xhr]);
         });
         xhr.addEventListener("loadend", () => {
-            me.dispatchEvent("onFinished", [xhr]);
+            me.dispatchEvent(eAjaxRequestEvents.onFinished, [xhr]);
         });
-        me.dispatchEvent("onBeforeStart", [xhr], true);
+        me.dispatchEvent(eAjaxRequestEvents.onBeforeStart, [xhr], true);
         xhr.send();
     }
 }

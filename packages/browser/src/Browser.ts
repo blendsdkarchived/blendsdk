@@ -5,6 +5,17 @@ import { Sheet } from "../../css/dist/Sheet";
 import { SystemStyles } from "./SystemStyles";
 
 /**
+ * Enum providing common system-wide events
+ *
+ * @enum {number}
+ */
+enum eBrowserEvents {
+    onWindowResized = "onWindowResized",
+    onResponsiveChange = "onResponsiveChange",
+    onApplicationReady = "onApplicationReady"
+}
+
+/**
  * This class provides functionality for getting the browser environment
  * ready for running a Blend application.
  *
@@ -75,6 +86,7 @@ class BrowserSingleton {
         me.isBrowserReady = false;
         me.readyQueue = [];
         me.sheetQueue = [];
+        SystemEvents.defineEvent(eBrowserEvents);
     }
 
     /**
@@ -316,8 +328,8 @@ class BrowserSingleton {
         const me = this;
         me.updateScreenInformation();
         if (me.isBrowserReady) {
-            SystemEvents.dispatchEvent("onWindowResized");
-            SystemEvents.dispatchEvent("onResponsiveChange", [me.getScreenInformation()]);
+            SystemEvents.dispatchEvent(eBrowserEvents.onWindowResized);
+            SystemEvents.dispatchEvent(eBrowserEvents.onResponsiveChange, [me.getScreenInformation()]);
         }
     }
 
