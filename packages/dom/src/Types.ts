@@ -160,3 +160,31 @@ export interface ICreateElementConfig {
      */
     isSVG?: boolean;
 }
+
+declare global {
+    /**
+     * Extension interface for adding extra functionality
+     * to the native HTMLElement element.
+     *
+     * @interface HTMLElement
+     */
+
+    // tslint:disable-next-line:interface-name
+    interface HTMLElement {
+        /**
+         * @internal
+         * Internal property used to hold arbitrary data
+         */
+        $blend: any;
+        /**
+         * Override of appendChild so we can add Blend
+         * components seamlessly.
+         *
+         * @template T
+         * @param {T} newChild
+         * @returns {T}
+         * @memberof HTMLElement
+         */
+        appendChild<T extends Node | IHTMLElementProvider>(newChild: T): T;
+    }
+}
