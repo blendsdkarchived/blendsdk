@@ -24,17 +24,6 @@ export class SystemEventSingleton {
     public constructor() {
         const me = this;
         me.registry = {};
-        me.defineEvent(["onApplicationReady", "onWindowResized", "onResponsiveChange"]);
-    }
-
-    /**
-     * Manually force the scrollbars within the system to re-evaluate.
-     *
-     * @memberof SystemEvent
-     */
-    public updateScrollbars() {
-        const me = this;
-        me.dispatchEvent("onUpdateScrollbars");
     }
 
     /**
@@ -58,9 +47,11 @@ export class SystemEventSingleton {
      * @param {(string | Array<string>)} eventName
      * @memberof SystemEvent
      */
-    public defineEvent(eventName: string | string[]) {
-        const me = this;
-        Blend.wrapInArray(eventName || []).forEach((item: string) => {
+    public defineEvent(eventName: string | string[] | IDictionary) {
+        const me = this,
+            names = Blend.isObject(eventName) ? Object.keys(eventName) : eventName || [];
+
+        Blend.wrapInArray(names || []).forEach((item: string) => {
             if (Blend.isEventName(item) && !me.isDefined(item)) {
                 me.registry[item] = {};
             }
