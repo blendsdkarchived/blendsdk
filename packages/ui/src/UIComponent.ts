@@ -2,6 +2,9 @@ import { Blend, IElementSize, IUILayoutConfig, TFunction } from "@blendsdk/core"
 import { Dom, DOMElement, DOMEvent, ICreateElementConfig, IHTMLElementProvider } from "@blendsdk/dom";
 import { IMVCComponentConfig, MVCComponent, TComponentEvent } from "@blendsdk/mvc";
 
+/**
+ * Describes a UIComponent as type for convenience.
+ */
 export type TUIComponent = UIComponent<IUIComponentConfig>;
 
 /**
