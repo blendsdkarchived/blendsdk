@@ -87,6 +87,7 @@ class BrowserSingleton {
         me.readyQueue = [];
         me.sheetQueue = [];
         SystemEvents.defineEvent(eBrowserEvents);
+        me.start();
     }
 
     /**
@@ -208,11 +209,12 @@ class BrowserSingleton {
     }
 
     /**
-     * Starts the Browser session
+     * Starts the Browser session by waiting for the document to load.
      *
-     * @memberof Browser
+     * @protected
+     * @memberof BrowserSingleton
      */
-    public start() {
+    protected start() {
         const me = this,
             win: any = window,
             documentReadyHandler = () => {

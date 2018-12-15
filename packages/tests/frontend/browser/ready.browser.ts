@@ -7,11 +7,11 @@ export default function(t: IAssertionProvider) {
 
     Browser.ready(() => {
         count += 1;
-    }).start();
+    });
 
     Browser.ready(() => {
         count += 1;
-    }).start();
+    });
 
     t.delay(300, () => {
         t.assertEqual(count, 2);

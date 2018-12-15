@@ -23,5 +23,5 @@ export default function(t: IAssertionProvider) {
             t.assertEqual(values.fontSize, "128px");
             t.done();
         });
-    }).start();
+    });
 }

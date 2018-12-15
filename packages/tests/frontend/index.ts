@@ -10,17 +10,10 @@ import DomTests from "./dom/DomTests";
 import ExtensionsTests from "./extensions/ExtensionsTets";
 import IconTests from "./icon/IconTests";
 import MVCTests from "./mvc/MVCTests";
+import TaskTests from "./task/TaskTests";
 import UITests from "./ui/UITests";
 
-// import CollectionTests from './collection/CollectionTests';
-// import FilteredCollectionTests from './collection/FilteredCollectionTests';
-
-// import StackTests from './stack/StackTests';
-// import AjaxTests from './ajax/AjaxTests';
-// import MVCTests from './mvc/MVCTests';
-// import UICollectionTests from './uicollection/UICollectionTests';
-// import TaskTests from './task/TaskTests';
-// TaskTests(t);
+TaskTests(t);
 // UICollectionTests(t);
 // MVCTests(t);
 // StackTests(t);

@@ -16,5 +16,5 @@ export default function(t: IAssertionProvider) {
         Blend.raf(() => {
             t.assertImage(icon, "/assets/icon/sized.png", t.done);
         });
-    }).start();
+    });
 }

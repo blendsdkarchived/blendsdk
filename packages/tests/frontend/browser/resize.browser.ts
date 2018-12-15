@@ -21,4 +21,4 @@ Browser.ready(() => {
     SystemEvents.addEventHandler(Blend.ID().toString(), "onResponsiveChange", () => {
         (window as any).onResponsiveChangeCount += 1;
     });
-}).start();
+});

@@ -14,5 +14,5 @@ export default function(t: IAssertionProvider) {
             t.assertTrue(Browser.isDisplaySmall(), Browser.getScreenInformation<IScreenInformation>().display);
             t.done();
         });
-    }).start();
+    });
 }

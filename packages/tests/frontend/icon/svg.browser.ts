@@ -16,5 +16,5 @@ export default function(t: IAssertionProvider) {
         Blend.raf(() => {
             t.assertImage(icon, "/assets/icon/red-bus-64x64.png?v=" + new Date().getTime(), t.done);
         });
-    }).start();
+    });
 }
