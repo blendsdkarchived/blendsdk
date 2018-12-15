@@ -4,5 +4,6 @@ export * from "./Types";
 export * from "./Debug";
 export * from "./Blend";
 export * from "./Component";
+export * from "./Collection";
 export * from "./SystemEvent";
 import "./Welcome";
