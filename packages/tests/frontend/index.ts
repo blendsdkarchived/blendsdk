@@ -10,6 +10,7 @@ import DomTests from "./dom/DomTests";
 import ExtensionsTests from "./extensions/ExtensionsTets";
 import IconTests from "./icon/IconTests";
 import MVCTests from "./mvc/MVCTests";
+import UITests from "./ui/UITests";
 
 // import CollectionTests from './collection/CollectionTests';
 // import FilteredCollectionTests from './collection/FilteredCollectionTests';
@@ -24,6 +25,7 @@ import MVCTests from "./mvc/MVCTests";
 // MVCTests(t);
 // StackTests(t);
 
+UITests(t);
 IconTests(t);
 AjaxTests(t);
 BrowserTests(t);
