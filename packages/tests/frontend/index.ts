@@ -14,7 +14,9 @@ import IconTests from "./icon/IconTests";
 import MVCTests from "./mvc/MVCTests";
 import TaskTests from "./task/TaskTests";
 import UITests from "./ui/UITests";
+import UICollectionTests from "./uicollection/UICollectionTests";
 
+UICollectionTests(t);
 CollectionTests(t);
 FilteredCollectionTests(t);
 TaskTests(t);
