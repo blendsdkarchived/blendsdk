@@ -223,8 +223,8 @@ class BrowserSingleton {
                         me.installScreenInfoKeys(() => {
                             me.installSystemStyles();
                             me.runReadyQueue();
-                            me.processSheetQueue();
                             window.requestAnimationFrame(() => {
+                                me.processSheetQueue();
                                 me.installWindowResizeHandler();
                                 me.updateScreenInformation();
                                 me.readyQueue = [];
