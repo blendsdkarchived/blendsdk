@@ -50,7 +50,7 @@ export class Placeholder extends UIComponent<IPlaceholderConfig> {
         const me = this;
         me.configDefaults({
             caption: "Placeholder: " + me.getUID(),
-            backgroundColor: "#1976D2",
+            backgroundColor: "#" + Math.floor(Math.random() * 16777215).toString(16),
             color: "rgba(255,255,255,.88)",
             size: { width: 64, height: 64 }
         });
