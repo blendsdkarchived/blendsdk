@@ -1,4 +1,3 @@
-import { Browser } from "@blendsdk/browser";
 import { Blend } from "@blendsdk/core";
 import { CSS, stylesheet } from "@blendsdk/css";
 import { IUIComponentConfig, IUIComponentStyles, UIComponent } from "../UIComponent";
@@ -53,7 +52,7 @@ export class Placeholder extends UIComponent<IPlaceholderStyle, IPlaceholderConf
     }
 
     protected createStyles(styles: IPlaceholderStyle, selectorUid: string) {
-        Browser.attachStyleSheet(
+        this.attachStyleSheet(
             stylesheet([
                 // For all placeholders
                 CSS.block(".placeholder", {
