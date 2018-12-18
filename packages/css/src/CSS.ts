@@ -1,6 +1,20 @@
+import { Blend } from "@blendsdk/core";
 import { CSSRule } from "./CSSRule";
 import { Sheet } from "./Sheet";
 import { IStyleSet } from "./Types";
+
+/**
+ * Interface for describing a CSS transition
+ *
+ * @export
+ * @interface ICSSTransition
+ */
+export interface ICSSTransition {
+    property?: string;
+    durationInSeconds?: number;
+    animationFunction?: string;
+    animationTimeout?: number;
+}
 
 // tslint:disable-next-line:no-namespace
 export namespace CSS {
@@ -132,6 +146,80 @@ export namespace CSS {
             }
         });
         return block(`@media ${query}`, { rawContent: content.join("\n") });
+    }
+
+    /**
+     * Creates one or more transition animation.
+     *
+     * @export
+     * @param {(ICSSTransition | ICSSTransition[])} value
+     * @returns {IStyleSet}
+     */
+    export function transition(value: ICSSTransition | ICSSTransition[]): IStyleSet {
+        const values = Blend.wrapInArray<ICSSTransition>(value),
+            css: string[] = [];
+        values.forEach(item => {
+            if (value) {
+                css.push(
+                    `${item.property || "all"}  ${item.durationInSeconds || 0}s ${item.animationFunction ||
+                        "linear"} ${item.animationTimeout || 0}s`
+                );
+            }
+        });
+        if (values.length !== 0) {
+            return {
+                transition: css.join(", ")
+            };
+        } else {
+            return {};
+        }
+    }
+
+    /**
+     * Creates an entry transition animation.
+     *
+     * @export
+     * @param {ICSSTransition} value
+     * @returns {ICSSTransition}
+     */
+    export function animationEnterTransition(value: ICSSTransition): ICSSTransition {
+        value = value || {};
+        value.animationFunction = "cubic-bezier(0, 0, .2, 1)";
+        return value;
+    }
+
+    /**
+     * Creates an exit transition animation.
+     *
+     * @export
+     * @param {ICSSTransition} value
+     * @returns {ICSSTransition}
+     */
+    export function animationExitTemporary(value: ICSSTransition): ICSSTransition {
+        value = value || {};
+        value.animationFunction = "cubic-bezier(.4, 0, .6, 1)";
+        return value;
+    }
+
+    /**
+     * CSS Rules to fit the element into its parent element.
+     *
+     * @export
+     * @param {boolean} [absolute]
+     * @param {boolean} [stretch]
+     * @returns {IStyleSet}
+     */
+    export function makeFit(absolute?: boolean, stretch?: boolean): IStyleSet {
+        const size: string = stretch === false ? null : "100%";
+        return {
+            position: absolute === false ? null : "absolute",
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            width: size,
+            height: size
+        };
     }
 }
 
