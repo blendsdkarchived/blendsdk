@@ -1,4 +1,6 @@
+import { Browser } from "@blendsdk/browser";
 import { Blend, IElementSize, IUILayoutConfig, TFunction } from "@blendsdk/core";
+import { Sheet } from "@blendsdk/css";
 import { Dom, DOMElement, DOMEvent, ICreateElementConfig, IHTMLElementProvider } from "@blendsdk/dom";
 import { IMVCComponentConfig, MVCComponent, TComponentEvent } from "@blendsdk/mvc";
 
@@ -248,6 +250,10 @@ export abstract class UIComponent<S extends IUIComponentStyles, T extends IUICom
         me.enableEvents(false);
         me.didInitialLayout = false;
         me.canLayout = true;
+    }
+
+    protected attachStyleSheet(sheet: Sheet) {
+        Browser.attachStyleSheet(sheet);
     }
 
     /**
@@ -531,7 +537,7 @@ export abstract class UIComponent<S extends IUIComponentStyles, T extends IUICom
         const me = this,
             selectorUid = `t${me.getUID().hash()}`;
         const styles = Blend.shallowClone(me.config.styles || {});
-        Blend.apply(styles, me.styleDefaults(styles) || {});
+        Blend.apply(styles, me.styleDefaults(styles || {}) || {});
         if (me.createStyles(styles, "." + selectorUid) !== false) {
             me.el.classList.add(selectorUid);
         }
