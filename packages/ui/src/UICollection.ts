@@ -1,7 +1,7 @@
 import { Blend, Collection, IDictionary } from "@blendsdk/core";
 import { DOMElement } from "@blendsdk/dom";
 import { TComponentEvent } from "@blendsdk/mvc";
-import { IUIComponentConfig, TUIComponent, UIComponent } from "./UIComponent";
+import { IUIComponentConfig, IUIComponentStyles, TUIComponent, UIComponent } from "./UIComponent";
 
 /**
  * Enum describing UICollection events.
@@ -24,7 +24,8 @@ enum eUICollectionEvents {
  * @interface IUICollectionConfig
  * @extends {IUIComponentConfig}
  */
-export interface IUICollectionConfig<T extends TUIComponent> extends IUIComponentConfig {
+export interface IUICollectionConfig<S extends IUIComponentStyles, T extends TUIComponent>
+    extends IUIComponentConfig<S> {
     /**
      * Option to provide initial items to the UI collection.
      *
@@ -107,7 +108,10 @@ export interface IUICollectionConfig<T extends TUIComponent> extends IUIComponen
  * @class Collection
  * @extends {UIComponent}
  */
-export abstract class UICollection<T extends TUIComponent> extends UIComponent<IUICollectionConfig<T>> {
+export abstract class UICollection<S extends IUIComponentStyles, T extends TUIComponent> extends UIComponent<
+    S,
+    IUICollectionConfig<S, T>
+> {
     /**
      * An index of component to position inside the items array
      *
@@ -181,20 +185,13 @@ export abstract class UICollection<T extends TUIComponent> extends UIComponent<I
      * @memberof Collection
      */
     protected abstract getWrapperOf(item: T): HTMLElement;
-    /**
-     * @override
-     * @protected
-     * @type {IUICollectionConfig}
-     * @memberof Collection
-     */
-    protected config: IUICollectionConfig<T>;
 
     /**
      * Creates an instance of Collection.
      * @param {IUICollectionConfig} [config]
      * @memberof Collection
      */
-    public constructor(config?: IUICollectionConfig<T>) {
+    public constructor(config?: IUICollectionConfig<S, T>) {
         super(config);
         const me = this;
         me.stash = window.document.createDocumentFragment();

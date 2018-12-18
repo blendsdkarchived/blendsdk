@@ -2,10 +2,21 @@ import { Blend, IElementSize, IUILayoutConfig, TFunction } from "@blendsdk/core"
 import { Dom, DOMElement, DOMEvent, ICreateElementConfig, IHTMLElementProvider } from "@blendsdk/dom";
 import { IMVCComponentConfig, MVCComponent, TComponentEvent } from "@blendsdk/mvc";
 
+export interface IUIComponentStyles {
+    /**
+     * Name of the theme of the color palette to be used
+     * to automatically fill in color values for this component style.
+     *
+     * @type {string}
+     * @memberof IThemeConfig
+     */
+    theme?: string;
+}
+
 /**
  * Describes a UIComponent as type for convenience.
  */
-export type TUIComponent = UIComponent<IUIComponentConfig>;
+export type TUIComponent = UIComponent<IUIComponentStyles, IUIComponentConfig<IUIComponentStyles>>;
 
 /**
  * Interface for implementing a dom component that has a global event listener
@@ -41,7 +52,7 @@ enum eUIComponentEvents {
  * @interface IComponentConfig
  * @extends {IMvcComponentConfig}
  */
-export interface IUIComponentConfig extends IMVCComponentConfig {
+export interface IUIComponentConfig<S extends IUIComponentStyles> extends IMVCComponentConfig {
     /**
      * This event is dispatched when the browser window is resized.
      *
@@ -110,6 +121,13 @@ export interface IUIComponentConfig extends IMVCComponentConfig {
      * @memberof IUIComponentConfig
      */
     size?: IElementSize;
+    /**
+     * Option for configuring styles for this component.
+     *
+     * @type {S}
+     * @memberof IUIComponentConfig
+     */
+    styles?: S;
 }
 
 /**
@@ -121,7 +139,7 @@ export interface IUIComponentConfig extends IMVCComponentConfig {
  * @extends {Blend.mvc.Component}
  * @implements {EventListenerObject}
  */
-export abstract class UIComponent<T extends IUIComponentConfig> extends MVCComponent<T>
+export abstract class UIComponent<S extends IUIComponentStyles, T extends IUIComponentConfig<S>> extends MVCComponent<T>
     implements EventListenerObject, IHTMLElementProvider {
     /**
      * Hold a cache of getBoundingClientRect(...) data
@@ -193,6 +211,29 @@ export abstract class UIComponent<T extends IUIComponentConfig> extends MVCCompo
      * @memberof Component
      */
     protected abstract doLayout(isInitial?: boolean): void;
+    /**
+     * Abstract method that can be used to apply default values to the
+     * styles of this UI component.
+     *
+     * @protected
+     * @abstract
+     * @param {S} styles
+     * @returns {S}
+     * @memberof StylableUIComponent
+     */
+    protected abstract styleDefaults(styles: S): S;
+    /**
+     * Abstract method that can be used to create and attach stylesheet and CSSRules
+     * for this UI component.
+     *
+     * @protected
+     * @abstract
+     * @param {S} styles
+     * @param {string} selectorUid
+     * @returns {*} return false if this component doe not have Blend styling.
+     * @memberof StylableUIComponent
+     */
+    protected abstract createStyles(styles: S, selectorUid: string): any;
 
     /**
      * Creates an instance of Component.
@@ -481,6 +522,22 @@ export abstract class UIComponent<T extends IUIComponentConfig> extends MVCCompo
     }
 
     /**
+     * Prepare and render the styles for this UI component.
+     *
+     * @protected
+     * @memberof UIComponent
+     */
+    protected renderStyles() {
+        const me = this,
+            selectorUid = `t${me.getUID().hash()}`;
+        const styles = Blend.shallowClone(me.config.styles || {});
+        Blend.apply(styles, me.styleDefaults(styles) || {});
+        if (me.createStyles(styles, "." + selectorUid) !== false) {
+            me.el.classList.add(selectorUid);
+        }
+    }
+
+    /**
      * Internally renders the element and prepares it to be added
      * to the DOM tree
      *
@@ -495,6 +552,7 @@ export abstract class UIComponent<T extends IUIComponentConfig> extends MVCCompo
             me.el = me.render();
             me.isRendered = true;
             me.finalizeRender();
+            me.renderStyles();
             DOMElement.getElement(me.el).setUID(me.getUID());
             me.enableEvents(true);
         }
