@@ -1,12 +1,18 @@
 import { Browser } from "@blendsdk/browser";
 import { Blend } from "@blendsdk/core";
 import { CSS, stylesheet } from "@blendsdk/css";
-import { IUICollectionConfig, Placeholder, UICollection } from "@blendsdk/ui";
+import { IUICollectionConfig, IUIComponentStyles, Placeholder, UICollection } from "@blendsdk/ui";
 
 export namespace Assets.ui {
-    export interface ITestListConfig extends IUICollectionConfig<Placeholder> {}
+    export interface ITestListConfig extends IUICollectionConfig<IUIComponentStyles, Placeholder> {}
 
-    export class List extends UICollection<Placeholder> {
+    export class List extends UICollection<IUIComponentStyles, Placeholder> {
+        protected styleDefaults(styles: IUIComponentStyles): IUIComponentStyles {
+            return styles;
+        }
+        protected createStyles(styles: IUIComponentStyles, selectorUid: string) {
+            // no-op
+        }
         public strAdd(items: string) {
             const me = this;
             items.split("").forEach((item: string) => {

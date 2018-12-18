@@ -1,21 +1,9 @@
+import { Browser } from "@blendsdk/browser";
 import { Blend } from "@blendsdk/core";
-import { IUIComponentConfig, UIComponent } from "../UIComponent";
+import { CSS, stylesheet } from "@blendsdk/css";
+import { IUIComponentConfig, IUIComponentStyles, UIComponent } from "../UIComponent";
 
-/**
- * Interface for configuring a Placeholder instance.
- *
- * @interface IPlaceholderConfig
- * @extends {IUIComponentConfig}
- * @extends {IThemeableComponent<IPlaceholderThemeConfig>}
- */
-export interface IPlaceholderConfig extends IUIComponentConfig {
-    /**
-     * Option to configure a caption for the Placeholder component.
-     *
-     * @type {string}
-     * @memberof IPlaceholderConfig
-     */
-    caption?: string;
+export interface IPlaceholderStyle extends IUIComponentStyles {
     /**
      * Option to configure the background color.
      *
@@ -33,13 +21,58 @@ export interface IPlaceholderConfig extends IUIComponentConfig {
 }
 
 /**
+ * Interface for configuring a Placeholder instance.
+ *
+ * @interface IPlaceholderConfig
+ * @extends {IUIComponentConfig}
+ * @extends {IThemeableComponent<IPlaceholderThemeConfig>}
+ */
+export interface IPlaceholderConfig extends IUIComponentConfig<IPlaceholderStyle> {
+    /**
+     * Option to configure a caption for the Placeholder component.
+     *
+     * @type {string}
+     * @memberof IPlaceholderConfig
+     */
+    caption?: string;
+}
+
+/**
  * TODO:1019 Provide class description for Placeholder
  *
  * @export
  * @class Placeholder
  * @extends {Component}
  */
-export class Placeholder extends UIComponent<IPlaceholderConfig> {
+export class Placeholder extends UIComponent<IPlaceholderStyle, IPlaceholderConfig> {
+    protected styleDefaults(styles: IPlaceholderStyle): IPlaceholderStyle {
+        return {
+            backgroundColor: styles.backgroundColor || "#" + Math.floor(Math.random() * 16777215).toString(16),
+            color: styles.color || "rgba(255,255,255,.88)"
+        };
+    }
+
+    protected createStyles(styles: IPlaceholderStyle, selectorUid: string) {
+        Browser.attachStyleSheet(
+            stylesheet([
+                // For all placeholders
+                CSS.block(".placeholder", {
+                    width: Blend.toPx(128),
+                    height: Blend.toPx(128),
+                    display: "flex",
+                    "align-items": "center",
+                    "justify-content": "center",
+                    "box-sizing": "border-box"
+                }),
+                // Specific for this Placeholder
+                CSS.block(selectorUid, {
+                    backgroundColor: styles.backgroundColor,
+                    color: styles.color
+                })
+            ])
+        );
+    }
+
     /**
      * Creates an instance of Placeholder.
      * @param {IPlaceholderConfig} [config]
@@ -49,10 +82,7 @@ export class Placeholder extends UIComponent<IPlaceholderConfig> {
         super(config);
         const me = this;
         me.configDefaults({
-            caption: "Placeholder: " + me.getUID(),
-            backgroundColor: "#" + Math.floor(Math.random() * 16777215).toString(16),
-            color: "rgba(255,255,255,.88)",
-            size: { width: 64, height: 64 }
+            caption: "Placeholder: " + me.getUID()
         });
     }
 
@@ -100,14 +130,7 @@ export class Placeholder extends UIComponent<IPlaceholderConfig> {
     protected render(): HTMLElement {
         const me = this;
         return me.createElement({
-            style: {
-                display: "flex",
-                "align-items": "center",
-                "justify-content": "center",
-                "background-color": me.config.backgroundColor,
-                color: me.config.color,
-                "box-sizing": "border-box"
-            }
+            css: "placeholder"
         });
     }
 
