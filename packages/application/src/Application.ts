@@ -93,7 +93,7 @@ export class Application extends UIComponent<IApplicationStyles, IApplicationCon
                 backgroundColor: styles.backgroundColor
             })
         ]);
-        Browser.attachStyleSheet(sheet);
+        this.attachStyleSheet(sheet);
     }
 
     /**
