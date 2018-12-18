@@ -108,10 +108,11 @@ export interface IUICollectionConfig<S extends IUIComponentStyles, T extends TUI
  * @class Collection
  * @extends {UIComponent}
  */
-export abstract class UICollection<S extends IUIComponentStyles, T extends TUIComponent> extends UIComponent<
-    S,
-    IUICollectionConfig<S, T>
-> {
+export abstract class UICollection<
+    S extends IUIComponentStyles,
+    T extends TUIComponent,
+    C extends IUICollectionConfig<S, T>
+> extends UIComponent<S, C> {
     /**
      * An index of component to position inside the items array
      *
@@ -191,13 +192,13 @@ export abstract class UICollection<S extends IUIComponentStyles, T extends TUICo
      * @param {IUICollectionConfig} [config]
      * @memberof Collection
      */
-    public constructor(config?: IUICollectionConfig<S, T>) {
+    public constructor(config?: C) {
         super(config);
         const me = this;
         me.stash = window.document.createDocumentFragment();
         me.configDefaults({
             items: []
-        });
+        } as C);
         // Events are disabled by the super class!
         me.pCollection = new Collection({
             items: me.config.items,
