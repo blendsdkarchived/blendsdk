@@ -164,6 +164,9 @@ export class UIStack extends UICollection<IUIStackStyles, TUIComponent, IUIStack
                     })
                 ]),
                 CSS.block(selectorUid, [
+                    {
+                        padding: styles.padding || 0
+                    },
                     CSS.child(".b-uc-item", [
                         {
                             position: styles.padding === 0 ? null : "relative"
