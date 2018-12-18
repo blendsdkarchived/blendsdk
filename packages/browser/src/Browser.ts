@@ -9,7 +9,7 @@ import { SystemStyles } from "./SystemStyles";
  *
  * @enum {number}
  */
-enum eBrowserEvents {
+export enum eBrowserEvents {
     onWindowResized = "onWindowResized",
     onResponsiveChange = "onResponsiveChange",
     onApplicationReady = "onApplicationReady"
@@ -229,6 +229,7 @@ class BrowserSingleton {
                                 me.updateScreenInformation();
                                 me.readyQueue = [];
                                 me.isBrowserReady = me.isQueueComplete = true;
+                                me.windowResizeHandler(); // initial event when everything is ready
                             });
                         });
                     });
