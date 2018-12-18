@@ -68,7 +68,8 @@ export class Application extends UIComponent<IApplicationStyles, IApplicationCon
                         padding: 0,
                         margin: 0,
                         boxSizing: "border-box"
-                    }
+                    },
+                    CSS.child(".b-application", CSS.makeFit())
                 ])
             ]),
             CSS.block(".b-application", [
@@ -76,7 +77,8 @@ export class Application extends UIComponent<IApplicationStyles, IApplicationCon
                     opacity: 0,
                     padding: 0,
                     margin: 0,
-                    boxSizing: "border-box"
+                    boxSizing: "border-box",
+                    position: "relative"
                 },
                 CSS.transition([
                     CSS.animationEnterTransition({
