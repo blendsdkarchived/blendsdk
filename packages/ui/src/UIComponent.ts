@@ -252,6 +252,13 @@ export abstract class UIComponent<S extends IUIComponentStyles, T extends IUICom
         me.canLayout = true;
     }
 
+    /**
+     * Attach a stylesheet to the browser.
+     *
+     * @protected
+     * @param {Sheet} sheet
+     * @memberof UIComponent
+     */
     protected attachStyleSheet(sheet: Sheet) {
         Browser.attachStyleSheet(sheet);
     }
