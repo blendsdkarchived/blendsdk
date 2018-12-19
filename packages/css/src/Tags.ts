@@ -1,4 +1,5 @@
 export const HTML_TAGS = {
+    svg: true,
     a: true,
     abbr: true,
     acronym: true,
