@@ -15,7 +15,9 @@ import MVCTests from "./mvc/MVCTests";
 import TaskTests from "./task/TaskTests";
 import UITests from "./ui/UITests";
 import UICollectionTests from "./uicollection/UICollectionTests";
+import UIStackTests from "./uistack/UIStackTests";
 
+UIStackTests(t);
 UICollectionTests(t);
 CollectionTests(t);
 FilteredCollectionTests(t);

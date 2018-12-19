@@ -29,7 +29,8 @@
         "@blendsdk/icon": "0.0.9",
         "@blendsdk/ui": "0.0.9",
         "@blendsdk/task": "0.0.9",
-        "@blendsdk/application": "0.0.9"
+        "@blendsdk/application": "0.0.9",
+        "@blendsdk/uistack": "0.0.9"
     },
     "devDependencies": {
         "rimraf": "^2.6.2",
