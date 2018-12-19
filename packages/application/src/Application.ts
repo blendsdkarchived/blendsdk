@@ -1,6 +1,6 @@
 import { Browser, eBrowserEvents } from "@blendsdk/browser";
 import { Blend, SystemEvents } from "@blendsdk/core";
-import { CSS, stylesheet } from "@blendsdk/css";
+import { CSS, IStyleSet, stylesheet } from "@blendsdk/css";
 import { Router } from "@blendsdk/router";
 import { TUIComponent, UIComponent } from "@blendsdk/ui";
 import { IApplicationConfig, IApplicationStyles } from "./Types";
@@ -53,48 +53,40 @@ export class Application extends UIComponent<IApplicationStyles, IApplicationCon
      * @memberof Application
      */
     protected createStyles(styles: IApplicationStyles, selectorUid: string) {
-        const sheet = stylesheet([
-            CSS.block(".b-fit-to-window", [
-                {
-                    overflow: "hidden",
-                    padding: 0,
-                    margin: 0,
-                    boxSizing: "border-box"
-                },
-                CSS.makeFit(),
-                CSS.child("body", [
-                    CSS.makeFit(),
+        const borderBoxSettings: IStyleSet = {
+                padding: 0,
+                margin: 0,
+                boxSizing: "border-box"
+            },
+            sheet = stylesheet([
+                CSS.block(".b-fit-to-window", [
                     {
-                        padding: 0,
-                        margin: 0,
-                        boxSizing: "border-box"
+                        overflow: "hidden"
                     },
-                    CSS.child(".b-application", CSS.makeFit())
-                ])
-            ]),
-            CSS.block(".b-application", [
-                {
-                    opacity: 0,
-                    padding: 0,
-                    margin: 0,
-                    boxSizing: "border-box",
-                    position: "relative"
-                },
-                CSS.transition([
-                    CSS.animationEnterTransition({
-                        property: "opacity",
-                        durationInSeconds: 0.5
-                    })
+                    CSS.makeFit(),
+                    CSS.child("body", [CSS.makeFit(), borderBoxSettings, CSS.child(".b-application", CSS.makeFit())])
                 ]),
-                CSS.and(".b-ready", {
-                    opacity: 1
-                }),
-                CSS.child(".b-main-view", CSS.makeFit())
-            ]),
-            CSS.block(selectorUid, {
-                backgroundColor: styles.backgroundColor
-            })
-        ]);
+                CSS.block(".b-application", [
+                    borderBoxSettings,
+                    {
+                        opacity: 0,
+                        position: "relative"
+                    },
+                    CSS.transition([
+                        CSS.animationEnterTransition({
+                            property: "opacity",
+                            durationInSeconds: 0.5
+                        })
+                    ]),
+                    CSS.and(".b-ready", {
+                        opacity: 1
+                    }),
+                    CSS.child(".b-main-view", CSS.makeFit())
+                ]),
+                CSS.block(selectorUid, {
+                    backgroundColor: styles.backgroundColor
+                })
+            ]);
         this.attachStyleSheet(sheet);
     }
 
