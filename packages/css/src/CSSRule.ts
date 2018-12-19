@@ -1,4 +1,5 @@
 import { Blend } from "@blendsdk/core";
+import { HTML_TAGS } from "./Tags";
 import { ICssFlattenProvider, IRenderedCSSRule, IStyleSet, TCssRenderer } from "./Types";
 
 /**
@@ -44,6 +45,7 @@ export class CSSRule implements ICssFlattenProvider {
      * @memberof CSSRule
      */
     protected composed: string[];
+    protected selectorRe: RegExp;
 
     /**
      * Creates an instance of CSSRule.
@@ -57,14 +59,51 @@ export class CSSRule implements ICssFlattenProvider {
         styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>,
         relHandler?: (parent: string, current: string) => string
     ) {
-        this.selector = selector;
-        this.composed = [];
-        this.styles = Blend.wrapInArray(styles || []);
-        this.relHandler =
+        const me = this;
+        me.selectorRe = me.getSelectorRegex();
+        me.selector = me.parseSelector(selector);
+        me.composed = [];
+        me.styles = Blend.wrapInArray(styles || []);
+        me.relHandler =
             relHandler ||
             ((parent: string, current: string) => {
                 return current;
             });
+    }
+
+    /**
+     * Create a regex to test the selector.
+     *
+     * @protected
+     * @returns {RegExp}
+     * @memberof CSSRule
+     */
+    protected getSelectorRegex(): RegExp {
+        const tags = Object.keys(HTML_TAGS)
+            .map(t => {
+                return "\\b" + t + "\\b";
+            })
+            .join("|");
+        return new RegExp("^(\\.|-+|_+|:+|@)|" + tags, "gmi");
+    }
+
+    /**
+     * Try to automatically parse and prefix the selector with a dot (.)
+     *
+     * @protected
+     * @param {string} selector
+     * @returns
+     * @memberof CSSRule
+     */
+    protected parseSelector(selector: string) {
+        const me = this;
+        selector = selector.trim();
+        me.selectorRe.lastIndex = 0;
+        if (me.selectorRe.test(selector)) {
+            return selector;
+        } else {
+            return `.${selector}`;
+        }
     }
 
     /**
@@ -99,8 +138,15 @@ export class CSSRule implements ICssFlattenProvider {
      * @memberof CSSRule
      */
     public compose(selector: string | string[]): this {
-        this.composed = this.composed.concat(Blend.wrapInArray(selector));
-        return this;
+        const me = this;
+        me.composed = this.composed.concat(
+            Blend.wrapInArray<string>(selector).map(s => {
+                return (a => {
+                    return me.parseSelector(a);
+                })(s);
+            })
+        );
+        return me;
     }
 
     /**

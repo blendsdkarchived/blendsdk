@@ -13,10 +13,10 @@ export namespace BEM {
      */
     export function modifier(selector: string, styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
         return new CSSRule(
-            selector,
+            `--${selector}`,
             styles,
             (parent: string, current: string): string => {
-                return `${parent}--${current}`;
+                return `${parent}${current}`;
             }
         );
     }
@@ -31,10 +31,10 @@ export namespace BEM {
      */
     export function element(selector: string, styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
         return new CSSRule(
-            selector,
+            `__${selector}`,
             styles,
             (parent: string, current: string): string => {
-                return `${parent}__${current}`;
+                return `${parent}${current}`;
             }
         );
     }

@@ -18,7 +18,7 @@ export default function(t: IDescribeProvider) {
                             info = (win as any).screenInfo as IScreenInformation;
                             t.assertEqual(info.display, "medium");
                             t.assertEqual(info.orientation, "landscape");
-                            t.assertEqual((win as any).onResponsiveChangeCount, 2);
+                            t.assertEqual((win as any).onResponsiveChangeCount, 3);
                             t.done();
                         });
                     });

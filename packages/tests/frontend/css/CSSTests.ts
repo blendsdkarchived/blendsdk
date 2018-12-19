@@ -1,4 +1,5 @@
 import { IAssertionProvider, IDescribeProvider, IFinishable, ITestDescription } from "@blendsdk/blendrunner";
+import { Blend } from "@blendsdk/core";
 import { CSS, stylesheet, StyleSheets } from "@blendsdk/css";
 
 export default function(t: IDescribeProvider) {
@@ -8,6 +9,36 @@ export default function(t: IDescribeProvider) {
          */
         t.afterEach((t: IFinishable) => {
             (StyleSheets as any).cache = {};
+            t.done();
+        });
+
+        t.it("Should prase the selectors", (t: IAssertionProvider) => {
+            const tests = {
+                selector: ".selector",
+                ".dotted": ".dotted",
+                block: ".block",
+                block__element: ".block__element",
+                "block__element--modifier": ".block__element--modifier",
+                __element: "__element",
+                "--modifier": "--modifier",
+                "-single": "-single",
+                "::pseudo": "::pseudo",
+                ":pseudo": ":pseudo",
+                "@media": "@media",
+                "@font": "@font",
+                div: "div",
+                A: "A",
+                link: "link",
+                table: "table"
+            };
+
+            Blend.forEach(tests, (expected: string, key: string) => {
+                const sheet = stylesheet([CSS.block(key, { color: "red" })]);
+                sheet.render().forEach(r => {
+                    t.assertEqual(r.css, `${expected} {color:red;}`);
+                });
+            });
+
             t.done();
         });
 
@@ -65,17 +96,17 @@ export default function(t: IDescribeProvider) {
 
         t.it("Should render child", (t: IAssertionProvider) => {
             const result = (StyleSheets as any).render(
-                stylesheet(CSS.block("patent", [{ zIndex: 1 }, CSS.child("child", { zIndex: 2 })]))
+                stylesheet(CSS.block("parent", [{ zIndex: 1 }, CSS.child("child", { zIndex: 2 })]))
             );
-            t.assertEqual(result, "patent {z-index:1;}\npatent > child {z-index:2;}");
+            t.assertEqual(result, ".parent {z-index:1;}\n.parent > .child {z-index:2;}");
             t.done();
         });
 
         t.it("Should render nested", (t: IAssertionProvider) => {
             const result = (StyleSheets as any).render(
-                stylesheet(CSS.block("patent", [{ zIndex: 1 }, CSS.nest("child", { zIndex: 2 })]))
+                stylesheet(CSS.block("parent", [{ zIndex: 1 }, CSS.nest("child", { zIndex: 2 })]))
             );
-            t.assertEqual(result, "patent {z-index:1;}\npatent child {z-index:2;}");
+            t.assertEqual(result, ".parent {z-index:1;}\n.parent .child {z-index:2;}");
             t.done();
         });
 
@@ -83,7 +114,7 @@ export default function(t: IDescribeProvider) {
             const result = (StyleSheets as any).render(
                 stylesheet(CSS.block("a", [{ color: "blue" }, CSS.block("x", { color: "yellow" })]))
             );
-            t.assertEqual(result, "a {color:blue;}\nx {color:yellow;}");
+            t.assertEqual(result, "a {color:blue;}\n.x {color:yellow;}");
             t.done();
         });
 
