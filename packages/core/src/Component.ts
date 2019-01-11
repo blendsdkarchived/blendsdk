@@ -13,9 +13,9 @@ export type TComponent = Component<IComponentConfig>;
  * @abstract
  * @class Component
  * @implements {IAbstractComponent}
- * @template Config
+ * @template ConfigType
  */
-export abstract class Component<Config extends IComponentConfig> implements IAbstractComponent {
+export abstract class Component<ConfigType extends IComponentConfig> implements IAbstractComponent {
     /**
      * Key to identify the unique identifer of this component.
      * This key is used on a DOM component
@@ -40,7 +40,7 @@ export abstract class Component<Config extends IComponentConfig> implements IAbs
      * @type {IDictionary}
      * @memberOf Component
      */
-    protected config: Config;
+    protected config: ConfigType;
 
     /**
      * Creates an instance of Component.
@@ -48,13 +48,13 @@ export abstract class Component<Config extends IComponentConfig> implements IAbs
      *
      * @memberOf Component
      */
-    public constructor(config?: Config) {
+    public constructor(config?: ConfigType) {
         const me = this;
-        me.config = config || ({} as Config);
+        me.config = config || ({} as ConfigType);
         me.configDefaults({
             id: null,
             userData: {}
-        } as Config);
+        } as ConfigType);
         me.uid = Blend.ID().toString();
     }
 
@@ -85,8 +85,8 @@ export abstract class Component<Config extends IComponentConfig> implements IAbs
      *
      * @template T
      * @param {string} [key]
-     * @param {Config} [defaultValue]
-     * @returns {Config}
+     * @param {ConfigType} [defaultValue]
+     * @returns {ConfigType}
      * @memberof Component
      */
     public getUserData<R>(key?: string, defaultValue?: R): R {
@@ -130,7 +130,7 @@ export abstract class Component<Config extends IComponentConfig> implements IAbs
      * @template T
      * @param {string} methodName
      * @param {Array<any>} [arg]
-     * @returns {Config}
+     * @returns {ConfigType}
      * @memberof Component
      */
     public applyMethod<R>(methodName: string, arg?: any[]): R {
@@ -175,7 +175,7 @@ export abstract class Component<Config extends IComponentConfig> implements IAbs
      * @param {IComponentConfig} defaults
      * @memberof Component
      */
-    protected configDefaults(defaults: Config) {
+    protected configDefaults(defaults: ConfigType) {
         const me = this;
         Blend.apply(me.config, defaults || {});
     }

@@ -51,10 +51,11 @@ enum eUIComponentEvents {
  * Interface for configuring a UI Component
  *
  * @export
- * @interface IComponentConfig
- * @extends {IMvcComponentConfig}
+ * @interface IUIComponentConfig
+ * @extends {IMVCComponentConfig}
+ * @template ComponentStylesType
  */
-export interface IUIComponentConfig<S extends IUIComponentStyles> extends IMVCComponentConfig {
+export interface IUIComponentConfig<ComponentStylesType extends IUIComponentStyles> extends IMVCComponentConfig {
     /**
      * This event is dispatched when the browser window is resized.
      *
@@ -126,10 +127,10 @@ export interface IUIComponentConfig<S extends IUIComponentStyles> extends IMVCCo
     /**
      * Option for configuring styles for this component.
      *
-     * @type {S}
+     * @type {ComponentStylesType}
      * @memberof IUIComponentConfig
      */
-    styles?: S;
+    styles?: ComponentStylesType;
 }
 
 /**
@@ -141,8 +142,10 @@ export interface IUIComponentConfig<S extends IUIComponentStyles> extends IMVCCo
  * @extends {Blend.mvc.Component}
  * @implements {EventListenerObject}
  */
-export abstract class UIComponent<S extends IUIComponentStyles, T extends IUIComponentConfig<S>> extends MVCComponent<T>
-    implements EventListenerObject, IHTMLElementProvider {
+export abstract class UIComponent<
+    ComponentStylesType extends IUIComponentStyles,
+    ConfigType extends IUIComponentConfig<ComponentStylesType>
+> extends MVCComponent<ConfigType> implements EventListenerObject, IHTMLElementProvider {
     /**
      * Hold a cache of getBoundingClientRect(...) data
      * to be used in various layout scenarios.
@@ -219,23 +222,23 @@ export abstract class UIComponent<S extends IUIComponentStyles, T extends IUICom
      *
      * @protected
      * @abstract
-     * @param {S} styles
-     * @returns {S}
+     * @param {ComponentStylesType} styles
+     * @returns {ComponentStylesType}
      * @memberof StylableUIComponent
      */
-    protected abstract styleDefaults(styles: S): S;
+    protected abstract styleDefaults(styles: ComponentStylesType): ComponentStylesType;
     /**
      * Abstract method that can be used to create and attach stylesheet and CSSRules
      * for this UI component.
      *
      * @protected
      * @abstract
-     * @param {S} styles
+     * @param {ComponentStylesType} styles
      * @param {string} selectorUid
      * @returns {*} return false if this component doe not have Blend styling.
      * @memberof StylableUIComponent
      */
-    protected abstract createStyles(styles: S, selectorUid: string): any;
+    protected abstract createStyles(styles: ComponentStylesType, selectorUid: string): any;
 
     /**
      * Creates an instance of Component.
@@ -243,7 +246,7 @@ export abstract class UIComponent<S extends IUIComponentStyles, T extends IUICom
      *
      * @memberOf Component
      */
-    public constructor(config?: T) {
+    public constructor(config?: ConfigType) {
         super(config);
         const me = this;
         me.isRendered = false;
@@ -267,7 +270,7 @@ export abstract class UIComponent<S extends IUIComponentStyles, T extends IUICom
      * Returns the parent of this Component
      *
      * @template T
-     * @returns {T}
+     * @returns {ConfigType}
      * @memberof Component
      */
     public getParent<P extends TUIComponent>(): P {
@@ -291,7 +294,7 @@ export abstract class UIComponent<S extends IUIComponentStyles, T extends IUICom
      *
      * @template T
      * @param {*} clazz
-     * @returns {T}
+     * @returns {ConfigType}
      * @memberof Component
      */
     public findParentOfType<P extends TUIComponent>(clazz: any): P {
@@ -314,7 +317,7 @@ export abstract class UIComponent<S extends IUIComponentStyles, T extends IUICom
      * layout provider.
      *
      * @template T
-     * @returns {T}
+     * @returns {ConfigType}
      * @memberof Component
      */
     public getLayoutConfig<L extends IUILayoutConfig>(): L {

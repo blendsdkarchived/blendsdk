@@ -21,21 +21,26 @@ enum eUICollectionEvents {
 /**
  * Interface for configuring a Collection instance.
  *
+ * @export
  * @interface IUICollectionConfig
- * @extends {IUIComponentConfig}
+ * @extends {IUIComponentConfig<ComponentStylesType>}
+ * @template ComponentStylesType
+ * @template ChildComponentType
  */
-export interface IUICollectionConfig<S extends IUIComponentStyles, T extends TUIComponent>
-    extends IUIComponentConfig<S> {
+export interface IUICollectionConfig<
+    ComponentStylesType extends IUIComponentStyles,
+    ChildComponentType extends TUIComponent
+> extends IUIComponentConfig<ComponentStylesType> {
     /**
      * Option to provide initial items to the UI collection.
      *
      * PLEASE NOTE: This configuration item will be set to null once
      * the items are loaded into the UI Collection.
      *
-     * @type {Array<T>}
+     * @type {Array<ChildComponentType>}
      * @memberof IUICollectionConfig
      */
-    items?: T[];
+    items?: ChildComponentType[];
     /**
      * Dispatched when an item is added to the collection
      *
@@ -105,14 +110,18 @@ export interface IUICollectionConfig<S extends IUIComponentStyles, T extends TUI
  * of other UI components.
  *
  * @export
- * @class Collection
- * @extends {UIComponent}
+ * @abstract
+ * @class UICollection
+ * @extends {UIComponent<ComponentStylesType, CollectionConfigType>}
+ * @template ComponentStylesType
+ * @template ChildComponentType
+ * @template CollectionConfigType
  */
 export abstract class UICollection<
-    S extends IUIComponentStyles,
-    T extends TUIComponent,
-    C extends IUICollectionConfig<S, T>
-> extends UIComponent<S, C> {
+    ComponentStylesType extends IUIComponentStyles,
+    ChildComponentType extends TUIComponent,
+    CollectionConfigType extends IUICollectionConfig<ComponentStylesType, ChildComponentType>
+> extends UIComponent<ComponentStylesType, CollectionConfigType> {
     /**
      * An index of component to position inside the items array
      *
@@ -133,10 +142,10 @@ export abstract class UICollection<
      * Internal collection of the elements
      *
      * @protected
-     * @type {Blend.core.Collection<T>}
+     * @type {Blend.core.Collection<ChildComponentType>}
      * @memberof Collection
      */
-    protected pCollection: Collection<T>;
+    protected pCollection: Collection<ChildComponentType>;
     /**
      * Holds a reference to the container holding child components
      *
@@ -160,45 +169,45 @@ export abstract class UICollection<
      *
      * @protected
      * @abstract
-     * @param {T} item
+     * @param {ChildComponentType} item
      * @returns {HTMLElement}
      * @memberof Collection
      */
-    protected abstract renderItem(item: T): HTMLElement;
+    protected abstract renderItem(item: ChildComponentType): HTMLElement;
     /**
      * Remove the component's HTMLElement (or the wrapper of) from the
      * containerElement
      *
      * @protected
      * @abstract
-     * @param {T} item
+     * @param {ChildComponentType} item
      * @memberof Collection
      */
-    protected abstract removeElement(item: T): void;
+    protected abstract removeElement(item: ChildComponentType): void;
     /**
      * Given a component, this method returns either the component's
      * HTMLElement or it wrapper HTMLElement
      *
      * @protected
      * @abstract
-     * @param {T} item
+     * @param {ChildComponentType} item
      * @returns {HTMLElement}
      * @memberof Collection
      */
-    protected abstract getWrapperOf(item: T): HTMLElement;
+    protected abstract getWrapperOf(item: ChildComponentType): HTMLElement;
 
     /**
      * Creates an instance of Collection.
      * @param {IUICollectionConfig} [config]
      * @memberof Collection
      */
-    public constructor(config?: C) {
+    public constructor(config?: CollectionConfigType) {
         super(config);
         const me = this;
         me.stash = window.document.createDocumentFragment();
         me.configDefaults({
             items: []
-        } as C);
+        } as CollectionConfigType);
         // Events are disabled by the super class!
         me.pCollection = new Collection({
             items: me.config.items,
@@ -225,7 +234,7 @@ export abstract class UICollection<
     protected doLayoutItems() {
         const me = this;
         me.shouldReIndex();
-        me.forEach((item: T) => {
+        me.forEach((item: ChildComponentType) => {
             me.activateItem(item);
             item.performLayout();
         });
@@ -236,10 +245,10 @@ export abstract class UICollection<
      * Internal method for retrieving items from the collection
      *
      * @protected
-     * @returns {Array<T>}
+     * @returns {Array<ChildComponentType>}
      * @memberof Collection
      */
-    protected items(): T[] {
+    protected items(): ChildComponentType[] {
         const me = this;
         return me.pCollection.items();
     }
@@ -273,11 +282,11 @@ export abstract class UICollection<
     /**
      * Removes an item from the collection.
      *
-     * @param {T} item
-     * @returns {T}
+     * @param {ChildComponentType} item
+     * @returns {ChildComponentType}
      * @memberof Collection
      */
-    public remove(item: T): T {
+    public remove(item: ChildComponentType): ChildComponentType {
         return this.pCollection.remove(item);
     }
 
@@ -287,10 +296,10 @@ export abstract class UICollection<
      * found to be removed.
      *
      * @param {number} index
-     * @returns {T}
+     * @returns {ChildComponentType}
      * @memberof Collection
      */
-    public removeAt(index: number): T {
+    public removeAt(index: number): ChildComponentType {
         return this.pCollection.removeAt(index);
     }
 
@@ -309,10 +318,10 @@ export abstract class UICollection<
      * into the element's parent container
      *
      * @protected
-     * @param {T} item
+     * @param {ChildComponentType} item
      * @memberof Collection
      */
-    protected activateItem(item: T) {
+    protected activateItem(item: ChildComponentType) {
         const me = this;
         me.activateElement(me.getWrapperOf(item));
     }
@@ -321,10 +330,10 @@ export abstract class UICollection<
      * Deactivates an element by stashing it away
      *
      * @protected
-     * @param {T} item
+     * @param {ChildComponentType} item
      * @memberof Collection
      */
-    protected deActivateItem(item: T) {
+    protected deActivateItem(item: ChildComponentType) {
         const me = this;
         me.stashElement(me.getWrapperOf(item));
     }
@@ -348,11 +357,11 @@ export abstract class UICollection<
      * Loops through the items and calls a callback on each item, optionally
      * ignoring the filter
      *
-     * @param {(item: T, index: number) => void} callback
+     * @param {(item: ChildComponentType, index: number) => void} callback
      * @param {boolean} [ignoreFilter]
      * @memberof Collection
      */
-    public forEach(callback: (item: T, index: number) => void, ignoreFilter?: boolean) {
+    public forEach(callback: (item: ChildComponentType, index: number) => void, ignoreFilter?: boolean) {
         const me = this;
         me.pCollection.forEach(callback, ignoreFilter);
     }
@@ -366,19 +375,19 @@ export abstract class UICollection<
      * @returns {UIComponent}
      * @memberof Stack
      */
-    protected find(item: number | string | TUIComponent): T {
+    protected find(item: number | string | TUIComponent): ChildComponentType {
         const me = this;
-        let result: T = null;
+        let result: ChildComponentType = null;
         if (Blend.isNumeric(item)) {
             result = me.getAt(item as number);
         } else if (Blend.isString(item)) {
             me.forEach((itm: TUIComponent) => {
                 if (result === null && itm.getId() === item) {
-                    result = itm as T;
+                    result = itm as ChildComponentType;
                 }
             });
         } else {
-            result = (me.contains(item as T) ? item : null) as T;
+            result = (me.contains(item as ChildComponentType) ? item : null) as ChildComponentType;
         }
         return result;
     }
@@ -409,7 +418,7 @@ export abstract class UICollection<
      */
     protected stashAll() {
         const me = this;
-        me.forEach((item: T) => {
+        me.forEach((item: ChildComponentType) => {
             me.stash.appendChild(me.getWrapperOf(item));
         }, true);
     }
@@ -436,11 +445,11 @@ export abstract class UICollection<
      * from the container.
      *
      * @protected
-     * @param {T} item
+     * @param {ChildComponentType} item
      * @param {number} index
      * @memberof Collection
      */
-    protected onRemove(item: T, index: number) {
+    protected onRemove(item: ChildComponentType, index: number) {
         const me = this;
         if (me.isRendered && me.containerElement) {
             me.removeElement(item);
@@ -454,13 +463,13 @@ export abstract class UICollection<
      * item with another.
      *
      * @protected
-     * @param {T} itemA
+     * @param {ChildComponentType} itemA
      * @param {number} itemAIndex
-     * @param {T} itemB
+     * @param {ChildComponentType} itemB
      * @param {number} itemBIndex
      * @memberof Collection
      */
-    protected onSwap(itemA: T, itemAIndex: number, itemB: T, itemBIndex: number) {
+    protected onSwap(itemA: ChildComponentType, itemAIndex: number, itemB: ChildComponentType, itemBIndex: number) {
         const me = this;
         if (me.isRendered && me.containerElement) {
             const wrpA = me.getWrapperOf(itemA),
@@ -484,11 +493,11 @@ export abstract class UICollection<
      * the given location into the container.
      *
      * @protected
-     * @param {T} item
+     * @param {ChildComponentType} item
      * @param {number} index
      * @memberof Collection
      */
-    protected onMoveTo(item: T, index: number) {
+    protected onMoveTo(item: ChildComponentType, index: number) {
         const me = this,
             next: number = index + 1;
         let elAtIndex: HTMLElement;
@@ -510,11 +519,11 @@ export abstract class UICollection<
      * HTMLElement at the end of the container.
      *
      * @protected
-     * @param {T} item
+     * @param {ChildComponentType} item
      * @param {number} index
      * @memberof Collection
      */
-    protected onAdd(item: T, index: number) {
+    protected onAdd(item: ChildComponentType, index: number) {
         const me = this;
         if (me.containerElement && me.isRendered) {
             me.containerElement.appendChild(me.renderItemInternal(item));
@@ -537,11 +546,11 @@ export abstract class UICollection<
      * Renders and prepares the item to be added or inserted into the collection
      *
      * @protected
-     * @param {T} item
+     * @param {ChildComponentType} item
      * @returns {HTMLElement}
      * @memberof Collection
      */
-    protected renderItemInternal(item: T): HTMLElement {
+    protected renderItemInternal(item: ChildComponentType): HTMLElement {
         /**
          * We will automatically set the item's UID to the wrapper's
          * UID if it is needed.
@@ -563,11 +572,11 @@ export abstract class UICollection<
     /**
      * Checks if a given item exists withing this collection.
      *
-     * @param {T} item
+     * @param {ChildComponentType} item
      * @returns {boolean}
      * @memberof Collection
      */
-    public contains(item: T): boolean {
+    public contains(item: ChildComponentType): boolean {
         /**
          * TODO:10023 create a test for ui.collection `contains` method.
          */
@@ -589,21 +598,21 @@ export abstract class UICollection<
      * Moves an item to a given index within the collection.
      *
      * @param {number} index
-     * @param {T} item
+     * @param {ChildComponentType} item
      * @memberof Collection
      */
-    public moveTo(index: number, item: T) {
+    public moveTo(index: number, item: ChildComponentType) {
         this.pCollection.moveTo(index, item);
     }
 
     /**
      * Adds a item to the collection.
      *
-     * @param {T} item
-     * @returns {T}
+     * @param {ChildComponentType} item
+     * @returns {ChildComponentType}
      * @memberof Collection
      */
-    public add(item: T): T {
+    public add(item: ChildComponentType): ChildComponentType {
         return this.pCollection.add(item);
     }
 
@@ -624,49 +633,49 @@ export abstract class UICollection<
      * @returns
      * @memberof Collection
      */
-    public getAt(index: number): T {
+    public getAt(index: number): ChildComponentType {
         return this.pCollection.getAt(index);
     }
 
     /**
      * Swaps an item with another item within the collection.
      *
-     * @param {T} itemA
-     * @param {T} itemB
+     * @param {ChildComponentType} itemA
+     * @param {ChildComponentType} itemB
      * @memberof Collection
      */
-    public swap(itemA: T, itemB: T) {
+    public swap(itemA: ChildComponentType, itemB: ChildComponentType) {
         this.pCollection.swap(itemA, itemB);
     }
 
     /**
      * Gets the last item from the collection.
      *
-     * @returns {T}
+     * @returns {ChildComponentType}
      * @memberof Collection
      */
-    public getLast(): T {
+    public getLast(): ChildComponentType {
         return this.pCollection.getLast();
     }
 
     /**
      * Gets the first item from the collection.
      *
-     * @returns {T}
+     * @returns {ChildComponentType}
      * @memberof Collection
      */
-    public getFirst(): T {
+    public getFirst(): ChildComponentType {
         return this.pCollection.getFirst();
     }
 
     /**
      * Moves an item to the last position within the collection
      *
-     * @param {T} item
+     * @param {ChildComponentType} item
      *
      * @memberof Collection
      */
-    public moveLast(item: T) {
+    public moveLast(item: ChildComponentType) {
         this.pCollection.moveLast(item);
     }
 
@@ -676,10 +685,10 @@ export abstract class UICollection<
      * will be applied to the already filtered list of items
      * otherwise the filter will be applied to the entire collection
      *
-     * @param {(item: T) => boolean} filterFunction
+     * @param {(item: ChildComponentType) => boolean} filterFunction
      * @memberof Collection
      */
-    public filter(filterFunction: (item: T, index?: number) => boolean) {
+    public filter(filterFunction: (item: ChildComponentType, index?: number) => boolean) {
         this.pCollection.filter(filterFunction);
     }
 
@@ -687,11 +696,11 @@ export abstract class UICollection<
      * Inserts an item into specific position in the collection.
      *
      * @param {number} index
-     * @param {T} item
-     * @returns {T}
+     * @param {ChildComponentType} item
+     * @returns {ChildComponentType}
      * @memberof Collection
      */
-    public insertAt(index: number, item: T): T {
+    public insertAt(index: number, item: ChildComponentType): ChildComponentType {
         return this.pCollection.insertAt(index, item);
     }
 
@@ -700,11 +709,11 @@ export abstract class UICollection<
      * HTMLElement into the given location in the container.
      *
      * @protected
-     * @param {T} item
+     * @param {ChildComponentType} item
      * @param {number} index
      * @memberof Collection
      */
-    protected onInsertAt(item: T, index: number) {
+    protected onInsertAt(item: ChildComponentType, index: number) {
         const me = this;
         if (me.isRendered && me.containerElement) {
             // need to add one be cause the number of items is already increased
@@ -736,7 +745,7 @@ export abstract class UICollection<
         const me = this;
         if (!me.indexSynced) {
             me.index = {};
-            me.pCollection.forEach((item: T, index: number) => {
+            me.pCollection.forEach((item: ChildComponentType, index: number) => {
                 me.index[item.getUID()] = index;
             });
             me.indexSynced = true;
@@ -750,10 +759,10 @@ export abstract class UICollection<
      * The HTMLElement must have a valid UID set before.
      *
      * @param {HTMLElement} el
-     * @returns {T}
+     * @returns {ChildComponentType}
      * @memberof Collection
      */
-    public getByElement(el: HTMLElement): T {
+    public getByElement(el: HTMLElement): ChildComponentType {
         const me = this;
         return me.getByIndex(DOMElement.getElement(el).getUID() || "") || null;
     }
@@ -783,11 +792,11 @@ export abstract class UICollection<
      * Returns an item by its unique index;
      *
      * @param {string} index
-     * @returns {T}
+     * @returns {ChildComponentType}
      * @protected
      * @memberof Collection
      */
-    protected getByIndex(index: string): T {
+    protected getByIndex(index: string): ChildComponentType {
         const me = this;
         me.reIndex();
         return me.pCollection.getAt(me.index[index]);
@@ -797,13 +806,18 @@ export abstract class UICollection<
      * Dispatches an itemSwap event to the registered controllers
      *
      * @protected
-     * @param {T} itemA
+     * @param {ChildComponentType} itemA
      * @param {number} itemAIndex
-     * @param {T} itemB
+     * @param {ChildComponentType} itemB
      * @param {number} itemBIndex
      * @memberof Collection
      */
-    protected dispatchItemSwap(itemA: T, itemAIndex: number, itemB: T, itemBIndex: number) {
+    protected dispatchItemSwap(
+        itemA: ChildComponentType,
+        itemAIndex: number,
+        itemB: ChildComponentType,
+        itemBIndex: number
+    ) {
         const me = this;
         me.performLayout();
         me.dispatchEvent("onItemSwap", [itemA, itemAIndex, itemB, itemBIndex]);
@@ -813,11 +827,11 @@ export abstract class UICollection<
      * Dispatches an itemRemove event to the registered controllers.
      *
      * @protected
-     * @param {T} item
+     * @param {ChildComponentType} item
      * @param {number} index
      * @memberof Collection
      */
-    protected dispatchItemRemoveEvent(item: T, index: number) {
+    protected dispatchItemRemoveEvent(item: ChildComponentType, index: number) {
         const me = this;
         me.performLayout();
         me.dispatchEvent(eUICollectionEvents.onItemRemove, [item, index]);
@@ -839,11 +853,11 @@ export abstract class UICollection<
      * Dispatches an itemAdd event to the registered controllers.
      *
      * @protected
-     * @param {T} item
+     * @param {ChildComponentType} item
      * @param {number} index
      * @memberof Collection
      */
-    protected dispatchItemAddEvent(item: T, index: number) {
+    protected dispatchItemAddEvent(item: ChildComponentType, index: number) {
         const me = this;
         me.performLayout();
         me.dispatchEvent(eUICollectionEvents.onItemAdd, [item, index]);
@@ -853,11 +867,11 @@ export abstract class UICollection<
      * Dispatches an itemMove event to the registered controllers.
      *
      * @protected
-     * @param {T} item
+     * @param {ChildComponentType} item
      * @param {number} index
      * @memberof Collection
      */
-    protected dispatchItemMoveEvent(item: T, index: number) {
+    protected dispatchItemMoveEvent(item: ChildComponentType, index: number) {
         const me = this;
         me.performLayout();
         me.dispatchEvent(eUICollectionEvents.onItemMove, [item, index]);
@@ -867,7 +881,7 @@ export abstract class UICollection<
      * Dispatches a sort event to the registered controllers.
      *
      * @protected
-     * @param {T} item
+     * @param {ChildComponentType} item
      * @param {number} index
      * @memberof Collection
      */
