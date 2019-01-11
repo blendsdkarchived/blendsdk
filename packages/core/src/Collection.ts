@@ -6,9 +6,9 @@ import { IComponentConfig } from "./Types";
  * Interface for configuring a generic collection
  *
  * @interface ICollection
- * @template T
+ * @template ComponentType
  */
-interface ICollectionConfig<T extends TComponent> extends IComponentConfig {
+interface ICollectionConfig<ComponentType extends TComponent> extends IComponentConfig {
     /**
      * Option provide initial items to the collection.
      *
@@ -16,22 +16,22 @@ interface ICollectionConfig<T extends TComponent> extends IComponentConfig {
      * will be set to null once all the items are
      * loaded into the collection.
      *
-     * @type {(T|Array<T>)}
+     * @type {(ComponentType|Array<ComponentType>)}
      * @memberof ICollectionConfig
      */
-    items?: T[] | ArrayLike<T>;
+    items?: ComponentType[] | ArrayLike<ComponentType>;
     /**
      * Called when an item is added to the collection.
      *
      * @memberof ICollectionConfig
      */
-    onAdd?: (item: T, index: number) => void;
+    onAdd?: (item: ComponentType, index: number) => void;
     /**
      * Called when an item is removed from the collection.
      *
      * @memberof ICollectionConfig
      */
-    onRemove?: (item: T, index: number) => void;
+    onRemove?: (item: ComponentType, index: number) => void;
     /**
      * Called when the filter state of the collection is changed.
      *
@@ -45,7 +45,7 @@ interface ICollectionConfig<T extends TComponent> extends IComponentConfig {
      *
      * @memberof ICollectionConfig
      */
-    onInsertAt?: (item: T, index: number) => void;
+    onInsertAt?: (item: ComponentType, index: number) => void;
 
     /**
      * Called when the location of an item is swapped with the
@@ -53,7 +53,7 @@ interface ICollectionConfig<T extends TComponent> extends IComponentConfig {
      *
      * @memberof ICollectionConfig
      */
-    onSwap?: (itemA: T, itemAIndex: number, itemB: T, itemBIndex: number) => void;
+    onSwap?: (itemA: ComponentType, itemAIndex: number, itemB: ComponentType, itemBIndex: number) => void;
 
     /**
      * Called when an item is moved to a different location within
@@ -61,7 +61,7 @@ interface ICollectionConfig<T extends TComponent> extends IComponentConfig {
      *
      * @memberof ICollectionConfig
      */
-    onMoveTo?: (item: T, index: number) => void;
+    onMoveTo?: (item: ComponentType, index: number) => void;
 
     /**
      * Called when the collection is truncated.
@@ -88,9 +88,9 @@ interface ICollectionConfig<T extends TComponent> extends IComponentConfig {
  * @export
  * @class Collection
  * @extends {Blend.core.Component}
- * @template T
+ * @template ComponentType
  */
-export class Collection<T extends TComponent> extends Component<ICollectionConfig<T>> {
+export class Collection<ComponentType extends TComponent> extends Component<ICollectionConfig<ComponentType>> {
     /**
      * Flag for indicating whether the internal
      * events are enabled or disabled.
@@ -104,18 +104,18 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
      * Holds all items in the collection
      *
      * @protected
-     * @type {Array<T>}
+     * @type {Array<ComponentType>}
      * @memberof Collection
      */
-    protected pItems: T[];
+    protected pItems: ComponentType[];
     /**
      * Holds the filtered items from the collection
      *
      * @protected
-     * @type {Array<T>}
+     * @type {Array<ComponentType>}
      * @memberof Collection
      */
-    protected pView: T[];
+    protected pView: ComponentType[];
     /**
      * Flag to indicate whether this collection is filtered
      *
@@ -127,10 +127,10 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
 
     /**
      * Creates an instance of Collection.
-     * @param {ICollectionConfig<T>} [config]
+     * @param {ICollectionConfig<ComponentType>} [config]
      * @memberof Collection
      */
-    public constructor(config?: ICollectionConfig<T>) {
+    public constructor(config?: ICollectionConfig<ComponentType>) {
         super(config);
         const me = this,
             noOp = () => {};
@@ -173,11 +173,11 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
      * Use this method in combination with `isFilterActive`
      *
      * @protected
-     * @param {T} item
+     * @param {ComponentType} item
      * @returns
      * @memberof Collection
      */
-    protected isFiltered(item: T) {
+    protected isFiltered(item: ComponentType) {
         return this.pView.indexOf(item) !== -1;
     }
 
@@ -216,11 +216,11 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
      * Dispatches an onMoveTo event.
      *
      * @protected
-     * @param {T} item
+     * @param {ComponentType} item
      * @param {number} index
      * @memberof Collection
      */
-    protected dispatchOnMoveTo(item: T, index: number) {
+    protected dispatchOnMoveTo(item: ComponentType, index: number) {
         const me = this;
         if (me.eventsEnabled) {
             me.config.onMoveTo(item, index);
@@ -231,13 +231,13 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
      * Dispatches an onSwap event.
      *
      * @protected
-     * @param {T} itemA
+     * @param {ComponentType} itemA
      * @param {number} itemAIndex
-     * @param {T} itemB
+     * @param {ComponentType} itemB
      * @param {number} itemBIndex
      * @memberof Collection
      */
-    protected dispatchOnSwap(itemA: T, itemAIndex: number, itemB: T, itemBIndex: number) {
+    protected dispatchOnSwap(itemA: ComponentType, itemAIndex: number, itemB: ComponentType, itemBIndex: number) {
         const me = this;
         if (me.eventsEnabled) {
             me.config.onSwap(itemA, itemAIndex, itemB, itemBIndex);
@@ -248,11 +248,11 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
      * Dispatches an onRemove event.
      *
      * @protected
-     * @param {T} item
+     * @param {ComponentType} item
      * @param {number} index
      * @memberof Collection
      */
-    protected dispatchRemove(item: T, index: number) {
+    protected dispatchRemove(item: ComponentType, index: number) {
         const me = this;
         if (me.eventsEnabled === true) {
             me.config.onRemove(item, index);
@@ -276,11 +276,11 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
      * Dispatches an onInsertAt event.
      *
      * @protected
-     * @param {T} item
+     * @param {ComponentType} item
      * @param {number} index
      * @memberof Collection
      */
-    protected dispatchInsertAt(item: T, index: number) {
+    protected dispatchInsertAt(item: ComponentType, index: number) {
         const me = this;
         if (me.eventsEnabled === true) {
             const lastIndex = (me.filtered ? me.pView.length : me.pItems.length) - 1;
@@ -297,11 +297,11 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
      * Dispatches an onAdd event.
      *
      * @protected
-     * @param {T} item
+     * @param {ComponentType} item
      * @param {number} index
      * @memberof Collection
      */
-    protected dispatchAdd(item: T, index: number) {
+    protected dispatchAdd(item: ComponentType, index: number) {
         const me = this;
         if (me.eventsEnabled === true) {
             me.config.onAdd(item, index);
@@ -313,10 +313,10 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
      * an actual member of the collection
      *
      * @protected
-     * @param {T} item
+     * @param {ComponentType} item
      * @memberof Collection
      */
-    protected assert(item: T) {
+    protected assert(item: ComponentType) {
         const me = this;
         if ((me.filtered ? me.pView.indexOf(item) : me.pItems.indexOf(item)) < 0) {
             throw new Error("Performing operation on a non-member!");
@@ -369,14 +369,14 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
      * will be applied to the already filtered list of items
      * otherwise the filter will be applied to the entire collection
      *
-     * @param {(item: T) => boolean} filterFunction
+     * @param {(item: ComponentType) => boolean} filterFunction
      * @returns {this}
      * @memberof Collection
      */
-    public filter(filterFunction: (item: T, index?: number) => boolean): this {
+    public filter(filterFunction: (item: ComponentType, index?: number) => boolean): this {
         const me = this,
-            tmp: T[] = [],
-            items: T[] = me.items();
+            tmp: ComponentType[] = [],
+            items: ComponentType[] = me.items();
         items.forEach((item, index) => {
             if (filterFunction(item, index)) {
                 tmp.push(item);
@@ -402,11 +402,11 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
      * 0 : if a and b are equal
      * 1 : if a is greater than b by the ordering criterion
      *
-     * @param {(a: T, b: T) => number} compareFunction
+     * @param {(a: ComponentType, b: ComponentType) => number} compareFunction
      * @returns {this}
      * @memberof Collection
      */
-    public sort(compareFunction: (a: T, b: T) => number): this {
+    public sort(compareFunction: (a: ComponentType, b: ComponentType) => number): this {
         const me = this;
         if (me.count() !== 0) {
             if (me.filtered) {
@@ -421,11 +421,11 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
     /**
      * Moves an item to the last position within the collection
      *
-     * @param {T} item
+     * @param {ComponentType} item
      * @returns {this}
      * @memberof Collection
      */
-    public moveLast(item: T): this {
+    public moveLast(item: ComponentType): this {
         const me = this;
         me.moveTo(me.items().length - 1, item);
         return this;
@@ -434,10 +434,10 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
     /**
      * Moves an item to the first position within the collection
      *
-     * @param {T} item
+     * @param {ComponentType} item
      * @memberof Collection
      */
-    public moveFirst(item: T) {
+    public moveFirst(item: ComponentType) {
         const me = this;
         me.moveTo(0, item);
     }
@@ -474,11 +474,11 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
      * Moves an item to a given index within the collection.
      *
      * @param {number} index
-     * @param {T} item
+     * @param {ComponentType} item
      * @returns {this}
      * @memberof Collection
      */
-    public moveTo(index: number, item: T): this {
+    public moveTo(index: number, item: ComponentType): this {
         const me = this,
             pView = me.pView,
             pItems = me.pItems;
@@ -503,18 +503,18 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
      * Swaps two items within a given list.
      *
      * @protected
-     * @param {T} itemA
-     * @param {T} itemB
-     * @param {Array<T>} list
+     * @param {ComponentType} itemA
+     * @param {ComponentType} itemB
+     * @param {Array<ComponentType>} list
      * @returns {Array<number>}
      * @memberof Collection
      */
-    protected swapInternal(itemA: T, itemB: T, list: T[]): number[] {
+    protected swapInternal(itemA: ComponentType, itemB: ComponentType, list: ComponentType[]): number[] {
         const me = this,
             indexA: number = list.indexOf(itemA),
             indexB: number = list.indexOf(itemB);
 
-        let temp: T;
+        let temp: ComponentType;
 
         temp = itemA;
         list[indexA] = itemB;
@@ -525,12 +525,12 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
     /**
      * Swaps an item with another item within the collection.
      *
-     * @param {T} itemA
-     * @param {T} itemB
+     * @param {ComponentType} itemA
+     * @param {ComponentType} itemB
      * @returns {this}
      * @memberof Collection
      */
-    public swap(itemA: T, itemB: T): this {
+    public swap(itemA: ComponentType, itemB: ComponentType): this {
         const me = this;
         let indexes: number[] = null,
             mapping: number[] = null;
@@ -552,20 +552,20 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
     /**
      * Removes the last item from the collection.
      *
-     * @returns {T}
+     * @returns {ComponentType}
      * @memberof Collection
      */
-    public removeLast(): T {
+    public removeLast(): ComponentType {
         return this.removeAt(this.count() - 1);
     }
 
     /**
      * Removes the first item from the collection.
      *
-     * @returns {T}
+     * @returns {ComponentType}
      * @memberof Collection
      */
-    public removeFirst(): T {
+    public removeFirst(): ComponentType {
         return this.removeAt(0);
     }
 
@@ -575,10 +575,10 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
      * found to be removed.
      *
      * @param {number} index
-     * @returns {T}
+     * @returns {ComponentType}
      * @memberof Collection
      */
-    public removeAt(index: number): T {
+    public removeAt(index: number): ComponentType {
         const me = this,
             item = me.getAt(index);
         if (item) {
@@ -620,11 +620,11 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
     /**
      * Removes an item from the collection.
      *
-     * @param {T} item
-     * @returns {T}
+     * @param {ComponentType} item
+     * @returns {ComponentType}
      * @memberof Collection
      */
-    public remove(item: T): T {
+    public remove(item: ComponentType): ComponentType {
         const me = this;
 
         let index: number;
@@ -645,13 +645,13 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
     /**
      * Adds many items to the collection
      *
-     * @param {Array<T>} items
+     * @param {Array<ComponentType>} items
      * @returns {this}
      * @memberof Collection
      */
-    public addMany(items: T[] | ArrayLike<T>): this {
+    public addMany(items: ComponentType[] | ArrayLike<ComponentType>): this {
         const me = this;
-        Blend.forEach(items, (item: T) => {
+        Blend.forEach(items, (item: ComponentType) => {
             me.add(item);
         });
         return this;
@@ -661,11 +661,11 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
      * Inserts an item at a given index into the collection.
      *
      * @param {number} index
-     * @param {T} item
-     * @returns {T}
+     * @param {ComponentType} item
+     * @returns {ComponentType}
      * @memberof Collection
      */
-    public insertAt(index: number, item: T): T {
+    public insertAt(index: number, item: ComponentType): ComponentType {
         const me = this;
         let mapping;
         if (!item) {
@@ -683,11 +683,11 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
     /**
      * Adds an item to the collection.
      *
-     * @param {T} item
-     * @returns {T}
+     * @param {ComponentType} item
+     * @returns {ComponentType}
      * @memberof Collection
      */
-    public add(item: T): T {
+    public add(item: ComponentType): ComponentType {
         const me = this;
         if (!item) {
             throw new Error("Cannot add null or undefined object to the collection");
@@ -709,20 +709,20 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
     /**
      * Gets the last item from the collection.
      *
-     * @returns {T}
+     * @returns {ComponentType}
      * @memberof Collection
      */
-    public getLast(): T {
+    public getLast(): ComponentType {
         return this.getAt(this.count() - 1);
     }
 
     /**
      * Gets the first item from the collection.
      *
-     * @returns {T}
+     * @returns {ComponentType}
      * @memberof Collection
      */
-    public getFirst(): T {
+    public getFirst(): ComponentType {
         return this.getAt(0);
     }
 
@@ -733,7 +733,7 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
      * @returns
      * @memberof Collection
      */
-    public getAt(index: number): T {
+    public getAt(index: number): ComponentType {
         const me = this,
             count: number = me.count();
         if (index < 0) {
@@ -753,7 +753,7 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
      */
     public clear(clearFilter?: boolean): this {
         const me = this;
-        let items: T[];
+        let items: ComponentType[];
 
         if (clearFilter) {
             me.withEventsDisabled(() => {
@@ -775,15 +775,15 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
      * The filter function must return `true` if the item needs
      * to be added to the count
      *
-     * @param {(item: T) => boolean} filterFunction
+     * @param {(item: ComponentType) => boolean} filterFunction
      * @returns {number}
      * @memberof Collection
      */
-    public count(filterFunction?: (item: T, index?: number) => boolean): number {
+    public count(filterFunction?: (item: ComponentType, index?: number) => boolean): number {
         if (filterFunction) {
             const me = this;
             let c = 0;
-            me.forEach((item: T, index: number) => {
+            me.forEach((item: ComponentType, index: number) => {
                 if (filterFunction(item, index) === true) {
                     c++;
                 }
@@ -797,10 +797,10 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
     /**
      * Method for retrieving items from the collection.
      *
-     * @returns {Array<T>}
+     * @returns {Array<ComponentType>}
      * @memberof Collection
      */
-    public items(): T[] {
+    public items(): ComponentType[] {
         const me = this;
         return me.filtered ? me.pView : me.pItems;
     }
@@ -810,11 +810,11 @@ export class Collection<T extends TComponent> extends Component<ICollectionConfi
      * ignoring the filter
      *
      *
-     * @param {(item: T, index: number) => void} callback
+     * @param {(item: ComponentType, index: number) => void} callback
      * @returns {this}
      * @memberof Collection
      */
-    public forEach(callback: (item: T, index: number) => void, ignoreFilter?: boolean): this {
+    public forEach(callback: (item: ComponentType, index: number) => void, ignoreFilter?: boolean): this {
         const me = this;
         if (ignoreFilter === true) {
             me.pItems.forEach(callback);
