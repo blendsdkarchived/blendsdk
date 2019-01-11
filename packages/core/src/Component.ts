@@ -13,9 +13,9 @@ export type TComponent = Component<IComponentConfig>;
  * @abstract
  * @class Component
  * @implements {IAbstractComponent}
- * @template T
+ * @template Config
  */
-export abstract class Component<T extends IComponentConfig> implements IAbstractComponent {
+export abstract class Component<Config extends IComponentConfig> implements IAbstractComponent {
     /**
      * Key to identify the unique identifer of this component.
      * This key is used on a DOM component
@@ -40,7 +40,7 @@ export abstract class Component<T extends IComponentConfig> implements IAbstract
      * @type {IDictionary}
      * @memberOf Component
      */
-    protected config: T;
+    protected config: Config;
 
     /**
      * Creates an instance of Component.
@@ -48,13 +48,13 @@ export abstract class Component<T extends IComponentConfig> implements IAbstract
      *
      * @memberOf Component
      */
-    public constructor(config?: T) {
+    public constructor(config?: Config) {
         const me = this;
-        me.config = config || ({} as T);
+        me.config = config || ({} as Config);
         me.configDefaults({
             id: null,
             userData: {}
-        } as T);
+        } as Config);
         me.uid = Blend.ID().toString();
     }
 
@@ -85,8 +85,8 @@ export abstract class Component<T extends IComponentConfig> implements IAbstract
      *
      * @template T
      * @param {string} [key]
-     * @param {T} [defaultValue]
-     * @returns {T}
+     * @param {Config} [defaultValue]
+     * @returns {Config}
      * @memberof Component
      */
     public getUserData<R>(key?: string, defaultValue?: R): R {
@@ -130,7 +130,7 @@ export abstract class Component<T extends IComponentConfig> implements IAbstract
      * @template T
      * @param {string} methodName
      * @param {Array<any>} [arg]
-     * @returns {T}
+     * @returns {Config}
      * @memberof Component
      */
     public applyMethod<R>(methodName: string, arg?: any[]): R {
@@ -175,7 +175,7 @@ export abstract class Component<T extends IComponentConfig> implements IAbstract
      * @param {IComponentConfig} defaults
      * @memberof Component
      */
-    protected configDefaults(defaults: T) {
+    protected configDefaults(defaults: Config) {
         const me = this;
         Blend.apply(me.config, defaults || {});
     }
