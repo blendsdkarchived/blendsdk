@@ -18,11 +18,11 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "dependencies": {
-        "@blendsdk/core": "0.0.9",
-        "@blendsdk/ui": "0.0.9",
-        "@blendsdk/router": "0.0.9",
-        "@blendsdk/browser": "0.0.9",
-        "@blendsdk/css": "0.0.9"
+        "@blendsdk/browser": "^0.0.9",
+        "@blendsdk/core": "^0.0.9",
+        "@blendsdk/css": "^0.0.9",
+        "@blendsdk/router": "^0.0.9",
+        "@blendsdk/ui": "^0.0.9"
     },
     "keywords": [
         "typescript",

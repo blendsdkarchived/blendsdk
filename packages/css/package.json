@@ -27,6 +27,6 @@
         "components"
     ],
     "dependencies": {
-        "@blendsdk/core": "0.0.9"
+        "@blendsdk/core": "^0.0.9"
     }
 }
