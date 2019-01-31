@@ -1,7 +1,7 @@
 {
     "name": "tests",
     "private": true,
-    "version": "0.0.11",
+    "version": "0.0.12",
     "description": "BlendSDK Tests",
     "main": "index.js",
     "scripts": {
@@ -17,20 +17,20 @@
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
     "dependencies": {
-        "@blendsdk/ajax": "^0.0.11",
-        "@blendsdk/application": "^0.0.11",
-        "@blendsdk/blendrunner": "^0.0.11",
-        "@blendsdk/browser": "^0.0.11",
-        "@blendsdk/core": "^0.0.11",
-        "@blendsdk/css": "^0.0.11",
-        "@blendsdk/deviceinfo": "^0.0.11",
-        "@blendsdk/dom": "^0.0.11",
-        "@blendsdk/extensions": "^0.0.11",
-        "@blendsdk/icon": "^0.0.11",
-        "@blendsdk/mvc": "^0.0.11",
-        "@blendsdk/task": "^0.0.11",
-        "@blendsdk/ui": "^0.0.11",
-        "@blendsdk/uistack": "^0.0.11"
+        "@blendsdk/ajax": "^0.0.12",
+        "@blendsdk/application": "^0.0.12",
+        "@blendsdk/blendrunner": "^0.0.12",
+        "@blendsdk/browser": "^0.0.12",
+        "@blendsdk/core": "^0.0.12",
+        "@blendsdk/css": "^0.0.12",
+        "@blendsdk/deviceinfo": "^0.0.12",
+        "@blendsdk/dom": "^0.0.12",
+        "@blendsdk/extensions": "^0.0.12",
+        "@blendsdk/icon": "^0.0.12",
+        "@blendsdk/mvc": "^0.0.12",
+        "@blendsdk/task": "^0.0.12",
+        "@blendsdk/ui": "^0.0.12",
+        "@blendsdk/uistack": "^0.0.12"
     },
     "devDependencies": {
         "glob": "^7.1.3",
