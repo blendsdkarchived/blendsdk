@@ -1,5 +1,7 @@
 import { Blend, IDictionary } from "@blendsdk/core";
 
+// @todo add tests
+
 /**
  * Regex to check for an event name. eg. onClick
  */
