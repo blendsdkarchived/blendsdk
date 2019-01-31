@@ -609,7 +609,7 @@ export abstract class UIComponent<
      */
     protected createElement<H extends HTMLElement>(conf?: ICreateElementConfig): H {
         const me = this;
-        return Dom.createElement(conf, me.referenceHTMLElement.bind(me));
+        return Dom.createElement(conf, me.referenceHTMLElement.bind(me), me as any);
     }
 
     /**

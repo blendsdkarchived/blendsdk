@@ -67,7 +67,8 @@ export namespace Dom {
      */
     export function createElement<T extends HTMLElement>(
         conf?: HTMLElement | ICreateElementConfig,
-        refCallback?: (reference: string, element: HTMLElement) => any
+        refCallback?: (reference: string, element: HTMLElement) => any,
+        defaultEventTarget?: EventListenerObject
     ): T {
         if (conf instanceof HTMLElement || conf instanceof Node) {
             // TODO:1110 Check if there is a better way!
@@ -139,6 +140,8 @@ export namespace Dom {
             if (config.listeners) {
                 Blend.forEach(config.listeners, (item: EventListenerOrEventListenerObject, key: string) => {
                     if (!Blend.isNullOrUndef(item)) {
+                        item = (((item as any) === true ? defaultEventTarget : item) ||
+                            new Function(item as any)) as any;
                         el.addEventListener(key, item, false);
                     }
                 });
