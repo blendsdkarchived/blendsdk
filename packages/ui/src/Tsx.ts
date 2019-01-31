@@ -14,7 +14,7 @@ const eventRe = new RegExp("^on\\w+", "gi");
  * @param {...any[]} children
  * @returns
  */
-function tsx(tag: string, attrs: IDictionary, ...children: any[]) {
+export function tsx(tag: string, attrs: IDictionary, ...children: any[]) {
     const config: IDictionary = {
         tag,
         listeners: {},
