@@ -190,7 +190,9 @@ export namespace Dom {
                         el.appendChild(item.getElement());
                     } else {
                         (item as ICreateElementConfig).isSVG = config.isSVG || false;
-                        el.appendChild(Dom.createElement(item as ICreateElementConfig, refCallback));
+                        el.appendChild(
+                            Dom.createElement(item as ICreateElementConfig, refCallback, defaultEventTarget)
+                        );
                     }
                 });
                 // }
