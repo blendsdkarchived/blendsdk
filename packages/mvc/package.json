@@ -1,6 +1,6 @@
 {
     "name": "@blendsdk/mvc",
-    "version": "0.0.13",
+    "version": "0.0.14",
     "description": "TODO",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
@@ -18,7 +18,7 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "dependencies": {
-        "@blendsdk/core": "^0.0.13"
+        "@blendsdk/core": "^0.0.14"
     },
     "keywords": [
         "typescript",
