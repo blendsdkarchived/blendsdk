@@ -216,7 +216,7 @@ export class Router extends MVCComponent<IRouterConfig> {
      * @returns {IRouteItemConfig}
      * @memberof Router
      */
-    protected findRouteNyName(name: string): IRouteItemConfig {
+    protected findRouteByName(name: string): IRouteItemConfig {
         const me = this;
         let result: IRouteItemConfig = null;
         me.routes.forEach((route: IRouteItemConfig) => {
@@ -237,7 +237,7 @@ export class Router extends MVCComponent<IRouterConfig> {
      */
     public generateUrl(routeName: string, params: IDictionary): string {
         const me = this,
-            route = me.findRouteNyName(routeName);
+            route = me.findRouteByName(routeName);
         if (route) {
             const path = (route.path as RouterPath).generate(params);
             return `${window.location.href.split("#")[0]}#${path}`;
