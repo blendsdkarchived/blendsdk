@@ -30,7 +30,8 @@
         "@blendsdk/mvc": "^0.0.14",
         "@blendsdk/task": "^0.0.14",
         "@blendsdk/ui": "^0.0.14",
-        "@blendsdk/uistack": "^0.0.14"
+        "@blendsdk/uistack": "^0.0.14",
+        "@blendsdk/viewrouter": "^0.0.14"
     },
     "devDependencies": {
         "glob": "^7.1.3",
