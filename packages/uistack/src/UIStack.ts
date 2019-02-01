@@ -123,6 +123,15 @@ export interface IUIStackConfig extends IUICollectionConfig<IUIStackStyles, TUIC
      * @memberof IUIStackConfig
      */
     transitionProvider?: TransitionProvider | TConfigurableClass;
+    /**
+     * Option to skip pushing the first view when no activeView is configured
+     * on initialization time. This will result the UIStack to be empty on
+     * startup.
+     *
+     * @type {boolean}
+     * @memberof IUIStackConfig
+     */
+    skipInitialView?: boolean;
 }
 
 /**
@@ -204,6 +213,7 @@ export class UIStack extends UICollection<IUIStackStyles, TUIComponent, IUIStack
         const me = this;
         me.configDefaults({
             activeView: 0,
+            skipInitialView: false,
             fitViews: true,
             transitionProvider: DefaultTransitionProvider
         });
@@ -351,7 +361,9 @@ export class UIStack extends UICollection<IUIStackStyles, TUIComponent, IUIStack
             containerElement: me.containerElement
         } as IStackTransitionConfig);
         me.stashAll();
-        me.setActiveView(me.config.activeView);
+        if (!me.config.skipInitialView) {
+            me.setActiveView(me.config.activeView);
+        }
     }
 
     /**
