@@ -17,6 +17,16 @@ var build = [
             name: "index"
         },
         plugins: [resolve(), commonjs(), sourcemaps()]
+    },
+    {
+        input: "./.build/fiddle.js",
+        output: {
+            file: "./public/js/fiddle.js",
+            format: "iife",
+            sourcemap: true,
+            name: "index"
+        },
+        plugins: [resolve(), commonjs(), sourcemaps()]
     }
 ];
 
