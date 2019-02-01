@@ -82,6 +82,13 @@ export interface IRouterConfig extends IMVCComponentConfig, IRouterEvents {
      * @memberof IRouterConfig
      */
     routes?: IRouteItemConfig | IRouteItemConfig[];
+    /**
+     * Option to configure the default route for this Router.
+     *
+     * @type {string}
+     * @memberof IRouterConfig
+     */
+    defaultRoute?: string;
 }
 
 /**
@@ -206,6 +213,25 @@ export class Router extends MVCComponent<IRouterConfig> {
                 }
             }
         });
+        if (!me.config.defaultRoute && me.routes.length !== 0) {
+            me.setDefaultRoute(me.routes[0].name);
+        }
+        if (!routed && me.config.defaultRoute) {
+            const defRoute = me.findRouteByName(me.config.defaultRoute);
+            if (defRoute) {
+                me.navigateTo(defRoute.name, defRoute.defaults || {});
+            }
+        }
+    }
+
+    /**
+     * Sets the default route.
+     *
+     * @param {string} name
+     * @memberof Router
+     */
+    public setDefaultRoute(name: string) {
+        this.config.defaultRoute = name;
     }
 
     /**
