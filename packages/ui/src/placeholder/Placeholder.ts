@@ -105,7 +105,7 @@ export class Placeholder extends UIComponent<IPlaceholderStyle, IPlaceholderConf
         const me = this;
         me.config.caption = value;
         if (me.isRendered) {
-            me.el.textContent = value + "";
+            me.el.innerHTML = value + "";
         }
     }
 
