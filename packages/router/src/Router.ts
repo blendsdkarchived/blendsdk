@@ -201,7 +201,7 @@ export class Router extends MVCComponent<IRouterConfig> {
                     routed = true;
                     me.currentRouteParams = match;
                     Blend.wrapInArray(route.dispatch || eRouterEvents.onRouteChanged).forEach(handler => {
-                        me.dispatchHashChange(handler as string, match);
+                        me.dispatchHashChange(handler as string, match, route);
                     });
                 }
             }
@@ -270,8 +270,8 @@ export class Router extends MVCComponent<IRouterConfig> {
      * @param {*} params
      * @memberof Router
      */
-    protected dispatchHashChange(eventName: string, params: any) {
-        SystemEvents.dispatchEvent(eventName, [params]);
+    protected dispatchHashChange(eventName: string, params: any, routeConfig: IRouteItemConfig) {
+        SystemEvents.dispatchEvent(eventName, [params, routeConfig]);
     }
 
     /**
