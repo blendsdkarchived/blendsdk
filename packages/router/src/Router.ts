@@ -213,6 +213,7 @@ export class Router extends MVCComponent<IRouterConfig> {
                 }
             }
         });
+        // Here we check and set the default route if none is provided.
         if (!me.config.defaultRoute && me.routes.length !== 0) {
             me.setDefaultRoute(me.routes[0].name);
         }
