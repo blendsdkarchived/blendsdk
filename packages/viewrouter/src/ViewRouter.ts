@@ -120,6 +120,30 @@ export class ViewRouter extends UIComponent<IUIComponentStyles, IViewRouterConfi
     }
 
     /**
+     * Causes the browser to navigate to a new url using a given
+     * route configuration.
+     *
+     * @param {string} routeName
+     * @param {IDictionary} params
+     * @memberof ViewRouter
+     */
+    public navigateTo(routeName: string, params: IDictionary) {
+        this.router.navigateTo(routeName, params);
+    }
+
+    /**
+     * Generates a URL based on a given route name.
+     *
+     * @param {string} routeName
+     * @param {IDictionary} params
+     * @returns {string}
+     * @memberof ViewRouter
+     */
+    public generateUrl(routeName: string, params: IDictionary): string {
+        return this.router.generateUrl(routeName, params);
+    }
+
+    /**
      * Adds one or more view routes to this component.
      *
      * @param {(IViewRouterRouteConfig | IViewRouterRouteConfig[])} route
