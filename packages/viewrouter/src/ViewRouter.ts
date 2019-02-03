@@ -6,6 +6,18 @@ import { IUIComponentConfig, IUIComponentStyles, TUIComponent, UIComponent } fro
 import { UIStack } from "@blendsdk/uistack";
 
 /**
+ * Helper enum for getting the route information from a view within a
+ * ViewRouter.  `view.getUserData(eViewRouterData.routeParams)`
+ *
+ * @export
+ * @enum {number}
+ */
+export enum eViewRouterData {
+    routeParams = "routeParams",
+    route = "route"
+}
+
+/**
  * Interface for configuring a Route and a View for
  * the ViewRouter component
  *
@@ -108,8 +120,8 @@ export class ViewRouter extends UIComponent<IUIComponentStyles, IViewRouterConfi
         me.router = new Router({
             onRouteChanged: (sender: any, params: any, route: IRouteItemConfig) => {
                 me.uiStack.forEach(item => {
-                    if (item.getUserData("route") === route.name) {
-                        item.setUserData("routeParams", params);
+                    if (item.getUserData(eViewRouterData.route) === route.name) {
+                        item.setUserData(eViewRouterData.routeParams, params);
                         me.uiStack.setActiveView(item);
                     }
                 });
@@ -158,7 +170,7 @@ export class ViewRouter extends UIComponent<IUIComponentStyles, IViewRouterConfi
                     defaults: item.defaults,
                     name: item.name
                 });
-                item.view.setUserData("route", item.name);
+                item.view.setUserData(eViewRouterData.route, item.name);
                 me.uiStack.add(item.view);
                 if (item.isDefault) {
                     me.router.setDefaultRoute(item.name);
