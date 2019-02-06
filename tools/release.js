@@ -53,7 +53,21 @@ function isGitClean() {
     return shell.exec("git status --porcelain", { silent: true }).stdout.toString().length === 0;
 }
 
-console.log(isGitClean());
+function createReleaseBranch(version) {
+    const branch = `release-${version}`;
+    if (shell.exec(`git checkout -b ${version}`).code === 0) {
+        return branch;
+    } else {
+        throw new Error(`Unable to create a release branch ${version}`);
+    }
+}
+
+if (isGitClean()) {
+    const branch = createReleaseBranch(version);
+} else {
+    console.log(`Working directory is not clean!`.red);
+    process.emit(1);
+}
 
 // yesno.ask(`Publishing version ${version}. Are you sure? (y/N): `.cyan, false, ok => {
 //     if (ok) {
