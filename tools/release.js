@@ -66,7 +66,9 @@ if (isGitClean()) {
     const branch = createReleaseBranch(version);
     if (patchFiles(version)) {
         if (shell.exec(`git commit -am"Patched version ${version}"`).code === 0) {
-            console.log(`Done`.green);
+            if (shell.exec("npm run build").code === 0) {
+                console.log(`Done`.green);
+            }
         }
     }
 } else {
