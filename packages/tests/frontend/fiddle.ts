@@ -23,7 +23,7 @@ const app = new Application({
                 name: "forgot",
                 path: "/users/forgot-password",
                 view: new Placeholder({
-                    caption: `<a href="#/users/${new Date().getTime()}/login">To Login</a>`
+                    caption: `<a href="#/users/${new Date().getTime()}/login">To Login!</a>`
                 })
             }
         ]

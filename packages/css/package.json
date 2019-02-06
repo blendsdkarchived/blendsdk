@@ -9,11 +9,11 @@
         "url": "https://github.com/blendsdk/blendsdk"
     },
     "scripts": {
-        "watch": "../../node_modules/.bin/watch 'npm run build' ./src",
+        "watch": "tsc -w",
         "build": "npm run clean && npm run tslint && npm run build:lib",
-        "build:lib": "../../node_modules/.bin/tsc -p ./",
-        "clean": "../../node_modules/.bin/rimraf .build dist",
-        "tslint": "../../node_modules/.bin/tslint --config ../../tslint.json --project ./tsconfig.json"
+        "build:lib": "tsc -p ./",
+        "clean": "rimraf .build dist",
+        "tslint": "tslint --config ../../tslint.json --project ./tsconfig.json"
     },
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -28,5 +28,10 @@
     ],
     "dependencies": {
         "@blendsdk/core": "^0.0.15"
+    },
+    "devDependencies": {
+        "rimraf": "^2.6.3",
+        "tslint": "^5.12.1",
+        "typescript": "^3.3.1"
     }
 }

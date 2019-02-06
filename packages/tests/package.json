@@ -5,13 +5,15 @@
     "description": "BlendSDK Tests",
     "main": "index.js",
     "scripts": {
-        "watch": "../../node_modules/.bin/watch 'npm run build' frontend",
-        "build:es": "../../node_modules/.bin/tsc -p frontend",
-        "build": "npm run clean && npm run tslint && npm run build:es && npm run rollup && echo 'all done.'",
-        "clean": "../../node_modules/.bin/rimraf .build public/js",
-        "rollup": "../../node_modules/.bin/rollup --config",
-        "start": "DEBUG=testapp:* ./bin/www",
-        "tslint": "../../node_modules/.bin/tslint --config ./tslint.json --project ./frontend/tsconfig.json"
+        "clean": "rimraf .build public/js",
+        "build:ts": "tsc -p ./frontend",
+        "watch:ts": "tsc -w -p ./frontend",
+        "tslint": "tslint --config ./tslint.json --project ./frontend/tsconfig.json",
+        "rollup": "rollup --config",
+        "build": "npm run clean && npm run tslint && npm run build:ts && npm run rollup",
+        "serve": "DEBUG=testapp:* ./bin/www",
+        "watch:rollup": "rollup -w --config ./rollup.config.js",
+        "watch": "npm run build && concurrently -p \"[{name}]\" -n \"TSC,ROLLUP,SERVE\"  \"npm run watch:ts\" \"npm run watch:rollup\" \"npm run serve\" "
     },
     "keywords": [],
     "author": "Gevik Babakhani <gevik@blendjs.com>",
@@ -34,8 +36,25 @@
         "@blendsdk/viewrouter": "^0.0.15"
     },
     "devDependencies": {
+        "concurrently": "^4.1.0",
+        "cookie-parser": "~1.4.3",
+        "debug": "~4.1.1",
+        "express": "~4.16.4",
         "glob": "^7.1.3",
+        "leasot": "^7.2.0",
+        "lerna": "^3.10.8",
         "mkdirp": "^0.5.1",
-        "rimraf": "^2.6.2"
+        "morgan": "~1.9.1",
+        "rimraf": "^2.6.3",
+        "rollup": "^1.1.2",
+        "rollup-plugin-commonjs": "^9.2.0",
+        "rollup-plugin-json": "^3.1.0",
+        "rollup-plugin-node-builtins": "^2.1.2",
+        "rollup-plugin-node-globals": "^1.4.0",
+        "rollup-plugin-node-resolve": "^4.0.0",
+        "rollup-plugin-sourcemaps": "^0.4.2",
+        "rollup-plugin-uglify": "^6.0.2",
+        "tslint": "^5.12.1",
+        "typescript": "^3.3.1"
     }
 }
