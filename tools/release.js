@@ -64,7 +64,11 @@ function createReleaseBranch(version) {
 
 if (isGitClean()) {
     const branch = createReleaseBranch(version);
-    patchFiles(version);
+    if (patchFiles(version)) {
+        if (shell.exec(`git commit -am"Patched version ${version}"`).code === 0) {
+            console.log(`Done`.green);
+        }
+    }
 } else {
     console.log(`Working directory is not clean!`.red);
     process.emit(1);
