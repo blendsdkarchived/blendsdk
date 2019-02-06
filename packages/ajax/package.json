@@ -1,6 +1,6 @@
 {
     "name": "@blendsdk/ajax",
-    "version": "0.0.15",
+    "version": "0.0.16",
     "description": "TODO",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
@@ -18,8 +18,8 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "dependencies": {
-        "@blendsdk/core": "^0.0.15",
-        "@blendsdk/mvc": "^0.0.15"
+        "@blendsdk/core": "^0.0.16",
+        "@blendsdk/mvc": "^0.0.16"
     },
     "keywords": [
         "typescript",
