@@ -55,7 +55,7 @@ function isGitClean() {
 
 function createReleaseBranch(version) {
     const branch = `release-${version}`;
-    if (shell.exec(`git checkout -b ${version}`).code === 0) {
+    if (shell.exec(`git checkout -b ${branch}`).code === 0) {
         return branch;
     } else {
         throw new Error(`Unable to create a release branch ${version}`);
@@ -64,6 +64,7 @@ function createReleaseBranch(version) {
 
 if (isGitClean()) {
     const branch = createReleaseBranch(version);
+    patchFiles(version);
 } else {
     console.log(`Working directory is not clean!`.red);
     process.emit(1);
