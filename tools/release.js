@@ -67,6 +67,14 @@ if (isGitClean()) {
     if (patchFiles(version)) {
         if (shell.exec(`git commit -am"Patched version ${version}"`).code === 0) {
             if (shell.exec("npm run build").code === 0) {
+                if (shell.exec(`npm run bump -- ${version}`).code === 0) {
+                    console.log(`Done`.green);
+                }
+                // if (shell.exec("git checkout master").code === 0) {
+                //     if (shell.exec(`git merge --no-ff -m"Merging with ${branch}"`).code === 0) {
+                //         console.log(`Done`.green);
+                //     }
+                // }
                 console.log(`Done`.green);
             }
         }
