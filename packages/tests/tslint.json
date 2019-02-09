@@ -1,0 +1,13 @@
+{
+    "extends": "../../tslint.json",
+    "rules": {
+        "no-shadowed-variable": false,
+        "max-classes-per-file": true,
+        "max-line-length": false,
+        "no-namespace": false,
+        "no-empty": false,
+        "object-literal-sort-keys": false,
+        "no-console": false,
+        "no-debugger": false
+    }
+}
