@@ -1,3 +1,15 @@
 {
-    "patch": "packages/core/src/Version.ts"
+    "patch": "packages/core/src/Version.ts",
+    "commands": [
+        "lerna run build",
+        "lerna version %version% --no-git-tag-version -y",
+        "git add .",
+        "git commit -a -m'Bumped packages version to %version%'",
+        "lerna publish %version% --no-git-tag-version -y"
+    ],
+    "devCommands": [
+        "lerna version %version% --no-git-tag-version -y",
+        "git add .",
+        "git commit -a -m'Bumped packages version to %version%'"
+    ]
 }
