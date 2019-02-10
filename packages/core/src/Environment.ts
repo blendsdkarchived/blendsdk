@@ -27,12 +27,13 @@ export interface IEnvironmentConfig extends IComponentConfig {
 }
 
 /**
- * This class provides a simple way to create and manage environment variables
+ * This class provides a simple way to create and manage environment variables.
  *
+ * @export
  * @class Environment
  * @extends {Component<IEnvironmentConfig>}
  */
-class Environment extends Component<IEnvironmentConfig> {
+export class Environment extends Component<IEnvironmentConfig> {
     /**
      * Creates an instance of Environment.
      * @param {IEnvironmentConfig} [config]
