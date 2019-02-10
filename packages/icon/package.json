@@ -1,6 +1,6 @@
 {
     "name": "@blendsdk/icon",
-    "version": "0.0.19",
+    "version": "0.0.20",
     "description": "TODO",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
@@ -18,11 +18,11 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "dependencies": {
-        "@blendsdk/ajax": "^0.0.19",
-        "@blendsdk/browser": "^0.0.19",
-        "@blendsdk/core": "^0.0.19",
-        "@blendsdk/css": "^0.0.19",
-        "@blendsdk/dom": "^0.0.19"
+        "@blendsdk/ajax": "^0.0.20",
+        "@blendsdk/browser": "^0.0.20",
+        "@blendsdk/core": "^0.0.20",
+        "@blendsdk/css": "^0.0.20",
+        "@blendsdk/dom": "^0.0.20"
     },
     "keywords": [
         "typescript",

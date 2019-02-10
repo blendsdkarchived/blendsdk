@@ -20,11 +20,6 @@ export namespace Blend {
      * The base font size that is used in all rem calculation
      */
     export let BASE_FONT_SIZE = 16;
-    /**
-     * The base URL of BlendSDK. This should be a static map to the
-     * node_modules/@blend
-     */
-    export let BASE_URL = "/blendsdk";
 
     /**
      * The Blend.requestAnimationFrame() method tells the browser that you wish to perform
