@@ -1,9 +1,19 @@
 // tslint:disable:no-console
 
 import { Blend, IDictionary } from "@blendsdk/core";
-import { IRouteItemConfig, Router } from "@blendsdk/router";
+import { IRouteItemConfig, IRouterConfig, Router } from "@blendsdk/router";
 import { IUIComponentConfig, IUIComponentStyles, TUIComponent, UIComponent } from "@blendsdk/ui";
 import { UIStack } from "@blendsdk/uistack";
+
+/**
+ * Enum providing the ViewRouter event names.
+ *
+ * @export
+ * @enum {number}
+ */
+export enum eViewRouterEvents {
+    onRouteChanged = "onRouteChanged"
+}
 
 /**
  * Helper enum for getting the route information from a view within a
@@ -68,9 +78,10 @@ export interface IViewRouterRouteConfig {
  *
  * @export
  * @interface IViewRouterConfig
+ * @extends {IRouterConfig}
  * @extends {IUIComponentConfig<IUIComponentStyles>}
  */
-export interface IViewRouterConfig extends IUIComponentConfig<IUIComponentStyles> {
+export interface IViewRouterConfig extends IRouterConfig, IUIComponentConfig<IUIComponentStyles> {
     /**
      * Option to configure the Routes
      *
@@ -123,12 +134,25 @@ export class ViewRouter extends UIComponent<IUIComponentStyles, IViewRouterConfi
                     if (item.getUserData(eViewRouterData.route) === route.name) {
                         item.setUserData(eViewRouterData.routeParams, params);
                         me.uiStack.setActiveView(item);
+                        me.dispatchOnRouteChanged(item, params, route);
                     }
                 });
             }
         });
-
         me.router.initComponent();
+    }
+
+    /**
+     * Dispatches the onRouteChanged event.
+     *
+     * @protected
+     * @param {TUIComponent} view
+     * @param {IDictionary} params
+     * @param {IRouteItemConfig} route
+     * @memberof ViewRouter
+     */
+    protected dispatchOnRouteChanged(view: TUIComponent, params: IDictionary, route: IRouteItemConfig) {
+        this.dispatchEvent(eViewRouterEvents.onRouteChanged, [view, params, route]);
     }
 
     /**
