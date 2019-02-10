@@ -2,7 +2,7 @@
     "name": "blendsdk",
     "description": "BlendSDK HTML5 Web Application Framework for TypeScript",
     "private": true,
-    "version": "0.0.18",
+    "version": "0.0.19",
     "devDependencies": {
         "@types/node": "^10.12.21",
         "colors": "^1.3.3",
