@@ -81,7 +81,7 @@ export class CSSRule implements ICssFlattenProvider {
     protected getSelectorRegex(): RegExp {
         const tags = Object.keys(HTML_TAGS)
             .map(t => {
-                return "\\b" + t + "\\b";
+                return "(?<!\\S)" + t + "(?!\\S)";
             })
             .join("|");
         return new RegExp("^(\\.|-+|_+|:+|@|\\*)|" + tags, "gmi");
