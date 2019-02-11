@@ -29,6 +29,12 @@ export class Reset extends Sheet {
         me.touch();
     }
 
+    /**
+     * Reset the touch styles
+     *
+     * @protected
+     * @memberof Reset
+     */
     protected touch() {
         const aTag = CSS.block("a", { "-webkit-tap-highlight-color": "rgba(0,0,0,0)" });
         this.addRule([CSS.block("a", { touchAction: "manipulation" }).compose("button"), aTag]);
@@ -37,6 +43,12 @@ export class Reset extends Sheet {
         });
     }
 
+    /**
+     * Reset tables
+     *
+     * @protected
+     * @memberof Reset
+     */
     protected tables() {
         this.addRule(
             CSS.block("table", {
@@ -46,15 +58,33 @@ export class Reset extends Sheet {
         );
     }
 
+    /**
+     * Reset the lists
+     *
+     * @protected
+     * @memberof Reset
+     */
     protected lists() {
         this.addRule(CSS.block("ol", { listStyle: "none" }).compose("ul"));
     }
 
+    /**
+     * Reset the quotes
+     *
+     * @protected
+     * @memberof Reset
+     */
     protected quotes() {
         this.addRule(CSS.block("blockquote", { quotes: "none" }).compose("q"));
         this.addRule(CSS.block("blockquote", { quotes: "none" }).compose("q"));
     }
 
+    /**
+     * Reset the block elements
+     *
+     * @protected
+     * @memberof Reset
+     */
     protected displayBlock() {
         const list = [
                 "aside",
@@ -76,6 +106,12 @@ export class Reset extends Sheet {
         this.addRule(sty);
     }
 
+    /**
+     * Reset the common styles
+     *
+     * @protected
+     * @memberof Reset
+     */
     protected common() {
         const me = this;
         me.addRule([
@@ -98,6 +134,12 @@ export class Reset extends Sheet {
         me.addRule(CSS.block("*", [CSS.after({ content: "''" })]));
     }
 
+    /**
+     * Reset paddings and margins
+     *
+     * @protected
+     * @memberof Reset
+     */
     protected paddingAndMargins() {
         const html = CSS.block("html", {
             padding: 0,
