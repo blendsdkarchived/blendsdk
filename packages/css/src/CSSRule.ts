@@ -84,7 +84,7 @@ export class CSSRule implements ICssFlattenProvider {
                 return "\\b" + t + "\\b";
             })
             .join("|");
-        return new RegExp("^(\\.|-+|_+|:+|@)|" + tags, "gmi");
+        return new RegExp("^(\\.|-+|_+|:+|@|\\*)|" + tags, "gmi");
     }
 
     /**
@@ -198,7 +198,7 @@ export class CSSRule implements ICssFlattenProvider {
                 }
             });
             return {
-                css: `${me.renderSelector()} {${styles.join(";")}}`,
+                css: `${me.renderSelector()} {${styles.join("")}}`,
                 selector: styles.length !== 0 ? me.selector : "" // skips the empty selectors
             };
         };
