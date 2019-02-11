@@ -1,6 +1,6 @@
 {
     "name": "@blendsdk/deviceinfo",
-    "version": "0.0.20",
+    "version": "0.0.21",
     "description": "The BlendSDK DeviceInfo package",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
