@@ -7,4 +7,5 @@ export * from "./Component";
 export * from "./Collection";
 export * from "./SystemEvent";
 export * from "./Environment";
+export * from "./ColorsUtils";
 import "./Welcome";
