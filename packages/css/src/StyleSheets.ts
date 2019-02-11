@@ -45,7 +45,7 @@ class StyleSheetsSingleton {
             result: string[] = [];
         items.forEach(item => {
             if (item.selector !== "") {
-                const hash = item.selector.hash();
+                const hash = item.css.hash();
                 if (!me.cache[hash]) {
                     me.cache[hash] = true;
                     result.push(item.css);
