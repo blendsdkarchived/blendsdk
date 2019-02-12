@@ -79,6 +79,28 @@ class ColorUtilsSingleTon {
     }
 
     /**
+     * Check if the color tone is a light tone.
+     *
+     * @param {string} color
+     * @returns {boolean}
+     * @memberof ColorUtilsSingleTon
+     */
+    public isDark(color: string): boolean {
+        return this.tone(color) === eColorTone.dark;
+    }
+
+    /**
+     * Check if the color tone is a light tone.
+     *
+     * @param {string} color
+     * @returns {boolean}
+     * @memberof ColorUtilsSingleTon
+     */
+    public isLight(color: string): boolean {
+        return this.tone(color) === eColorTone.light;
+    }
+
+    /**
      * Calculates the contrast ratio
      *
      * @param {string} back
