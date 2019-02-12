@@ -145,6 +145,22 @@ class ColorUtilsSingleTon {
     }
 
     /**
+     * Converts RGB value to HEX
+     *
+     * @param {number} r
+     * @param {number} g
+     * @param {number} b
+     * @returns
+     * @memberof ColorUtilsSingleTon
+     */
+    public RGBToHex(r: number, g: number, b: number) {
+        const bin = (r << 16) | (g << 8) | b;
+        return `#${(h => {
+            return new Array(7 - h.length).join("0") + h;
+        })(bin.toString(16).toUpperCase())}`;
+    }
+
+    /**
      * Normalizes the hex color.
      *
      * @param {string} color
