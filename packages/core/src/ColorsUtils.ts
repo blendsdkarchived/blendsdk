@@ -81,22 +81,22 @@ class ColorUtilsSingleTon {
     /**
      * Check if the color tone is a light tone.
      *
-     * @param {string} color
+     * @param {(string | eColorTone)} color
      * @returns {boolean}
      * @memberof ColorUtilsSingleTon
      */
-    public isDark(color: string): boolean {
+    public isDark(color: string | eColorTone): boolean {
         return this.tone(color) === eColorTone.dark;
     }
 
     /**
      * Check if the color tone is a light tone.
      *
-     * @param {string} color
+     * @param {(string | eColorTone)} color
      * @returns {boolean}
      * @memberof ColorUtilsSingleTon
      */
-    public isLight(color: string): boolean {
+    public isLight(color: string | eColorTone): boolean {
         return this.tone(color) === eColorTone.light;
     }
 

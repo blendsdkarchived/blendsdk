@@ -1,6 +1,6 @@
 {
     "name": "@blendsdk/router",
-    "version": "0.0.24",
+    "version": "0.0.25",
     "description": "TODO",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
@@ -18,9 +18,9 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "dependencies": {
-        "@blendsdk/browser": "^0.0.24",
-        "@blendsdk/core": "^0.0.24",
-        "@blendsdk/mvc": "^0.0.24"
+        "@blendsdk/browser": "^0.0.25",
+        "@blendsdk/core": "^0.0.25",
+        "@blendsdk/mvc": "^0.0.25"
     },
     "keywords": [
         "typescript",
