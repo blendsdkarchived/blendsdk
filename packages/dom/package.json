@@ -1,6 +1,6 @@
 {
     "name": "@blendsdk/dom",
-    "version": "0.0.27",
+    "version": "0.0.28",
     "description": "The BlendSDK DOM package",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
@@ -27,7 +27,7 @@
         "components"
     ],
     "dependencies": {
-        "@blendsdk/core": "^0.0.27"
+        "@blendsdk/core": "^0.0.28"
     },
     "gitHead": "3cf0c717504e5e6ee768f9423eec41a997662df9",
     "devDependencies": {
