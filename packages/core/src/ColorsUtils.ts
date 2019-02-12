@@ -31,6 +31,20 @@ export enum eColorTone {
  */
 class ColorUtilsSingleTon {
     /**
+     * Applies an alpha channel to a given color.
+     *
+     * @param {string} color
+     * @param {number} alpha
+     * @returns {string}
+     * @memberof ColorUtilsSingleTon
+     */
+    public RGBA(color: string, alpha: number): string {
+        const c = this.hexToRGB(color);
+        alpha = Math.abs(alpha);
+        return `rgba(${c.r}, ${c.g}, ${c.b},${alpha > 1 ? alpha / 100 : alpha})`;
+    }
+
+    /**
      * Calculate the luminance for a color.
      * See https://www.w3.org/TR/WCAG20-TECHS/G17.html#G17-tests
      *
