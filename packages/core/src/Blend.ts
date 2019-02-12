@@ -22,6 +22,18 @@ export namespace Blend {
     export let BASE_FONT_SIZE = 16;
 
     /**
+     * Converts a camelCase string to dashed case.
+     * For example backgroundColor will be background-color
+     *
+     * @export
+     * @param {string} value
+     * @returns {string}
+     */
+    export function dashedCase(value: string): string {
+        return value.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+    }
+
+    /**
      * The Blend.requestAnimationFrame() method tells the browser that you wish to perform
      * an animation and requests that the browser call a specified function to update an
      * animation before the next repaint. The method takes a callback as an argument

@@ -160,8 +160,7 @@ export namespace Dom {
                 const styles: string[] = [];
                 Blend.forEach(config.style, (rule: string, key: string) => {
                     if (rule) {
-                        key = key.replace(/_/m, "-");
-                        styles.push(`${key}:${rule}`);
+                        styles.push(`${Blend.dashedCase(key)}:${rule}`);
                     }
                 });
                 const t = styles.join(";");

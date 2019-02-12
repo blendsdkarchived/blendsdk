@@ -188,12 +188,8 @@ export class CSSRule implements ICssFlattenProvider {
                 if (key === "rawContent") {
                     styles.push(value);
                 } else {
-                    /**
-                     * Convert the camelCase keys to real css keys: borderWidth => border-width
-                     */
-                    key = key.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
                     if (!Blend.isNullOrUndef(value)) {
-                        styles.push(`${key}:${value};`);
+                        styles.push(`${Blend.dashedCase(key)}:${value};`);
                     }
                 }
             });

@@ -55,7 +55,7 @@ export class Environment extends Component<IEnvironmentConfig> {
      */
     public configure(config: IEnvironmentConfig) {
         const me = this;
-        Blend.apply(me.config, config);
+        Blend.apply(me.config, config, { overwrite: true });
     }
 
     /**

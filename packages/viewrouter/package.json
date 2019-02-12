@@ -1,6 +1,6 @@
 {
     "name": "@blendsdk/viewrouter",
-    "version": "0.0.25",
+    "version": "0.0.26",
     "description": "TODO",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
@@ -18,13 +18,13 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "dependencies": {
-        "@blendsdk/browser": "^0.0.25",
-        "@blendsdk/core": "^0.0.25",
-        "@blendsdk/css": "^0.0.25",
-        "@blendsdk/mvc": "^0.0.25",
-        "@blendsdk/router": "^0.0.25",
-        "@blendsdk/ui": "^0.0.25",
-        "@blendsdk/uistack": "^0.0.25"
+        "@blendsdk/browser": "^0.0.26",
+        "@blendsdk/core": "^0.0.26",
+        "@blendsdk/css": "^0.0.26",
+        "@blendsdk/mvc": "^0.0.26",
+        "@blendsdk/router": "^0.0.26",
+        "@blendsdk/ui": "^0.0.26",
+        "@blendsdk/uistack": "^0.0.26"
     },
     "keywords": [
         "typescript",
