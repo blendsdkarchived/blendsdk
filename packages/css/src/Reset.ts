@@ -1,4 +1,4 @@
-import { Blend } from "@blendsdk/core";
+import { Blend, ColorUtils } from "@blendsdk/core";
 import { CSS } from "./CSS";
 import { Sheet } from "./Sheet";
 import { HTML_TAGS } from "./Tags";
@@ -36,7 +36,7 @@ export class Reset extends Sheet {
      * @memberof Reset
      */
     protected touch() {
-        const aTag = CSS.block("a", { "-webkit-tap-highlight-color": "rgba(0,0,0,0)" });
+        const aTag = CSS.block("a", { "-webkit-tap-highlight-color": ColorUtils.RGBA("#000", 0) });
         this.addRule([CSS.block("a", { touchAction: "manipulation" }).compose("button"), aTag]);
         ["input", "textarea", "button", "select"].forEach(item => {
             aTag.compose(item);
