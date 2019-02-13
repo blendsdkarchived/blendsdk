@@ -18,7 +18,8 @@
     "dependencies": {
         "@blendsdk/core": "^0.0.30",
         "@blendsdk/css": "^0.0.30",
-        "@blendsdk/dom": "^0.0.30"
+        "@blendsdk/dom": "^0.0.30",
+        "@blendsdk/deviceinfo": "^0.0.30"
     },
     "main": "dist/index.js",
     "types": "dist/index.d.ts",

@@ -1,7 +1,8 @@
 import { Blend, IDictionary, IScreenInformation, SystemEvents, TFunction } from "@blendsdk/core";
 import { StyleSheets } from "@blendsdk/css";
+import { Sheet } from "@blendsdk/css";
+import { DeviceInfo } from "@blendsdk/deviceinfo";
 import { Dom } from "@blendsdk/dom";
-import { Sheet } from "../../css/dist/Sheet";
 import { SystemStyles } from "./SystemStyles";
 
 /**
@@ -357,6 +358,7 @@ class BrowserSingleton {
         const me = this;
         me.attachStyleSheet(new SystemStyles());
         window.document.documentElement.classList.add(me.isRTL() ? "b-rtl" : "b-ltr");
+        window.document.documentElement.classList.add(DeviceInfo.getBrowserType());
     }
 
     /**

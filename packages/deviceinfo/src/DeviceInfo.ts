@@ -1,4 +1,19 @@
 /**
+ * Enum providing browser types.
+ *
+ * @export
+ * @enum {number}
+ */
+export enum eBrowserType {
+    Chrome = "chrome",
+    FireFox = "firefox",
+    Safari = "safari",
+    MSIE = "msie",
+    Edge = "edge",
+    Unsupported = "unsupported"
+}
+
+/**
  * Interface providing information about the current device.
  * This interface is implemented and available from {`Blend.runtime.deviceInfo`}
  *
@@ -66,6 +81,14 @@ export class DeviceInfoSingleton {
      * @memberof DeviceInformation
      */
     protected userAgent: string;
+    /**
+     * The current browser type;
+     *
+     * @protected
+     * @type {string}
+     * @memberof DeviceInfoSingleton
+     */
+    protected browserType: eBrowserType;
 
     public constructor(nav?: Navigator) {
         const me = this;
@@ -172,7 +195,28 @@ export class DeviceInfoSingleton {
         };
         result.Device = !msie && (result.iOS || result.AndroidOS || result.AndroidStock || winphone || msphone);
         result.Desktop = !result.Device;
+
+        if (result.Chrome || result.Opera || result.Yandex || result.UCBrowser) {
+            me.browserType = eBrowserType.Chrome;
+        } else if (result.IE) {
+            me.browserType = eBrowserType.MSIE;
+        } else if (result.Safari) {
+            me.browserType = eBrowserType.Safari;
+        } else if (result.Edge) {
+            me.browserType = eBrowserType.Edge;
+        }
+
         return result;
+    }
+
+    /**
+     * Gets the current browser type.
+     *
+     * @returns {string}
+     * @memberof DeviceInfoSingleton
+     */
+    public getBrowserType(): string {
+        return this.browserType;
     }
 
     /**
