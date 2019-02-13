@@ -216,6 +216,8 @@ export class DeviceInfoSingleton {
      * @memberof DeviceInfoSingleton
      */
     public getBrowserType(): string {
+        const me = this;
+        me.getInformation();
         return this.browserType;
     }
 

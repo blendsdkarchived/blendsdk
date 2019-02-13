@@ -358,7 +358,7 @@ class BrowserSingleton {
         const me = this;
         me.attachStyleSheet(new SystemStyles());
         window.document.documentElement.classList.add(me.isRTL() ? "b-rtl" : "b-ltr");
-        window.document.documentElement.classList.add(DeviceInfo.getBrowserType());
+        window.document.documentElement.classList.add(`b-${DeviceInfo.getBrowserType()}`);
     }
 
     /**
