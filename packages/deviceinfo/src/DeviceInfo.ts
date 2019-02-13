@@ -204,6 +204,10 @@ export class DeviceInfoSingleton {
             me.browserType = eBrowserType.Safari;
         } else if (result.Edge) {
             me.browserType = eBrowserType.Edge;
+        } else if (result.Firefox) {
+            me.browserType = eBrowserType.FireFox;
+        } else {
+            me.browserType = eBrowserType.Unsupported;
         }
 
         return result;
