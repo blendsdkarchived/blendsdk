@@ -81,7 +81,7 @@ export class CSSRule implements ICssFlattenProvider {
     protected getSelectorRegex(): RegExp {
         const tags = Object.keys(HTML_TAGS)
             .map(t => {
-                return "\b" + t + "\b";
+                return "\\b" + t + "\\b";
             })
             .join("|");
         return new RegExp("^(\\.|-+|_+|:+|@|\\*)|" + tags, "gmi");
@@ -188,8 +188,21 @@ export class CSSRule implements ICssFlattenProvider {
                 if (key === "rawContent") {
                     styles.push(value);
                 } else {
-                    if (!Blend.isNullOrUndef(value)) {
-                        styles.push(`${Blend.dashedCase(key)}:${value};`);
+                    const k = Blend.dashedCase(key);
+                    if (Blend.isArray(value)) {
+                        switch (k) {
+                            case "content":
+                                (value as string[]).forEach(v => {
+                                    styles.push(`${k}:${v};`);
+                                });
+                                break;
+                            default:
+                                styles.push(`${k}:${value.join(", ")};`);
+                        }
+                    } else {
+                        if (!Blend.isNullOrUndef(value)) {
+                            styles.push(`${k}:${value};`);
+                        }
                     }
                 }
             });
