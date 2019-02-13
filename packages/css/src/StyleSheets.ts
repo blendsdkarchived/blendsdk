@@ -26,9 +26,12 @@ class StyleSheetsSingleton {
      * @memberof StyleSheetsSingleton
      */
     public attach(sheet: Sheet) {
-        const el = document.createElement("style");
-        el.innerHTML = this.render(sheet);
-        document.head.appendChild(el);
+        const styles = this.render(sheet).trim();
+        if (styles.length !== 0) {
+            const el = document.createElement("style");
+            el.innerHTML = styles;
+            document.head.appendChild(el);
+        }
     }
 
     /**
