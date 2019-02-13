@@ -1,6 +1,19 @@
-import { Reset, StyleSheets } from "@blendsdk/css";
+import { CSS, Reset, Sheet, StyleSheets } from "@blendsdk/css";
 
-StyleSheets.attach(new Reset());
+const sheet = new Sheet();
+
+sheet.addRule([
+    CSS.block("body", [
+        {
+            willChange: ["opacity", "transform"]
+        },
+        CSS.after({
+            content: ["''", "none"]
+        })
+    ])
+]);
+
+StyleSheets.attach(sheet);
 
 // import { Application } from "@blendsdk/application";
 // import { IPlaceholderConfig, Placeholder, TUIComponent } from "@blendsdk/ui";
