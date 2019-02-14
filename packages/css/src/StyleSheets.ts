@@ -20,6 +20,16 @@ class StyleSheetsSingleton {
     }
 
     /**
+     * Creates and returns new Sheet object
+     *
+     * @returns {Sheet}
+     * @memberof StyleSheetsSingleton
+     */
+    public create(): Sheet {
+        return new Sheet();
+    }
+
+    /**
      * Attaches a Sheet to the browser DOM.
      *
      * @param {Sheet} sheet
