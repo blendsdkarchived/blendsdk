@@ -15,7 +15,6 @@ export interface IToolbarSpacerConfig extends IUIComponentConfig<IUIComponentSty
  *
  * This component either accepts a `flexSize` or a `size.width` value.
  *
- *
  * @export
  * @class ToolbarSpacer
  * @extends {Blend.ui.Component}
