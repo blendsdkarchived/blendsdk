@@ -27,7 +27,8 @@ export namespace CSS {
      * @returns {string}
      */
     export function letterSpacing(tracking: number, fontSize: number): string {
-        return `${tracking / (fontSize * Blend.BASE_FONT_SIZE)}rem`;
+        const t = tracking / (fontSize * Blend.BASE_FONT_SIZE);
+        return `${Math.round(t * 1000) / 1000}em`;
     }
 
     /**
