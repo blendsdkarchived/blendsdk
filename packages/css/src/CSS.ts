@@ -24,10 +24,10 @@ export namespace CSS {
      * @export
      * @param {number} tracking
      * @param {number} fontSize
-     * @returns
+     * @returns {string}
      */
-    export function letterSpacing(tracking: number, fontSize: number) {
-        return Blend.remCalc(tracking / (fontSize * Blend.BASE_FONT_SIZE));
+    export function letterSpacing(tracking: number, fontSize: number): string {
+        return `${tracking / (fontSize * Blend.BASE_FONT_SIZE)}rem`;
     }
 
     /**
@@ -45,6 +45,17 @@ export namespace CSS {
         return new CSSRule(selector, styles, (parent: string, current: string) => {
             return `${parent} ~ ${current}`;
         });
+    }
+
+    /**
+     * Creates a CSS rule representing a `:not(.b-disabled) selector`
+     *
+     * @export
+     * @param {(IStyleSet | CSSRule | Array<IStyleSet | CSSRule>)} styles
+     * @returns
+     */
+    export function notDisabled(styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
+        return and(":not(.b-disabled)", styles);
     }
 
     /**
@@ -82,6 +93,16 @@ export namespace CSS {
      */
     export function after(styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
         return and("::after", styles);
+    }
+
+    /**
+     * Creates a CSS rules representing `::hover`
+     *
+     * @export
+     * @param {(IStyleSet | CSSRule | Array<IStyleSet | CSSRule>)} styles
+     */
+    export function hover(styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
+        return and(":hover", styles);
     }
 
     /**
