@@ -32,6 +32,23 @@ export namespace CSS {
     }
 
     /**
+     * CSS rules to make an element selectable.
+     *
+     * @export
+     * @param {(boolean | any)} value
+     * @returns {IStyleSet}
+     */
+    export function selectable(value: boolean | any): IStyleSet {
+        value = value === false ? "none" : value;
+        return {
+            "-webkit-user-select": value,
+            "-moz-user-select": value,
+            "-ms-user-select": value,
+            "user-select": value
+        };
+    }
+
+    /**
      * Creates a CSS rules representing a selector that is preceded by
      * its parent selector.
      *
