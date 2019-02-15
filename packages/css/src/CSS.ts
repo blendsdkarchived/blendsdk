@@ -19,6 +19,18 @@ export interface ICSSTransition {
 // tslint:disable-next-line:no-namespace
 export namespace CSS {
     /**
+     * Returns a calculated letter-spacing value
+     *
+     * @export
+     * @param {number} tracking
+     * @param {number} fontSize
+     * @returns
+     */
+    export function letterSpacing(tracking: number, fontSize: number) {
+        return Blend.remCalc(tracking / (fontSize * Blend.BASE_FONT_SIZE));
+    }
+
+    /**
      * Creates a CSS rules representing a selector that is preceded by
      * its parent selector.
      *
