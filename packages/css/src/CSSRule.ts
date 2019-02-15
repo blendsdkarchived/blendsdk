@@ -99,7 +99,7 @@ export class CSSRule implements ICssFlattenProvider {
         const me = this;
         selector = selector.trim();
         me.selectorRe.lastIndex = 0;
-        if (selector.indexOf("-") === -1 && me.selectorRe.test(selector)) {
+        if ((selector.indexOf("-") === -1 && me.selectorRe.test(selector)) || selector.indexOf("-") === 0) {
             return selector;
         } else {
             return `.${selector}`;
