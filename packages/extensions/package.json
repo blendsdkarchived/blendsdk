@@ -1,6 +1,6 @@
 {
     "name": "@blendsdk/extensions",
-    "version": "0.0.38",
+    "version": "0.0.39",
     "description": "The BlendSDK extensions package",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
