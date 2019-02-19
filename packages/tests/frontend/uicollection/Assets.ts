@@ -55,7 +55,7 @@ export namespace Assets.ui {
         protected finalizeRender() {
             super.finalizeRender();
             const sheet = stylesheet([
-                CSS.block(".b-t-list", [
+                CSS.block("b-t-list", [
                     {
                         height: Blend.toPx(64),
                         backgroundColor: "#FAFAFA",
@@ -64,7 +64,7 @@ export namespace Assets.ui {
                         alignItems: "center",
                         justifyContent: "center"
                     },
-                    CSS.child(".b-uc-item", {
+                    CSS.child("b-uc-item", {
                         width: Blend.toPx(48),
                         height: Blend.toPx(48),
                         border: "1px solid black",

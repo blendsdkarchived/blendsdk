@@ -60,8 +60,8 @@ export class SVGIcon extends Icon {
     protected createStyles() {
         const me = this,
             sheet = stylesheet(
-                CSS.block(".b-svg-icon", [
-                    CSS.and(".b-size-" + me.config.size, {
+                CSS.block("b-svg-icon", [
+                    CSS.and("b-size-" + me.config.size, {
                         width: Blend.remCalc(me.config.size),
                         height: Blend.remCalc(me.config.size),
                         minWidth: Blend.remCalc(me.config.size),
@@ -70,7 +70,7 @@ export class SVGIcon extends Icon {
                 ])
             );
         if (me.config.color) {
-            sheet.addRule(CSS.block(".b-" + me.getUID(), [CSS.child("svg", { fill: me.config.color })]));
+            sheet.addRule(CSS.block("b-" + me.getUID(), [CSS.child("svg", { fill: me.config.color })]));
         }
         Browser.attachStyleSheet(sheet);
     }

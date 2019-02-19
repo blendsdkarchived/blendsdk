@@ -1,18 +1,60 @@
-interface IA {
-    a?: any;
-}
+import { Application } from "@blendsdk/application";
+import { Browser } from "@blendsdk/browser";
+import { Blend } from "@blendsdk/core";
+import { CSS, stylesheet } from "@blendsdk/css";
+import { Placeholder } from "@blendsdk/ui";
+import { UIStack } from "@blendsdk/uistack";
 
-interface IB {
-    b?: any;
-}
+const sheet = stylesheet(
+	CSS.block("bigtext", {
+		fontSize: "128px"
+	})
+);
+Browser.attachStyleSheet(sheet);
 
-type TAB = IA & IB;
+// const stack = new UIStack({
+//     activeView: "item2",
+//     styles: {
+//         padding: Blend.toPx(20),
+//         backgroundColor: "#EDEDED"
+//     },
+//     items: [
+//         new Placeholder({
+//             caption: "Item 1"
+//         }),
+//         new Placeholder({
+//             id: "item2",
+//             caption: "Item 2"
+//         }),
+//         new Placeholder({
+//             caption: "Item 3"
+//         })
+//     ]
+// });
 
-interface IC extends TAB {
-    c?: any;
-}
+// const app = new Application({
+//     mainView: stack,
+//     size: {
+//         width: Blend.toPx(300),
+//         height: Blend.toPx(300)
+//     }
+});
 
-const obj: IC = {};
+// interface IA {
+//     a?: any;
+// }
+
+// interface IB {
+//     b?: any;
+// }
+
+// type TAB = IA & IB;
+
+// interface IC extends TAB {
+//     c?: any;
+// }
+
+// const obj: IC = {};
 
 // import { Browser } from "@blendsdk/browser";
 // import { Blend } from "@blendsdk/core";

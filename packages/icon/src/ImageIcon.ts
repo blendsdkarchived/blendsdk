@@ -58,8 +58,8 @@ export class ImageIcon extends Icon {
         super.finalizeRender();
         const me = this,
             sheet = stylesheet(
-                CSS.block(".b-image-icon", [
-                    CSS.and(".b-round", {
+                CSS.block("b-image-icon", [
+                    CSS.and("b-round", {
                         borderRadius: Blend.toPct(100)
                     })
                 ])
@@ -67,7 +67,7 @@ export class ImageIcon extends Icon {
 
         if (me.config.size) {
             sheet.addRule(
-                CSS.block(".b-" + me.getUID(), {
+                CSS.block("b-" + me.getUID(), {
                     width: Blend.toPxIf(me.config.size),
                     height: Blend.toPxIf(me.config.size)
                 })

@@ -164,8 +164,8 @@ export class UIStack extends UICollection<UIComponent> {
 
         const me = this,
             sheet = stylesheet([
-                CSS.block(".b-stack", [
-                    CSS.child(".b-uc-item", {
+                CSS.block("b-stack", [
+                    CSS.child("b-uc-item", {
                         top: 0,
                         left: 0
                     })
@@ -174,7 +174,7 @@ export class UIStack extends UICollection<UIComponent> {
                     {
                         padding: styles.padding || 0
                     },
-                    CSS.child(".b-uc-item", [
+                    CSS.child("b-uc-item", [
                         {
                             position: styles.padding === 0 ? null : "relative"
                         },

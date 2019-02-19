@@ -61,7 +61,7 @@ export class Placeholder extends UIComponent {
         this.attachStyleSheet(
             stylesheet([
                 // For all placeholders
-                CSS.block(".placeholder", {
+                CSS.block("placeholder", {
                     width: Blend.toPx(128),
                     height: Blend.toPx(128),
                     display: "flex",

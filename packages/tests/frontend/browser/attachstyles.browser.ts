@@ -5,7 +5,7 @@ import { Dom } from "@blendsdk/dom";
 
 export default function(t: IAssertionProvider) {
     const sheet = stylesheet(
-        CSS.block(".big", {
+        CSS.block("big-text", {
             fontSize: "128px"
         })
     );
@@ -13,7 +13,7 @@ export default function(t: IAssertionProvider) {
 
     Browser.ready(() => {
         const el = Dom.createElement({
-            css: "big",
+            css: "big-text",
             textContent: "Big Text"
         });
 

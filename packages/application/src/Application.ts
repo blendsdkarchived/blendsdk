@@ -62,14 +62,14 @@ export class Application extends UIComponent {
                 boxSizing: "border-box"
             },
             sheet = stylesheet([
-                CSS.block(".b-fit-to-window", [
+                CSS.block("b-fit-to-window", [
                     {
                         overflow: "hidden"
                     },
                     CSS.makeFit(),
-                    CSS.child("body", [CSS.makeFit(), borderBoxSettings, CSS.child(".b-application", CSS.makeFit())])
+                    CSS.child("body", [CSS.makeFit(), borderBoxSettings, CSS.child("b-application", CSS.makeFit())])
                 ]),
-                CSS.block(".b-application", [
+                CSS.block("b-application", [
                     borderBoxSettings,
                     {
                         opacity: 0,
@@ -81,10 +81,10 @@ export class Application extends UIComponent {
                             durationInSeconds: 0.5
                         })
                     ]),
-                    CSS.and(".b-ready", {
+                    CSS.and("b-ready", {
                         opacity: 1
                     }),
-                    CSS.child(".b-main-view", CSS.makeFit())
+                    CSS.child("b-main-view", CSS.makeFit())
                 ]),
                 CSS.block(selectorUid, {
                     backgroundColor: styles.backgroundColor
