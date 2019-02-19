@@ -33,7 +33,15 @@ export interface IEnvironmentConfig extends IComponentConfig {
  * @class Environment
  * @extends {Component<IEnvironmentConfig>}
  */
-export class Environment extends Component<IEnvironmentConfig> {
+export class Environment extends Component {
+    /**
+     * @override
+     * @protected
+     * @type {IEnvironmentConfig}
+     * @memberof Environment
+     */
+    protected config: IEnvironmentConfig;
+
     /**
      * Creates an instance of Environment.
      * @param {IEnvironmentConfig} [config]
@@ -44,7 +52,7 @@ export class Environment extends Component<IEnvironmentConfig> {
         this.configDefaults({
             fontsBaseURL: "/fonts",
             imagesBaseURL: "/images"
-        });
+        } as IEnvironmentConfig);
     }
 
     /**

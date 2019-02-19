@@ -1,15 +1,31 @@
-import { Browser } from "@blendsdk/browser";
-import { Blend } from "@blendsdk/core";
-import { CSS, Reset, Sheet, StyleSheets } from "@blendsdk/css";
-import { ToolbarSpacer } from "@blendsdk/ui";
+interface IA {
+    a?: any;
+}
 
-Browser.ready(() => {
-    document.body.appendChild(
-        new ToolbarSpacer({
-            flexSize: 1
-        })
-    );
-});
+interface IB {
+    b?: any;
+}
+
+type TAB = IA & IB;
+
+interface IC extends TAB {
+    c?: any;
+}
+
+const obj: IC = {};
+
+// import { Browser } from "@blendsdk/browser";
+// import { Blend } from "@blendsdk/core";
+// import { CSS, Reset, Sheet, StyleSheets } from "@blendsdk/css";
+// import { ToolbarSpacer } from "@blendsdk/ui";
+
+// Browser.ready(() => {
+//     document.body.appendChild(
+//         new ToolbarSpacer({
+//             flexSize: 1
+//         })
+//     );
+// });
 
 // const sheet = new Sheet();
 

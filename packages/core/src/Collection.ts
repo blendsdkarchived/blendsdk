@@ -1,5 +1,5 @@
 import { Blend } from "./Blend";
-import { Component, TComponent } from "./Component";
+import { Component } from "./Component";
 import { IComponentConfig } from "./Types";
 
 /**
@@ -8,7 +8,7 @@ import { IComponentConfig } from "./Types";
  * @interface ICollection
  * @template ComponentType
  */
-interface ICollectionConfig<ComponentType extends TComponent> extends IComponentConfig {
+interface ICollectionConfig<ComponentType extends Component> extends IComponentConfig {
     /**
      * Option provide initial items to the collection.
      *
@@ -19,7 +19,7 @@ interface ICollectionConfig<ComponentType extends TComponent> extends IComponent
      * @type {(ComponentType|Array<ComponentType>)}
      * @memberof ICollectionConfig
      */
-    items?: ComponentType[] | ArrayLike<ComponentType>;
+    items?: ComponentType[];
     /**
      * Called when an item is added to the collection.
      *
@@ -90,7 +90,15 @@ interface ICollectionConfig<ComponentType extends TComponent> extends IComponent
  * @extends {Blend.core.Component}
  * @template ComponentType
  */
-export class Collection<ComponentType extends TComponent> extends Component<ICollectionConfig<ComponentType>> {
+export class Collection<ComponentType extends Component> extends Component {
+    /**
+     * @override
+     * @protected
+     * @type {ICollectionConfig<ComponentType>}
+     * @memberof Collection
+     */
+    protected config: ICollectionConfig<ComponentType>;
+
     /**
      * Flag for indicating whether the internal
      * events are enabled or disabled.
@@ -148,7 +156,7 @@ export class Collection<ComponentType extends TComponent> extends Component<ICol
             onSort: noOp,
             onSwap: noOp,
             onTruncate: noOp
-        });
+        } as ICollectionConfig<ComponentType>);
         me.withEventsDisabled(() => {
             me.addMany(me.config.items);
             me.config.items = null;
