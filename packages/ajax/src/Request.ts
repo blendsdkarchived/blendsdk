@@ -77,7 +77,14 @@ export interface IAjaxRequestConfig extends IMVCComponentConfig {
  * @class Request
  * @extends {Blend.mvc.Component}
  */
-export class AjaxRequest extends MVCComponent<IAjaxRequestConfig> {
+export class AjaxRequest extends MVCComponent {
+    /**
+     * @override
+     * @protected
+     * @type {IAjaxRequestConfig}
+     * @memberof AjaxRequest
+     */
+    protected config: IAjaxRequestConfig;
     /**
      * Create a simple get request
      *
@@ -101,7 +108,7 @@ export class AjaxRequest extends MVCComponent<IAjaxRequestConfig> {
         super(config);
         this.configDefaults({
             type: "GET"
-        });
+        } as IAjaxRequestConfig);
     }
 
     /**

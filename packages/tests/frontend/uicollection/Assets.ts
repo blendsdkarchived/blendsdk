@@ -4,9 +4,9 @@ import { CSS, stylesheet } from "@blendsdk/css";
 import { IUICollectionConfig, IUIComponentStyles, Placeholder, UICollection } from "@blendsdk/ui";
 
 export namespace Assets.ui {
-    export interface IListConfig extends IUICollectionConfig<IUIComponentStyles, Placeholder> {}
+    export interface IListConfig extends IUICollectionConfig<Placeholder> {}
 
-    export class List extends UICollection<IUIComponentStyles, Placeholder, IListConfig> {
+    export class List extends UICollection<Placeholder> {
         protected styleDefaults(styles: IUIComponentStyles): IUIComponentStyles {
             return styles;
         }

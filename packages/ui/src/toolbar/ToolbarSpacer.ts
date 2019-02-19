@@ -7,7 +7,7 @@ import { IUIComponentConfig, IUIComponentStyles, UIComponent } from "../UICompon
  * @interface IToolbarSpacerConfig
  * @extends {IUIComponentConfig}
  */
-export interface IToolbarSpacerConfig extends IUIComponentConfig<IUIComponentStyles> {}
+export interface IToolbarSpacerConfig extends IUIComponentConfig {}
 
 /**
  * A UI component that can be used to place a distance between
@@ -19,7 +19,7 @@ export interface IToolbarSpacerConfig extends IUIComponentConfig<IUIComponentSty
  * @class ToolbarSpacer
  * @extends {Blend.ui.Component}
  */
-export class ToolbarSpacer extends UIComponent<IUIComponentStyles, IToolbarSpacerConfig> {
+export class ToolbarSpacer extends UIComponent {
     /**
      * Creates an instance of ToolbarSpacer.
      * @param {IToolbarSpacerConfig} [config]
@@ -31,34 +31,12 @@ export class ToolbarSpacer extends UIComponent<IUIComponentStyles, IToolbarSpace
         me.configDefaults({
             size: { width: null },
             flexSize: null
-        });
+        } as IToolbarSpacerConfig);
         if (!me.config.size) {
             me.config.size = {};
         }
         me.config.flexSize = Blend.isNullOrUndef(me.config.size.width) ? 1 : me.config.flexSize;
         me.config.size.height = "auto";
-    }
-
-    /**
-     * @override
-     * @protected
-     * @param {IUIComponentStyles} styles
-     * @param {string} selectorUid
-     * @memberof ToolbarSpacer
-     */
-    protected createStyles(styles: IUIComponentStyles, selectorUid: string) {
-        // no-op
-    }
-
-    /**
-     * @override
-     * @protected
-     * @param {IUIComponentStyles} styles
-     * @returns {IUIComponentStyles}
-     * @memberof ToolbarSpacer
-     */
-    protected styleDefaults(styles: IUIComponentStyles): IUIComponentStyles {
-        return;
     }
 
     /**

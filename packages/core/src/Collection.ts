@@ -8,7 +8,7 @@ import { IComponentConfig } from "./Types";
  * @interface ICollection
  * @template ComponentType
  */
-interface ICollectionConfig<ComponentType extends Component> extends IComponentConfig {
+export interface ICollectionConfig<ComponentType extends Component> extends IComponentConfig {
     /**
      * Option provide initial items to the collection.
      *

@@ -36,7 +36,14 @@ export interface IImageIconConfig extends IIconConfig {
  * @class ImageIcon
  * @extends {Blend.icon.Icon}
  */
-export class ImageIcon extends Icon<IImageIconConfig> {
+export class ImageIcon extends Icon {
+    /**
+     * @override
+     * @protected
+     * @type {IImageIconConfig}
+     * @memberof ImageIcon
+     */
+    protected config: IImageIconConfig;
     /**
      * Creates an instance of ImageIcon.
      * @param {IImageIconConfig} [config]

@@ -1,7 +1,7 @@
-import { Blend, Collection, IDictionary } from "@blendsdk/core";
+import { Blend, Collection, ICollectionConfig, IDictionary } from "@blendsdk/core";
 import { DOMElement } from "@blendsdk/dom";
 import { TComponentEvent } from "@blendsdk/mvc";
-import { IUIComponentConfig, IUIComponentStyles, TUIComponent, UIComponent } from "./UIComponent";
+import { IUIComponentConfig, UIComponent } from "./UIComponent";
 
 /**
  * Enum describing UICollection events.
@@ -27,10 +27,7 @@ enum eUICollectionEvents {
  * @template ComponentStylesType
  * @template ChildComponentType
  */
-export interface IUICollectionConfig<
-    ComponentStylesType extends IUIComponentStyles,
-    ChildComponentType extends TUIComponent
-> extends IUIComponentConfig<ComponentStylesType> {
+export interface IUICollectionConfig<ChildComponentType extends UIComponent> extends IUIComponentConfig {
     /**
      * Option to provide initial items to the UI collection.
      *
@@ -112,16 +109,18 @@ export interface IUICollectionConfig<
  * @export
  * @abstract
  * @class UICollection
- * @extends {UIComponent<ComponentStylesType, CollectionConfigType>}
- * @template ComponentStylesType
+ * @extends {UIComponent}
  * @template ChildComponentType
  * @template CollectionConfigType
  */
-export abstract class UICollection<
-    ComponentStylesType extends IUIComponentStyles,
-    ChildComponentType extends TUIComponent,
-    CollectionConfigType extends IUICollectionConfig<ComponentStylesType, ChildComponentType>
-> extends UIComponent<ComponentStylesType, CollectionConfigType> {
+export abstract class UICollection<ChildComponentType extends UIComponent> extends UIComponent {
+    /**
+     * @override
+     * @protected
+     * @type {IUICollectionConfig<UIComponent>}
+     * @memberof UICollection
+     */
+    protected config: IUICollectionConfig<ChildComponentType>;
     /**
      * An index of component to position inside the items array
      *
@@ -201,13 +200,13 @@ export abstract class UICollection<
      * @param {IUICollectionConfig} [config]
      * @memberof Collection
      */
-    public constructor(config?: CollectionConfigType) {
+    public constructor(config?: IUICollectionConfig<ChildComponentType>) {
         super(config);
         const me = this;
         me.stash = window.document.createDocumentFragment();
         me.configDefaults({
             items: []
-        } as CollectionConfigType);
+        } as IUICollectionConfig<ChildComponentType>);
         // Events are disabled by the super class!
         me.pCollection = new Collection({
             items: me.config.items,
@@ -219,7 +218,7 @@ export abstract class UICollection<
             onRemove: me.onRemove.bind(me),
             onTruncate: me.onTruncate.bind(me),
             onFilterState: me.onFilterState.bind(me)
-        });
+        } as ICollectionConfig<ChildComponentType>);
         // free memory
         me.config.items = null;
     }
@@ -375,13 +374,13 @@ export abstract class UICollection<
      * @returns {UIComponent}
      * @memberof Stack
      */
-    protected find(item: number | string | TUIComponent): ChildComponentType {
+    protected find(item: number | string | UIComponent): ChildComponentType {
         const me = this;
         let result: ChildComponentType = null;
         if (Blend.isNumeric(item)) {
             result = me.getAt(item as number);
         } else if (Blend.isString(item)) {
-            me.forEach((itm: TUIComponent) => {
+            me.forEach((itm: UIComponent) => {
                 if (result === null && itm.getId() === item) {
                     result = itm as ChildComponentType;
                 }
@@ -775,7 +774,7 @@ export abstract class UICollection<
      * @returns {UIComponent}
      * @memberof Collection
      */
-    protected getElementByEventTarget(event: Event): TUIComponent {
+    protected getElementByEventTarget(event: Event): UIComponent {
         const me = this,
             cssKey = "b-uc-" + me.getUID();
 

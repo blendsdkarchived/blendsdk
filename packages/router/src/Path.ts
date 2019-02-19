@@ -154,7 +154,15 @@ type PathFunction = (data?: IDictionary, options?: IRouterPathGeneratorOptions) 
  * @class Path
  * @extends {Blend.core.Component}
  */
-export class RouterPath extends Component<IRouterPathConfig> {
+export class RouterPath extends Component {
+    /**
+     * @override
+     *
+     * @protected
+     * @type {IRouterPathConfig}
+     * @memberof RouterPath
+     */
+    protected config: IRouterPathConfig;
     /**
      * The main path matching regexp utility.
      *
@@ -207,7 +215,7 @@ export class RouterPath extends Component<IRouterPathConfig> {
             delimiter: "/",
             delimiters: "./",
             endsWith: []
-        });
+        } as IRouterPathConfig);
         me.pathRegExp = new RegExp(
             [
                 // Match escaped characters that would otherwise appear in future matches.
