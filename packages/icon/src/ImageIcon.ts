@@ -36,7 +36,14 @@ export interface IImageIconConfig extends IIconConfig {
  * @class ImageIcon
  * @extends {Blend.icon.Icon}
  */
-export class ImageIcon extends Icon<IImageIconConfig> {
+export class ImageIcon extends Icon {
+    /**
+     * @override
+     * @protected
+     * @type {IImageIconConfig}
+     * @memberof ImageIcon
+     */
+    protected config: IImageIconConfig;
     /**
      * Creates an instance of ImageIcon.
      * @param {IImageIconConfig} [config]
@@ -51,8 +58,8 @@ export class ImageIcon extends Icon<IImageIconConfig> {
         super.finalizeRender();
         const me = this,
             sheet = stylesheet(
-                CSS.block(".b-image-icon", [
-                    CSS.and(".b-round", {
+                CSS.block("b-image-icon", [
+                    CSS.and("b-round", {
                         borderRadius: Blend.toPct(100)
                     })
                 ])
@@ -60,7 +67,7 @@ export class ImageIcon extends Icon<IImageIconConfig> {
 
         if (me.config.size) {
             sheet.addRule(
-                CSS.block(".b-" + me.getUID(), {
+                CSS.block("b-" + me.getUID(), {
                     width: Blend.toPxIf(me.config.size),
                     height: Blend.toPxIf(me.config.size)
                 })

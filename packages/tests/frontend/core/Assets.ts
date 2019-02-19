@@ -5,9 +5,9 @@ export namespace Assets {
         name?: string;
     }
 
-    export class TestComponent extends Component<IComponentConfig> {}
+    export class TestComponent extends Component {}
 
-    export class Person extends Component<IComponentConfig> {
+    export class Person extends Component {
         protected config: ITestPersonConfig;
 
         public constructor(config?: ITestPersonConfig) {
@@ -23,7 +23,7 @@ export namespace Assets {
         }
     }
 
-    export class Greeter extends Component<IComponentConfig> {
+    export class Greeter extends Component {
         public sayHello(name: string) {
             return "Hello " + (name || "");
         }

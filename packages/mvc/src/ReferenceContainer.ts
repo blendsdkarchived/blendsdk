@@ -1,4 +1,4 @@
-import { Blend, Component, IComponentConfig, TComponent } from "@blendsdk/core";
+import { Blend, Component, IComponentConfig } from "@blendsdk/core";
 import { TComponentReference } from "./Types";
 
 /**
@@ -20,7 +20,7 @@ export interface IReferenceContainerConfig extends IComponentConfig {}
  * @class ReferenceContainer
  * @extends {Blend.core.Component}
  */
-export abstract class ReferenceContainer extends Component<IReferenceContainerConfig> {
+export abstract class ReferenceContainer extends Component {
     /**
      * Creates an instance of ReferenceContainer.
      * @param {IReferenceContainerConfig} [config]
@@ -40,7 +40,7 @@ export abstract class ReferenceContainer extends Component<IReferenceContainerCo
      */
     public createReference(propertyName?: any): TComponentReference {
         const me = this;
-        return (obj: TComponent) => {
+        return (obj: Component) => {
             propertyName = propertyName || obj.getId() || null;
             if (!Blend.isNullOrUndef(propertyName)) {
                 me.setReference(propertyName, obj);
@@ -63,7 +63,7 @@ export abstract class ReferenceContainer extends Component<IReferenceContainerCo
      * @param {Blend.core.Component} obj
      * @memberof Controller
      */
-    protected setReference(propertyName: string, obj: TComponent) {
+    protected setReference(propertyName: string, obj: Component) {
         const me: any = this,
             name = propertyName.replace(/_\$/gi, "");
         if (!me[name] || propertyName.indexOf("_$") === 0) {

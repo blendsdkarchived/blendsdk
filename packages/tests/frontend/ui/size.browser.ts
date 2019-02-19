@@ -1,6 +1,6 @@
 import { IAssertionProvider } from "@blendsdk/blendrunner";
 import { Blend } from "@blendsdk/core";
-import { TUIComponent } from "@blendsdk/ui";
+import { UIComponent } from "@blendsdk/ui";
 import { Assets } from "./Assets";
 
 export default function(t: IAssertionProvider) {
@@ -16,7 +16,7 @@ export default function(t: IAssertionProvider) {
         })
     };
 
-    Blend.forEach<TUIComponent>(uis, item => {
+    Blend.forEach<UIComponent>(uis, item => {
         document.body.appendChild(item);
     });
 

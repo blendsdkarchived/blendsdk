@@ -32,7 +32,14 @@ export interface ITaskRunnerConfig extends IComponentConfig {
  * @class TaskRunner
  * @extends {Component<ITaskRunnerConfig>}
  */
-export class TaskRunner extends Component<ITaskRunnerConfig> {
+export class TaskRunner extends Component {
+    /**
+     * @override
+     * @protected
+     * @type {ITaskRunnerConfig}
+     * @memberof TaskRunner
+     */
+    protected config: ITaskRunnerConfig;
     /**
      * A queue/list of task to be run.
      *
@@ -41,13 +48,6 @@ export class TaskRunner extends Component<ITaskRunnerConfig> {
      * @memberof TaskRunner
      */
     protected taskQueue: TFunction[] = [];
-    /**
-     * @override
-     * @protected
-     * @type {ITaskRunnerConfig}
-     * @memberof TaskRunner
-     */
-    protected config: ITaskRunnerConfig;
 
     /**
      * Creates an instance of TaskRunner.
@@ -58,7 +58,7 @@ export class TaskRunner extends Component<ITaskRunnerConfig> {
         super(config);
         this.configDefaults({
             stopAtErrors: false
-        });
+        } as ITaskRunnerConfig);
     }
 
     /**

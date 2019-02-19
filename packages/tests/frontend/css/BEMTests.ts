@@ -14,7 +14,7 @@ export default function(t: IDescribeProvider) {
         t.it("Should render modifier", (t: IAssertionProvider) => {
             const result = (StyleSheets as any).render(
                 stylesheet(
-                    BEM.block(".sel1", [
+                    BEM.block("sel1", [
                         { color: "red" },
                         BEM.element("element", [{ color: "red" }, BEM.modifier("disabled", { color: "gray" })])
                     ])
@@ -29,14 +29,14 @@ export default function(t: IDescribeProvider) {
 
         t.it("Should render element", (t: IAssertionProvider) => {
             const result = (StyleSheets as any).render(
-                stylesheet(BEM.block(".sel1", [{ color: "red" }, BEM.element("element", { color: "red" })]))
+                stylesheet(BEM.block("sel1", [{ color: "red" }, BEM.element("element", { color: "red" })]))
             );
             t.assertEqual(result, ".sel1 {color:red;}\n.sel1__element {color:red;}");
             t.done();
         });
 
         t.it("Should render block selector", (t: IAssertionProvider) => {
-            const result = (StyleSheets as any).render(stylesheet([BEM.block(".sel1", { color: "blue" })]));
+            const result = (StyleSheets as any).render(stylesheet([BEM.block("sel1", { color: "blue" })]));
             t.assertEqual(result, ".sel1 {color:blue;}");
             t.done();
         });

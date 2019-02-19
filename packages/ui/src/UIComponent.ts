@@ -15,10 +15,15 @@ export interface IUIComponentStyles {
     theme?: string;
 }
 
-/**
- * Describes a UIComponent as type for convenience.
- */
-export type TUIComponent = UIComponent<IUIComponentStyles, IUIComponentConfig<IUIComponentStyles>>;
+export interface IStylableUIComponentConfig<ComponentStylesType extends IUIComponentStyles> {
+    /**
+     * Option for configuring styles for this component.
+     *
+     * @type {ComponentStylesType}
+     * @memberof IUIComponentConfig
+     */
+    styles?: ComponentStylesType;
+}
 
 /**
  * Interface for implementing a dom component that has a global event listener
@@ -55,7 +60,7 @@ enum eUIComponentEvents {
  * @extends {IMVCComponentConfig}
  * @template ComponentStylesType
  */
-export interface IUIComponentConfig<ComponentStylesType extends IUIComponentStyles> extends IMVCComponentConfig {
+export interface IUIComponentConfig extends IMVCComponentConfig {
     /**
      * This event is dispatched when the browser window is resized.
      *
@@ -124,13 +129,6 @@ export interface IUIComponentConfig<ComponentStylesType extends IUIComponentStyl
      * @memberof IUIComponentConfig
      */
     size?: IElementSize;
-    /**
-     * Option for configuring styles for this component.
-     *
-     * @type {ComponentStylesType}
-     * @memberof IUIComponentConfig
-     */
-    styles?: ComponentStylesType;
 }
 
 /**
@@ -142,10 +140,14 @@ export interface IUIComponentConfig<ComponentStylesType extends IUIComponentStyl
  * @extends {Blend.mvc.Component}
  * @implements {EventListenerObject}
  */
-export abstract class UIComponent<
-    ComponentStylesType extends IUIComponentStyles,
-    ConfigType extends IUIComponentConfig<ComponentStylesType>
-> extends MVCComponent<ConfigType> implements EventListenerObject, IHTMLElementProvider {
+export abstract class UIComponent extends MVCComponent implements EventListenerObject, IHTMLElementProvider {
+    /**
+     * @override
+     * @protected
+     * @type {IUIComponentConfig}
+     * @memberof UIComponent
+     */
+    protected config: IUIComponentConfig;
     /**
      * Hold a cache of getBoundingClientRect(...) data
      * to be used in various layout scenarios.
@@ -170,7 +172,7 @@ export abstract class UIComponent<
      * @type {UIComponent}
      * @memberof Component
      */
-    protected parentCmp: TUIComponent;
+    protected parentCmp: UIComponent;
     /**
      * The internal HTMLElement containing the structure of the Component
      *
@@ -216,29 +218,6 @@ export abstract class UIComponent<
      * @memberof Component
      */
     protected abstract doLayout(isInitial?: boolean): void;
-    /**
-     * Abstract method that can be used to apply default values to the
-     * styles of this UI component.
-     *
-     * @protected
-     * @abstract
-     * @param {ComponentStylesType} styles
-     * @returns {ComponentStylesType}
-     * @memberof StylableUIComponent
-     */
-    protected abstract styleDefaults(styles: ComponentStylesType): ComponentStylesType;
-    /**
-     * Abstract method that can be used to create and attach stylesheet and CSSRules
-     * for this UI component.
-     *
-     * @protected
-     * @abstract
-     * @param {ComponentStylesType} styles
-     * @param {string} selectorUid
-     * @returns {*} return false if this component doe not have Blend styling.
-     * @memberof StylableUIComponent
-     */
-    protected abstract createStyles(styles: ComponentStylesType, selectorUid: string): any;
 
     /**
      * Creates an instance of Component.
@@ -246,7 +225,7 @@ export abstract class UIComponent<
      *
      * @memberOf Component
      */
-    public constructor(config?: ConfigType) {
+    public constructor(config?: IUIComponentConfig) {
         super(config);
         const me = this;
         me.isRendered = false;
@@ -273,7 +252,7 @@ export abstract class UIComponent<
      * @returns {ConfigType}
      * @memberof Component
      */
-    public getParent<P extends TUIComponent>(): P {
+    public getParent<P extends UIComponent>(): P {
         return this.parentCmp as P;
     }
 
@@ -283,7 +262,7 @@ export abstract class UIComponent<
      * @param {UIComponent} parent
      * @memberof Component
      */
-    public setParent(value: TUIComponent) {
+    public setParent(value: UIComponent) {
         this.parentCmp = value;
     }
 
@@ -297,9 +276,9 @@ export abstract class UIComponent<
      * @returns {ConfigType}
      * @memberof Component
      */
-    public findParentOfType<P extends TUIComponent>(clazz: any): P {
-        let cmp: TUIComponent = this,
-            parent: TUIComponent = null;
+    public findParentOfType<P extends UIComponent>(clazz: any): P {
+        let cmp: UIComponent = this,
+            parent: UIComponent = null;
 
         // tslint:disable-next-line:no-conditional-assignment
         while ((parent = cmp.getParent()) !== null) {
@@ -538,6 +517,19 @@ export abstract class UIComponent<
     }
 
     /**
+     * Abstract method that can be used to create and attach stylesheet and CSSRules
+     * for this UI component.
+     *
+     * @protected
+     * @param {IUIComponentStyles} styles
+     * @param {string} selectorUid
+     * @memberof UIComponent
+     */
+    protected createStyles(styles: IUIComponentStyles, selectorUid: string): any {
+        return false;
+    }
+
+    /**
      * Prepare and render the styles for this UI component.
      *
      * @protected
@@ -546,10 +538,11 @@ export abstract class UIComponent<
     protected renderStyles() {
         const me = this,
             selectorUid = `t${me.getUID().hash()}`;
-        const styles = Blend.shallowClone(me.config.styles || {});
-        Blend.apply(styles, me.styleDefaults(styles || {}) || {});
-        if (me.createStyles(styles, "." + selectorUid) !== false) {
-            me.el.classList.add(selectorUid);
+        const styles = Blend.shallowClone((me.config as IStylableUIComponentConfig<any>).styles || {});
+        if (me.createStyles(styles, selectorUid) !== false) {
+            window.requestAnimationFrame(() => {
+                me.el.classList.add(selectorUid);
+            });
         }
     }
 

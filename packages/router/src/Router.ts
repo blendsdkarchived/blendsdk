@@ -98,7 +98,7 @@ export interface IRouterConfig extends IMVCComponentConfig, IRouterEvents {
  * @class Router
  * @extends {Blend.mvc.Component}
  */
-export class Router extends MVCComponent<IRouterConfig> {
+export class Router extends MVCComponent {
     /**
      * @override
      * @protected

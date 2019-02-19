@@ -50,7 +50,14 @@ export type TComponentEvent = TComponentEventHandler | TComponentEventHandler[];
  * @class Component
  * @extends {Blend.core.Component}
  */
-export abstract class MVCComponent<T extends IMVCComponentConfig> extends Component<T> {
+export abstract class MVCComponent extends Component {
+    /**
+     * @override
+     * @protected
+     * @type {IMVCComponentConfig}
+     * @memberof MVCComponent
+     */
+    protected config: IMVCComponentConfig;
     /**
      * Indicates if the event handling is enabled.
      *
@@ -64,12 +71,12 @@ export abstract class MVCComponent<T extends IMVCComponentConfig> extends Compon
      * @param {IMVCComponentConfig} [config]
      * @memberof Component
      */
-    public constructor(config?: T) {
+    public constructor(config?: IMVCComponentConfig) {
         super(config);
         const me = this;
         me.configDefaults({
             reference: []
-        } as T);
+        } as IMVCComponentConfig);
         me.eventsEnabled = true;
         // Make array anyway to make the dereferencing easier.
         me.config.reference = Blend.wrapInArray(me.config.reference);

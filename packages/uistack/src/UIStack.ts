@@ -1,8 +1,7 @@
-// tslint:disable:max-line-length
 import { Blend, TConfigurableClass, TFunction } from "@blendsdk/core";
 import { CSS, stylesheet } from "@blendsdk/css";
 import { TComponentEvent } from "@blendsdk/mvc";
-import { IUICollectionConfig, IUIComponentStyles, TUIComponent, UICollection } from "@blendsdk/ui";
+import { IUICollectionConfig, IUIComponentStyles, UICollection, UIComponent } from "@blendsdk/ui";
 
 import {
     DefaultTransitionProvider,
@@ -82,7 +81,7 @@ export interface IUIStackStyles extends IUIComponentStyles {
  * @extends {IUICollectionConfig<UIComponent>}
  * @extends {IThemeableComponent<IUIStackThemeConfig>}
  */
-export interface IUIStackConfig extends IUICollectionConfig<IUIStackStyles, TUIComponent> {
+export interface IUIStackConfig extends IUICollectionConfig<UIComponent> {
     /**
      * Dispatches when a view is pushed into the visible area of the
      * Stack
@@ -106,7 +105,7 @@ export interface IUIStackConfig extends IUICollectionConfig<IUIStackStyles, TUIC
      * @type {(number | string | UIComponent)}
      * @memberof IUIStackConfig
      */
-    activeView?: number | string | TUIComponent;
+    activeView?: number | string | UIComponent;
     /**
      * Option to stretch and fit the child views within the Stack.
      * This option is set to true by default.
@@ -141,20 +140,14 @@ export interface IUIStackConfig extends IUICollectionConfig<IUIStackStyles, TUIC
  * @class Stack
  * @extends {Blend.ui.Collection<UIComponent>}
  */
-export class UIStack extends UICollection<IUIStackStyles, TUIComponent, IUIStackConfig> {
+export class UIStack extends UICollection<UIComponent> {
     /**
      * @override
      * @protected
-     * @param {IUIStackStyles} styles
-     * @returns {IUIStackStyles}
+     * @type {IUIStackConfig}
      * @memberof UIStack
      */
-    protected styleDefaults(styles: IUIStackStyles): IUIStackStyles {
-        return {
-            backgroundColor: styles.backgroundColor || "transparent",
-            padding: styles.padding || 0
-        };
-    }
+    protected config: IUIStackConfig;
 
     /**
      * @override
@@ -164,10 +157,15 @@ export class UIStack extends UICollection<IUIStackStyles, TUIComponent, IUIStack
      * @memberof UIStack
      */
     protected createStyles(styles: IUIStackStyles, selectorUid: string) {
+        Blend.apply(styles, {
+            backgroundColor: styles.backgroundColor || "transparent",
+            padding: styles.padding || 0
+        });
+
         const me = this,
             sheet = stylesheet([
-                CSS.block(".b-stack", [
-                    CSS.child(".b-uc-item", {
+                CSS.block("b-stack", [
+                    CSS.child("b-uc-item", {
                         top: 0,
                         left: 0
                     })
@@ -176,7 +174,7 @@ export class UIStack extends UICollection<IUIStackStyles, TUIComponent, IUIStack
                     {
                         padding: styles.padding || 0
                     },
-                    CSS.child(".b-uc-item", [
+                    CSS.child("b-uc-item", [
                         {
                             position: styles.padding === 0 ? null : "relative"
                         },
@@ -193,7 +191,7 @@ export class UIStack extends UICollection<IUIStackStyles, TUIComponent, IUIStack
      * @type {UIComponent}
      * @memberof Stack
      */
-    protected currentView: TUIComponent;
+    protected currentView: UIComponent;
     /**
      * Reference to the transition provider
      *
@@ -216,7 +214,7 @@ export class UIStack extends UICollection<IUIStackStyles, TUIComponent, IUIStack
             skipInitialView: false,
             fitViews: true,
             transitionProvider: DefaultTransitionProvider
-        });
+        } as IUIStackConfig);
     }
 
     /**
@@ -226,7 +224,7 @@ export class UIStack extends UICollection<IUIStackStyles, TUIComponent, IUIStack
      * @param {UIComponent} view
      * @memberof Stack
      */
-    protected dispatchViewDismissed(view: TUIComponent) {
+    protected dispatchViewDismissed(view: UIComponent) {
         const me = this;
         me.dispatchEvent(eUIStackEvents.onViewDismissed, [view]);
         view.applyMethod("dispatchEvent", [eUIStackEvents.onViewDeactivated, [me]]);
@@ -239,7 +237,7 @@ export class UIStack extends UICollection<IUIStackStyles, TUIComponent, IUIStack
      * @param {UIComponent} view
      * @memberof Stack
      */
-    protected dispatchViewPushed(view: TUIComponent) {
+    protected dispatchViewPushed(view: UIComponent) {
         const me = this;
         me.dispatchEvent(eUIStackEvents.onViewPushed, [view]);
         view.applyMethod("dispatchEvent", [eUIStackEvents.onViewActivated, [me]]);
@@ -254,16 +252,16 @@ export class UIStack extends UICollection<IUIStackStyles, TUIComponent, IUIStack
      * @memberof Stack
      */
     public pushView(
-        newView: number | string | TUIComponent,
+        newView: number | string | UIComponent,
         transitionOptions?: IStackTransitionOptions,
         doneCallback?: TFunction
     ) {
         const me = this,
-            vw: TUIComponent = me.find(newView);
+            vw: UIComponent = me.find(newView);
         if (vw && me.contains(vw)) {
             if (me.currentView !== vw) {
                 Blend.apply(transitionOptions || {}, { animate: true });
-                me.transitionProvider.pushView(vw, transitionOptions, (view: TUIComponent, pushed?: boolean) => {
+                me.transitionProvider.pushView(vw, transitionOptions, (view: UIComponent, pushed?: boolean) => {
                     if (pushed) {
                         me.currentView = view;
                         view.performLayout();
@@ -278,7 +276,8 @@ export class UIStack extends UICollection<IUIStackStyles, TUIComponent, IUIStack
             }
         } else {
             throw new Error(
-                `The provided view (${newView}) is not part of the items of the component. Did you forget to added it first?`
+                `The provided view (${newView}) is not part of
+				the items of the component. Did you forget to added it first?`
             );
         }
     }
@@ -289,7 +288,7 @@ export class UIStack extends UICollection<IUIStackStyles, TUIComponent, IUIStack
      * @param {(number | string | UIComponent)} view
      * @memberof Stack
      */
-    public setActiveView(view: number | string | TUIComponent) {
+    public setActiveView(view: number | string | UIComponent) {
         const me = this;
         if (me.isRendered && me.items().length !== 0) {
             me.pushView(view);
@@ -305,7 +304,7 @@ export class UIStack extends UICollection<IUIStackStyles, TUIComponent, IUIStack
      * @returns {T}
      * @memberof Stack
      */
-    public getActiveView<T extends TUIComponent>(): T {
+    public getActiveView<T extends UIComponent>(): T {
         const me = this;
         if (me.isRendered) {
             return (this.currentView || null) as T;
@@ -321,7 +320,7 @@ export class UIStack extends UICollection<IUIStackStyles, TUIComponent, IUIStack
      * @returns {HTMLElement}
      * @memberof My
      */
-    protected getWrapperOf(item: TUIComponent): HTMLElement {
+    protected getWrapperOf(item: UIComponent): HTMLElement {
         return item.getElement();
     }
 
@@ -332,7 +331,7 @@ export class UIStack extends UICollection<IUIStackStyles, TUIComponent, IUIStack
      * @returns {HTMLElement}
      * @memberof Stack
      */
-    protected renderItem(item: TUIComponent): HTMLElement {
+    protected renderItem(item: UIComponent): HTMLElement {
         return item.getElement();
     }
 
@@ -342,7 +341,7 @@ export class UIStack extends UICollection<IUIStackStyles, TUIComponent, IUIStack
      * @param {UIComponent} item
      * @memberof Stack
      */
-    protected removeElement(item: TUIComponent): void {
+    protected removeElement(item: UIComponent): void {
         const parent = item.getElement().parentElement || item.getElement().parentNode;
         if (parent) {
             parent.removeChild(item.getElement());
@@ -399,7 +398,7 @@ export class UIStack extends UICollection<IUIStackStyles, TUIComponent, IUIStack
     protected doLayoutItems() {
         const me = this;
         me.shouldReIndex();
-        me.forEach((item: TUIComponent) => {
+        me.forEach((item: UIComponent) => {
             if (item === me.currentView) {
                 me.activateItem(item);
                 item.performLayout();

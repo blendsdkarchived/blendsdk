@@ -1,6 +1,6 @@
 import { TConfigurableClass } from "@blendsdk/core";
 import { Router } from "@blendsdk/router";
-import { IUIComponentConfig, IUIComponentStyles, TUIComponent } from "@blendsdk/ui";
+import { IUIComponentConfig, IUIComponentStyles, UIComponent } from "@blendsdk/ui";
 /**
  * Interface for configuring theme variables for a Application instance.
  *
@@ -17,7 +17,7 @@ export interface IApplicationStyles extends IUIComponentStyles {
     backgroundColor?: string;
 }
 
-export interface IApplicationConfig extends IUIComponentConfig<IApplicationStyles> {
+export interface IApplicationConfig extends IUIComponentConfig {
     /**
      * Required configuration for providing a main view to
      * an application.
@@ -25,7 +25,7 @@ export interface IApplicationConfig extends IUIComponentConfig<IApplicationStyle
      * @type {(TConfigurableClass | Blend.ui.Component)}
      * @memberof IApplicationConfig
      */
-    mainView?: TConfigurableClass | TUIComponent;
+    mainView?: TConfigurableClass | UIComponent;
     /**
      * Option to configure a router for the Application component.
      *

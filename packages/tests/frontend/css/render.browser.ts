@@ -5,7 +5,7 @@ import { Dom } from "@blendsdk/dom";
 
 export default function(t: IAssertionProvider) {
     const sheet = stylesheet([
-            CSS.block(".component", {
+            CSS.block("component", {
                 position: "absolute",
                 top: "10px",
                 left: "10px",

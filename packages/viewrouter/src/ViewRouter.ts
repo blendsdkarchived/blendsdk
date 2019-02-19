@@ -2,7 +2,7 @@
 
 import { Blend, IDictionary } from "@blendsdk/core";
 import { IRouteItemConfig, IRouterConfig, Router } from "@blendsdk/router";
-import { IUIComponentConfig, IUIComponentStyles, TUIComponent, UIComponent } from "@blendsdk/ui";
+import { IUIComponentConfig, IUIComponentStyles, UIComponent } from "@blendsdk/ui";
 import { UIStack } from "@blendsdk/uistack";
 
 /**
@@ -46,10 +46,10 @@ export interface IViewRouterRouteConfig {
      * The view/UIComponent to be visible when this
      * path is selected.
      *
-     * @type {TUIComponent}
+     * @type {UIComponent}
      * @memberof IViewRouterRouteConfig
      */
-    view: TUIComponent;
+    view: UIComponent;
     /**
      * The route name/identifer
      *
@@ -81,7 +81,7 @@ export interface IViewRouterRouteConfig {
  * @extends {IRouterConfig}
  * @extends {IUIComponentConfig<IUIComponentStyles>}
  */
-export interface IViewRouterConfig extends IRouterConfig, IUIComponentConfig<IUIComponentStyles> {
+export interface IViewRouterConfig extends IRouterConfig, IUIComponentConfig {
     /**
      * Option to configure the Routes
      *
@@ -98,7 +98,14 @@ export interface IViewRouterConfig extends IRouterConfig, IUIComponentConfig<IUI
  * @class ViewRouter
  * @extends {UIComponent<IUIComponentStyles, IViewRouterConfig>}
  */
-export class ViewRouter extends UIComponent<IUIComponentStyles, IViewRouterConfig> {
+export class ViewRouter extends UIComponent {
+    /**
+     * @override
+     * @protected
+     * @type {IViewRouterConfig}
+     * @memberof ViewRouter
+     */
+    protected config: IViewRouterConfig;
     /**
      * Reference to the internal UIStack instance
      *
@@ -146,12 +153,12 @@ export class ViewRouter extends UIComponent<IUIComponentStyles, IViewRouterConfi
      * Dispatches the onRouteChanged event.
      *
      * @protected
-     * @param {TUIComponent} view
+     * @param {UIComponent} view
      * @param {IDictionary} params
      * @param {IRouteItemConfig} route
      * @memberof ViewRouter
      */
-    protected dispatchOnRouteChanged(view: TUIComponent, params: IDictionary, route: IRouteItemConfig) {
+    protected dispatchOnRouteChanged(view: UIComponent, params: IDictionary, route: IRouteItemConfig) {
         this.dispatchEvent(eViewRouterEvents.onRouteChanged, [view, params, route]);
     }
 

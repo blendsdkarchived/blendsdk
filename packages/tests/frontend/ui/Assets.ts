@@ -1,7 +1,7 @@
 // tslint:disable:object-literal-key-quotes
 import { IUIComponentConfig, IUIComponentStyles, UIComponent } from "@blendsdk/ui";
 export namespace Assets {
-    export class RenderOnly extends UIComponent<IUIComponentStyles, IUIComponentConfig<IUIComponentStyles>> {
+    export class RenderOnly extends UIComponent {
         protected styleDefaults(styles: IUIComponentStyles): IUIComponentStyles {
             return styles;
         }
@@ -19,7 +19,7 @@ export namespace Assets {
             // no-op
         }
     }
-    export class Rect extends UIComponent<IUIComponentStyles, IUIComponentConfig<IUIComponentStyles>> {
+    export class Rect extends UIComponent {
         protected styleDefaults(styles: IUIComponentStyles): IUIComponentStyles {
             return styles;
         }

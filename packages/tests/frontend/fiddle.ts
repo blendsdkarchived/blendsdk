@@ -1,15 +1,73 @@
+import { Application } from "@blendsdk/application";
 import { Browser } from "@blendsdk/browser";
 import { Blend } from "@blendsdk/core";
-import { CSS, Reset, Sheet, StyleSheets } from "@blendsdk/css";
-import { ToolbarSpacer } from "@blendsdk/ui";
+import { CSS, stylesheet } from "@blendsdk/css";
+import { Placeholder } from "@blendsdk/ui";
+import { UIStack } from "@blendsdk/uistack";
 
-Browser.ready(() => {
-    document.body.appendChild(
-        new ToolbarSpacer({
-            flexSize: 1
-        })
-    );
+const sheet = stylesheet(
+	CSS.block("bigtext", {
+		fontSize: "128px"
+	})
+);
+Browser.attachStyleSheet(sheet);
+
+// const stack = new UIStack({
+//     activeView: "item2",
+//     styles: {
+//         padding: Blend.toPx(20),
+//         backgroundColor: "#EDEDED"
+//     },
+//     items: [
+//         new Placeholder({
+//             caption: "Item 1"
+//         }),
+//         new Placeholder({
+//             id: "item2",
+//             caption: "Item 2"
+//         }),
+//         new Placeholder({
+//             caption: "Item 3"
+//         })
+//     ]
+// });
+
+// const app = new Application({
+//     mainView: stack,
+//     size: {
+//         width: Blend.toPx(300),
+//         height: Blend.toPx(300)
+//     }
 });
+
+// interface IA {
+//     a?: any;
+// }
+
+// interface IB {
+//     b?: any;
+// }
+
+// type TAB = IA & IB;
+
+// interface IC extends TAB {
+//     c?: any;
+// }
+
+// const obj: IC = {};
+
+// import { Browser } from "@blendsdk/browser";
+// import { Blend } from "@blendsdk/core";
+// import { CSS, Reset, Sheet, StyleSheets } from "@blendsdk/css";
+// import { ToolbarSpacer } from "@blendsdk/ui";
+
+// Browser.ready(() => {
+//     document.body.appendChild(
+//         new ToolbarSpacer({
+//             flexSize: 1
+//         })
+//     );
+// });
 
 // const sheet = new Sheet();
 

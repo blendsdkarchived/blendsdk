@@ -2,10 +2,10 @@ import { Browser, eBrowserEvents } from "@blendsdk/browser";
 import { Blend, SystemEvents } from "@blendsdk/core";
 import { CSS, IStyleSet, stylesheet } from "@blendsdk/css";
 import { Router } from "@blendsdk/router";
-import { TUIComponent, UIComponent } from "@blendsdk/ui";
+import { UIComponent } from "@blendsdk/ui";
 import { IApplicationConfig, IApplicationStyles } from "./Types";
 
-export class Application extends UIComponent<IApplicationStyles, IApplicationConfig> {
+export class Application extends UIComponent {
     /**
      * @override
      * @protected
@@ -20,7 +20,7 @@ export class Application extends UIComponent<IApplicationStyles, IApplicationCon
      * @type {Blend.ui.Component}
      * @memberof Application
      */
-    protected mainView: TUIComponent;
+    protected mainView: UIComponent;
     /**
      * Indicates if the application is ready and everything is rended
      * as it should.
@@ -41,7 +41,7 @@ export class Application extends UIComponent<IApplicationStyles, IApplicationCon
         const me = this;
         me.configDefaults({
             fitToWindow: true
-        });
+        } as IApplicationConfig);
         me.autoStart();
     }
 
@@ -53,20 +53,23 @@ export class Application extends UIComponent<IApplicationStyles, IApplicationCon
      * @memberof Application
      */
     protected createStyles(styles: IApplicationStyles, selectorUid: string) {
+        Blend.apply(styles, {
+            backgroundColor: "#fff"
+        });
         const borderBoxSettings: IStyleSet = {
                 padding: 0,
                 margin: 0,
                 boxSizing: "border-box"
             },
             sheet = stylesheet([
-                CSS.block(".b-fit-to-window", [
+                CSS.block("b-fit-to-window", [
                     {
                         overflow: "hidden"
                     },
                     CSS.makeFit(),
-                    CSS.child("body", [CSS.makeFit(), borderBoxSettings, CSS.child(".b-application", CSS.makeFit())])
+                    CSS.child("body", [CSS.makeFit(), borderBoxSettings, CSS.child("b-application", CSS.makeFit())])
                 ]),
-                CSS.block(".b-application", [
+                CSS.block("b-application", [
                     borderBoxSettings,
                     {
                         opacity: 0,
@@ -78,10 +81,10 @@ export class Application extends UIComponent<IApplicationStyles, IApplicationCon
                             durationInSeconds: 0.5
                         })
                     ]),
-                    CSS.and(".b-ready", {
+                    CSS.and("b-ready", {
                         opacity: 1
                     }),
-                    CSS.child(".b-main-view", CSS.makeFit())
+                    CSS.child("b-main-view", CSS.makeFit())
                 ]),
                 CSS.block(selectorUid, {
                     backgroundColor: styles.backgroundColor
@@ -91,26 +94,13 @@ export class Application extends UIComponent<IApplicationStyles, IApplicationCon
     }
 
     /**
-     * @override
-     * @protected
-     * @param {IApplicationStyles} styles
-     * @returns {IApplicationStyles}
-     * @memberof Application
-     */
-    protected styleDefaults(styles: IApplicationStyles): IApplicationStyles {
-        return {
-            backgroundColor: "#fff"
-        };
-    }
-
-    /**
      * Gets reference to the main view
      *
      * @template T
      * @returns {T}
      * @memberof Application
      */
-    public getMainView<T extends TUIComponent>(): T {
+    public getMainView<T extends UIComponent>(): T {
         return this.mainView as T;
     }
 
