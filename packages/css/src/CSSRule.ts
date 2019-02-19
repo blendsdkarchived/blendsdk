@@ -2,6 +2,16 @@ import { Blend } from "@blendsdk/core";
 import { HTML_TAGS } from "./Tags";
 import { ICssFlattenProvider, IRenderedCSSRule, IStyleSet, TCssRenderer } from "./Types";
 
+const atStartRe = new RegExp("^(\\.|_+|-+|:+|@|\\*)", "gmi");
+const tagRe = new RegExp(
+    Object.keys(HTML_TAGS)
+        .map(t => {
+            return "\\b" + t + "\\b";
+        })
+        .join("|"),
+    "gmi"
+);
+
 /**
  * CSSRule provides a tree like structure optionally representing
  * nested css rules.
@@ -45,7 +55,6 @@ export class CSSRule implements ICssFlattenProvider {
      * @memberof CSSRule
      */
     protected composed: string[];
-    protected selectorRe: RegExp;
 
     /**
      * Creates an instance of CSSRule.
@@ -60,7 +69,6 @@ export class CSSRule implements ICssFlattenProvider {
         relHandler?: (parent: string, current: string) => string
     ) {
         const me = this;
-        me.selectorRe = me.getSelectorRegex();
         me.selector = me.parseSelector(selector);
         me.composed = [];
         me.styles = Blend.wrapInArray(styles || []);
@@ -72,22 +80,6 @@ export class CSSRule implements ICssFlattenProvider {
     }
 
     /**
-     * Create a regex to test the selector.
-     *
-     * @protected
-     * @returns {RegExp}
-     * @memberof CSSRule
-     */
-    protected getSelectorRegex(): RegExp {
-        const tags = Object.keys(HTML_TAGS)
-            .map(t => {
-                return "\\b" + t + "\\b";
-            })
-            .join("|");
-        return new RegExp("^(\\.|-+|_+|:+|@|\\*)|" + tags, "gmi");
-    }
-
-    /**
      * Try to automatically parse and prefix the selector with a dot (.)
      *
      * @protected
@@ -96,13 +88,19 @@ export class CSSRule implements ICssFlattenProvider {
      * @memberof CSSRule
      */
     protected parseSelector(selector: string) {
-        const me = this;
-        selector = selector.trim();
-        me.selectorRe.lastIndex = 0;
-        if ((selector.indexOf("-") === -1 && me.selectorRe.test(selector)) || selector.indexOf("-") === 0) {
-            return selector;
+        const me = this,
+            hasDash = selector.indexOf("-") !== -1,
+            sel = selector.trim();
+
+        atStartRe.lastIndex = 0;
+        tagRe.lastIndex = 0;
+
+        if (atStartRe.test(sel) && sel !== "__screeninfo__") {
+            return sel;
+        } else if (tagRe.test(sel) && !hasDash) {
+            return sel;
         } else {
-            return `.${selector}`;
+            return `.${sel}`;
         }
     }
 
