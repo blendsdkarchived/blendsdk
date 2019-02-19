@@ -1,14 +1,10 @@
-import { Application } from "@blendsdk/application";
 import { Browser } from "@blendsdk/browser";
-import { Blend } from "@blendsdk/core";
 import { CSS, stylesheet } from "@blendsdk/css";
-import { Placeholder } from "@blendsdk/ui";
-import { UIStack } from "@blendsdk/uistack";
 
 const sheet = stylesheet(
-	CSS.block("bigtext", {
-		fontSize: "128px"
-	})
+    CSS.block("bigtext", {
+        fontSize: "128px"
+    })
 );
 Browser.attachStyleSheet(sheet);
 
@@ -38,7 +34,7 @@ Browser.attachStyleSheet(sheet);
 //         width: Blend.toPx(300),
 //         height: Blend.toPx(300)
 //     }
-});
+// });
 
 // interface IA {
 //     a?: any;
