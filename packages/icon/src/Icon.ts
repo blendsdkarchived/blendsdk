@@ -1,6 +1,11 @@
 import { Component, IComponentConfig } from "@blendsdk/core";
 
 /**
+ * Helper type for describing an Icon
+ */
+export type TIcon = Icon<IIconConfig>;
+
+/**
  * Interface for configuring an icon
  *
  * @interface IIconConfig
