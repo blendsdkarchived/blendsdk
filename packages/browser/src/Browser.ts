@@ -97,10 +97,10 @@ class BrowserSingleton {
      * @param {Sheet} sheet
      * @memberof BrowserSingleton
      */
-    public attachStyleSheet(sheet: Sheet) {
+    public attachStyleSheet(sheet: Sheet, pushTop?: boolean) {
         const me = this;
         if (me.isBrowserReady) {
-            StyleSheets.attach(sheet);
+            StyleSheets.attach(sheet, pushTop);
         } else {
             me.sheetQueue.push(sheet);
         }
@@ -356,7 +356,7 @@ class BrowserSingleton {
      */
     protected installSystemStyles() {
         const me = this;
-        me.attachStyleSheet(new SystemStyles());
+        me.attachStyleSheet(new SystemStyles(), true);
         window.document.documentElement.classList.add(me.isRTL() ? "b-rtl" : "b-ltr");
         window.document.documentElement.classList.add(`b-${DeviceInfo.getBrowserType()}`);
     }

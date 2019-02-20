@@ -67,7 +67,7 @@ export class ImageIcon extends Icon {
 
         if (me.config.size) {
             sheet.addRule(
-                CSS.block("b-" + me.getUID(), {
+                CSS.block(me.selectorId, {
                     width: Blend.toPxIf(me.config.size),
                     height: Blend.toPxIf(me.config.size)
                 })
@@ -90,7 +90,7 @@ export class ImageIcon extends Icon {
                 "b-icon",
                 "b-image-icon",
                 me.config.round === true ? "b-round" : null,
-                me.config.size ? "b-" + me.getUID() : null
+                me.config.size ? me.selectorId : null
             ],
             attrs: {
                 src: me.config.src

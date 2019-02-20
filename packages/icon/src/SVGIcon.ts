@@ -70,7 +70,10 @@ export class SVGIcon extends Icon {
                 ])
             );
         if (me.config.color) {
-            sheet.addRule(CSS.block("b-" + me.getUID(), [CSS.child("svg", { fill: me.config.color })]));
+            /**
+             * ONLY THIS PART IS NOT BEM
+             */
+            sheet.addRule(CSS.block(me.selectorId, [CSS.child("svg", { fill: me.config.color })]));
         }
         Browser.attachStyleSheet(sheet);
     }
@@ -123,7 +126,7 @@ export class SVGIcon extends Icon {
         me.createStyles();
 
         me.el = Dom.createElement({
-            css: ["b-icon", "b-svg-icon", "b-size-" + me.config.size, "b-" + me.getUID()]
+            css: ["b-icon", "b-svg-icon", "b-size-" + me.config.size, me.selectorId]
         });
 
         if (me.config.url) {

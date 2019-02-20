@@ -239,10 +239,11 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      *
      * @protected
      * @param {Sheet} sheet
+     * @param {boolean} [pushTop]
      * @memberof UIComponent
      */
-    protected attachStyleSheet(sheet: Sheet) {
-        Browser.attachStyleSheet(sheet);
+    protected attachStyleSheet(sheet: Sheet, pushTop?: boolean) {
+        Browser.attachStyleSheet(sheet, pushTop);
     }
 
     /**
@@ -537,12 +538,10 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      */
     protected renderStyles() {
         const me = this,
-            selectorUid = `t${me.getUID().hash()}`;
+            selectorUid = `c${me.getUID()}`;
         const styles = Blend.shallowClone((me.config as IStylableUIComponentConfig<any>).styles || {});
         if (me.createStyles(styles, selectorUid) !== false) {
-            window.requestAnimationFrame(() => {
-                me.el.classList.add(selectorUid);
-            });
+            me.el.classList.add(selectorUid);
         }
     }
 
