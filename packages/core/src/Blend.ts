@@ -7,7 +7,7 @@ export namespace Blend {
      * The identifier for the {Blend.ID} method
      * @private
      */
-    let _ID = 1000;
+    let _ID = 1000 + new Date().getSeconds();
     /**
      * Contains the current Blend version
      */
