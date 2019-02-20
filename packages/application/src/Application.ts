@@ -1,6 +1,6 @@
 import { Browser, eBrowserEvents } from "@blendsdk/browser";
 import { Blend, SystemEvents } from "@blendsdk/core";
-import { CSS, IStyleSet, stylesheet } from "@blendsdk/css";
+import { BEM, CSS, IStyleSet, stylesheet } from "@blendsdk/css";
 import { Router } from "@blendsdk/router";
 import { UIComponent } from "@blendsdk/ui";
 import { IApplicationConfig, IApplicationStyles } from "./Types";
@@ -53,43 +53,42 @@ export class Application extends UIComponent {
      * @memberof Application
      */
     protected createStyles(styles: IApplicationStyles, selectorUid: string) {
-        Blend.apply(styles, {
-            backgroundColor: "#fff"
-        });
-        const borderBoxSettings: IStyleSet = {
-                padding: 0,
-                margin: 0,
-                boxSizing: "border-box"
-            },
-            sheet = stylesheet([
-                CSS.block("b-fit-to-window", [
-                    {
-                        overflow: "hidden"
-                    },
-                    CSS.makeFit(),
-                    CSS.child("body", [CSS.makeFit(), borderBoxSettings, CSS.child("b-application", CSS.makeFit())])
+        // Blend.apply(styles, {
+        //     backgroundColor: "#fff"
+        // });
+        const reset: IStyleSet = {
+            padding: 0,
+            margin: 0,
+            boxSizing: "border-box"
+        };
+        const sheet = stylesheet([
+            BEM.block("b-viewport", [
+                reset,
+                CSS.makeFit(),
+                // the body element
+                BEM.element("body", [reset, CSS.makeFit()])
+            ]),
+            BEM.block("b-app", [
+                {
+                    opacity: 0.01
+                },
+                CSS.transition([
+                    CSS.animationEnterTransition({
+                        property: "opacity",
+                        durationInSeconds: 0.5
+                    })
                 ]),
-                CSS.block("b-application", [
-                    borderBoxSettings,
-                    {
-                        opacity: 0,
-                        position: "relative"
-                    },
-                    CSS.transition([
-                        CSS.animationEnterTransition({
-                            property: "opacity",
-                            durationInSeconds: 0.5
-                        })
-                    ]),
-                    CSS.and("b-ready", {
-                        opacity: 1
-                    }),
-                    CSS.child("b-main-view", CSS.makeFit())
-                ]),
+                reset,
+                CSS.makeFit(),
+                BEM.modifier("ready", {
+                    opacity: 1
+                }),
+                BEM.element("mainview", [reset, CSS.makeFit()]),
                 CSS.block(selectorUid, {
                     backgroundColor: styles.backgroundColor
                 })
-            ]);
+            ])
+        ]);
         this.attachStyleSheet(sheet);
     }
 
@@ -166,7 +165,7 @@ export class Application extends UIComponent {
                 me.performLayout();
                 if (!me.isReady) {
                     me.isReady = true;
-                    me.el.classList.add("b-ready");
+                    me.el.classList.add("b-app--ready");
                     me.dispatchOnApplicationReady();
                 }
             });
@@ -188,7 +187,7 @@ export class Application extends UIComponent {
         super.finalizeRender();
         const me = this;
         me.el.appendChild(me.mainView);
-        me.mainView.getElement().classList.add("b-main-view");
+        me.mainView.getElement().classList.add("b-app__mainview");
     }
 
     /**
@@ -199,7 +198,7 @@ export class Application extends UIComponent {
      */
     protected render(): HTMLElement {
         return this.createElement({
-            css: ["b-application"]
+            css: ["b-app"]
         });
     }
 
@@ -212,7 +211,8 @@ export class Application extends UIComponent {
     protected doLayout(isInitial?: boolean): void {
         const me = this;
         if (me.config.fitToWindow) {
-            document.documentElement.classList.add("b-fit-to-window");
+            document.documentElement.classList.add("b-viewport");
+            document.body.classList.add("b-viewport__body");
         }
         this.mainView.performLayout();
     }
