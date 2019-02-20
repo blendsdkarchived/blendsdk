@@ -70,6 +70,9 @@ export class SVGIcon extends Icon {
                 ])
             );
         if (me.config.color) {
+            /**
+             * ONLY THIS PART IS NOT BEM
+             */
             sheet.addRule(CSS.block(me.selectorId, [CSS.child("svg", { fill: me.config.color })]));
         }
         Browser.attachStyleSheet(sheet);
