@@ -49,7 +49,7 @@ export abstract class Component implements IAbstractComponent {
             id: null,
             userData: {}
         } as IComponentConfig);
-        me.uid = Blend.ID().toString();
+        me.uid = Blend.ID().toString(16);
     }
 
     /**
