@@ -53,9 +53,6 @@ export class Application extends UIComponent {
      * @memberof Application
      */
     protected createStyles(styles: IApplicationStyles, selectorUid: string) {
-        // Blend.apply(styles, {
-        //     backgroundColor: "#fff"
-        // });
         const reset: IStyleSet = {
             padding: 0,
             margin: 0,
