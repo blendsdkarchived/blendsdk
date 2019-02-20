@@ -107,14 +107,6 @@ export interface IUIStackConfig extends IUICollectionConfig<UIComponent> {
      */
     activeView?: number | string | UIComponent;
     /**
-     * Option to stretch and fit the child views within the Stack.
-     * This option is set to true by default.
-     *
-     * @type {boolean}
-     * @memberof IUIStackConfig
-     */
-    fitViews?: boolean;
-    /**
      * Option to configure a transition provider for
      * when pushing and dismissing views within a Blend.Stack
      *
@@ -374,7 +366,7 @@ export class UIStack extends UICollection<UIComponent> {
     protected render(): HTMLElement {
         const me = this;
         return me.createElement({
-            css: ["b-stack", me.config.fitViews ? "b-fit" : ""],
+            css: ["b-stack"],
             reference: "containerElement"
         });
     }

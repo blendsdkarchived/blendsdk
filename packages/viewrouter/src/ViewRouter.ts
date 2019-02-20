@@ -231,7 +231,6 @@ export class ViewRouter extends UIComponent {
         super.initComponent();
         const me = this;
         me.uiStack = new UIStack({
-            fitViews: true,
             skipInitialView: true
         });
         me.addRoute(me.config.routes || []);
