@@ -1,5 +1,7 @@
+import { Application } from "@blendsdk/application";
 import { Browser } from "@blendsdk/browser";
 import { CSS, stylesheet } from "@blendsdk/css";
+import { Placeholder } from "@blendsdk/ui";
 
 const sheet = stylesheet(
     CSS.block("bigtext", {
@@ -28,13 +30,11 @@ Browser.attachStyleSheet(sheet);
 //     ]
 // });
 
-// const app = new Application({
-//     mainView: stack,
-//     size: {
-//         width: Blend.toPx(300),
-//         height: Blend.toPx(300)
-//     }
-// });
+const app = new Application({
+    mainView: new Placeholder({
+        caption: "View"
+    })
+});
 
 // interface IA {
 //     a?: any;

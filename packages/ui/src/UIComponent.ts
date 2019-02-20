@@ -537,12 +537,10 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      */
     protected renderStyles() {
         const me = this,
-            selectorUid = `t${me.getUID().hash()}`;
+            selectorUid = `c${me.getUID()}`;
         const styles = Blend.shallowClone((me.config as IStylableUIComponentConfig<any>).styles || {});
         if (me.createStyles(styles, selectorUid) !== false) {
-            window.requestAnimationFrame(() => {
-                me.el.classList.add(selectorUid);
-            });
+            me.el.classList.add(selectorUid);
         }
     }
 
