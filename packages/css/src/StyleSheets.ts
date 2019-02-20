@@ -35,12 +35,21 @@ class StyleSheetsSingleton {
      * @param {Sheet} sheet
      * @memberof StyleSheetsSingleton
      */
-    public attach(sheet: Sheet) {
+    public attach(sheet: Sheet, pushTop?: boolean) {
         const styles = this.render(sheet).trim();
         if (styles.length !== 0) {
             const el = document.createElement("style");
             el.innerHTML = styles;
-            document.head.appendChild(el);
+            if (pushTop === true) {
+                document.head.appendChild(el);
+            } else {
+                const elements = document.querySelectorAll("style");
+                if (elements.length === 0) {
+                    document.head.appendChild(el);
+                } else {
+                    document.head.insertBefore(el, elements[0]);
+                }
+            }
         }
     }
 
