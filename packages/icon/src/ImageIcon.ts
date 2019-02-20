@@ -1,6 +1,6 @@
 import { Browser } from "@blendsdk/browser";
 import { Blend } from "@blendsdk/core";
-import { CSS, stylesheet } from "@blendsdk/css";
+import { BEM, CSS, stylesheet } from "@blendsdk/css";
 import { Dom } from "@blendsdk/dom";
 import { Icon, IIconConfig } from "./Icon";
 
@@ -58,8 +58,8 @@ export class ImageIcon extends Icon {
         super.finalizeRender();
         const me = this,
             sheet = stylesheet(
-                CSS.block("b-image-icon", [
-                    CSS.and("b-round", {
+                BEM.block("b-image-icon", [
+                    BEM.modifier("round", {
                         borderRadius: Blend.toPct(100)
                     })
                 ])
@@ -67,7 +67,7 @@ export class ImageIcon extends Icon {
 
         if (me.config.size) {
             sheet.addRule(
-                CSS.block("b-" + me.getUID(), {
+                CSS.block(me.selectorId, {
                     width: Blend.toPxIf(me.config.size),
                     height: Blend.toPxIf(me.config.size)
                 })
@@ -89,8 +89,8 @@ export class ImageIcon extends Icon {
             css: [
                 "b-icon",
                 "b-image-icon",
-                me.config.round === true ? "b-round" : null,
-                me.config.size ? "b-" + me.getUID() : null
+                me.config.round === true ? "b-image-icon--round" : null,
+                me.config.size ? me.selectorId : null
             ],
             attrs: {
                 src: me.config.src

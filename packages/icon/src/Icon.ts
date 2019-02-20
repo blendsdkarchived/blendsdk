@@ -40,6 +40,14 @@ export abstract class Icon extends Component {
      * @memberof Icon
      */
     protected isRendered: boolean;
+    /**
+     * The CSS selector for this icon.
+     *
+     * @protected
+     * @type {string}
+     * @memberof Icon
+     */
+    protected selectorId: string;
 
     /**
      * Creates an instance of Icon.
@@ -48,7 +56,9 @@ export abstract class Icon extends Component {
      */
     public constructor(config?: IIconConfig) {
         super(config);
-        this.isRendered = false;
+        const me = this;
+        me.isRendered = false;
+        me.selectorId = `c${me.getUID()}`;
     }
 
     /**
