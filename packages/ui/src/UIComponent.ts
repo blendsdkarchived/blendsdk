@@ -239,10 +239,11 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      *
      * @protected
      * @param {Sheet} sheet
+     * @param {boolean} [pushTop]
      * @memberof UIComponent
      */
-    protected attachStyleSheet(sheet: Sheet) {
-        Browser.attachStyleSheet(sheet);
+    protected attachStyleSheet(sheet: Sheet, pushTop?: boolean) {
+        Browser.attachStyleSheet(sheet, pushTop);
     }
 
     /**

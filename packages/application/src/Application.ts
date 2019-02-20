@@ -90,7 +90,7 @@ export class Application extends UIComponent {
                     backgroundColor: styles.backgroundColor
                 })
             ]);
-        this.attachStyleSheet(sheet);
+        this.attachStyleSheet(sheet, true);
     }
 
     /**

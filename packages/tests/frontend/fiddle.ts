@@ -1,14 +1,33 @@
+import { Application } from "@blendsdk/application";
 import { IAssertionProvider } from "@blendsdk/blendrunner";
-import { Browser } from "@blendsdk/browser";
 import { Blend } from "@blendsdk/core";
-import { ImageIcon, SVGIcon } from "@blendsdk/icon";
+import { Placeholder } from "@blendsdk/ui";
+import { UIStack } from "@blendsdk/uistack";
 
-Browser.ready(() => {
-    const icon = new SVGIcon({
-        url: "/assets/bus.svg?v=" + new Date().getTime(),
-        size: 64,
-        color: "red"
-    }).getElement();
+const stack = new UIStack({
+    activeView: "item2",
+    styles: {
+        padding: Blend.toPx(20),
+        backgroundColor: "#EDEDED"
+    },
+    items: [
+        new Placeholder({
+            caption: "Item 1"
+        }),
+        new Placeholder({
+            id: "item2",
+            caption: "Item 2"
+        }),
+        new Placeholder({
+            caption: "Item 3"
+        })
+    ]
+});
 
-    document.body.append(icon);
+const app = new Application({
+    mainView: stack,
+    size: {
+        width: Blend.toPx(300),
+        height: Blend.toPx(300)
+    }
 });
