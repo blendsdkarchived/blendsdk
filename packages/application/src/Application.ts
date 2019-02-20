@@ -53,39 +53,43 @@ export class Application extends UIComponent {
      * @memberof Application
      */
     protected createStyles(styles: IApplicationStyles, selectorUid: string) {
+        Blend.apply(styles, {
+            backgroundColor: "#FFF"
+        });
+
         const reset: IStyleSet = {
-            padding: 0,
-            margin: 0,
-            boxSizing: "border-box"
-        };
-        const sheet = stylesheet([
-            BEM.block("b-viewport", [
-                reset,
-                CSS.makeFit(),
-                // the body element
-                BEM.element("body", [reset, CSS.makeFit()])
-            ]),
-            BEM.block("b-app", [
-                {
-                    opacity: 0.01
-                },
-                CSS.transition([
-                    CSS.animationEnterTransition({
-                        property: "opacity",
-                        durationInSeconds: 0.5
-                    })
+                padding: 0,
+                margin: 0,
+                boxSizing: "border-box"
+            },
+            sheet = stylesheet([
+                BEM.block("b-viewport", [
+                    reset,
+                    CSS.makeFit(),
+                    // the body element
+                    BEM.element("body", [reset, CSS.makeFit()])
                 ]),
-                reset,
-                CSS.makeFit(),
-                BEM.modifier("ready", {
-                    opacity: 1
-                }),
-                BEM.element("mainview", [reset, CSS.makeFit()]),
+                BEM.block("b-app", [
+                    {
+                        opacity: 0.01
+                    },
+                    CSS.transition([
+                        CSS.animationEnterTransition({
+                            property: "opacity",
+                            durationInSeconds: 0.5
+                        })
+                    ]),
+                    reset,
+                    CSS.makeFit(),
+                    BEM.modifier("ready", {
+                        opacity: 1
+                    }),
+                    BEM.element("mainview", [reset, CSS.makeFit()])
+                ]),
                 CSS.block(selectorUid, {
                     backgroundColor: styles.backgroundColor
                 })
-            ])
-        ]);
+            ]);
         this.attachStyleSheet(sheet);
     }
 
