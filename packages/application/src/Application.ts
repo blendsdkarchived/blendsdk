@@ -54,7 +54,7 @@ export class Application extends UIComponent {
      */
     protected createStyles(styles: IApplicationStyles, selectorUid: string) {
         Blend.apply(styles, {
-            backgroundColor: "#fff"
+            backgroundColor: "#FFFFFF"
         });
         const borderBoxSettings: IStyleSet = {
                 padding: 0,
