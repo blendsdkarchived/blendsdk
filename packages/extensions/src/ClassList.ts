@@ -87,7 +87,7 @@
     /**
      * Adds or removes a class name
      */
-    (ClassList.prototype as any).set = function(className: string | object | string[], addRemove: boolean) {
+    (ClassList.prototype as any).set = function(className: string | object | string[] | Array<[]>, addRemove: boolean) {
         const me = this,
             css = is_string(className)
                 ? [className as string]
@@ -97,11 +97,19 @@
         addRemove = addRemove === undefined ? true : addRemove;
 
         css.forEach(item => {
-            if (item !== "") {
-                if (addRemove) {
-                    me.add(item);
+            if (item.length && item.length === 2) {
+                if (item[1] === true) {
+                    me.add(item[0]);
                 } else {
-                    me.remove(item);
+                    me.remove(item[0]);
+                }
+            } else {
+                if (item !== "") {
+                    if (addRemove) {
+                        me.add(item);
+                    } else {
+                        me.remove(item);
+                    }
                 }
             }
         });
