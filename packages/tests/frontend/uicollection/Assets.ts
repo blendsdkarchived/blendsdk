@@ -10,9 +10,7 @@ export namespace Assets.ui {
         protected styleDefaults(styles: IUIComponentStyles): IUIComponentStyles {
             return styles;
         }
-        protected createStyles(styles: IUIComponentStyles, selectorUid: string) {
-            // no-op
-        }
+
         public strAdd(items: string) {
             const me = this;
             items.split("").forEach((item: string) => {

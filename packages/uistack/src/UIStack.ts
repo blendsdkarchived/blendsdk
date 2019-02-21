@@ -1,5 +1,5 @@
 import { Blend, TConfigurableClass, TFunction } from "@blendsdk/core";
-import { CSS, stylesheet } from "@blendsdk/css";
+import { CSS, Sheet } from "@blendsdk/css";
 import { TComponentEvent } from "@blendsdk/mvc";
 import { IUICollectionConfig, IUIComponentStyles, UICollection, UIComponent } from "@blendsdk/ui";
 
@@ -148,32 +148,32 @@ export class UIStack extends UICollection<UIComponent> {
      * @param {string} selectorUid
      * @memberof UIStack
      */
-    protected createStyles(styles: IUIStackStyles, selectorUid: string) {
+    protected createStyles(sheet: Sheet, styles: IUIStackStyles, selectorUid: string) {
         Blend.apply(styles, {
             backgroundColor: styles.backgroundColor || "transparent",
             padding: styles.padding || 0
         });
 
-        const me = this,
-            sheet = stylesheet([
-                CSS.block("b-stack", [
-                    CSS.child("b-uc-item", {
-                        top: 0,
-                        left: 0
-                    })
-                ]),
-                CSS.block(selectorUid, [
+        const me = this;
+        sheet.addRule([
+            CSS.block("b-stack", [
+                CSS.child("b-uc-item", {
+                    top: 0,
+                    left: 0
+                })
+            ]),
+            CSS.block(selectorUid, [
+                {
+                    padding: styles.padding || 0
+                },
+                CSS.child("b-uc-item", [
                     {
-                        padding: styles.padding || 0
+                        position: styles.padding === 0 ? null : "relative"
                     },
-                    CSS.child("b-uc-item", [
-                        {
-                            position: styles.padding === 0 ? null : "relative"
-                        },
-                        CSS.makeFit(styles.padding === 0)
-                    ])
+                    CSS.makeFit(styles.padding === 0)
                 ])
-            ]);
+            ])
+        ]);
         me.attachStyleSheet(sheet);
     }
     /**

@@ -1,7 +1,6 @@
 import { Browser, eBrowserEvents } from "@blendsdk/browser";
 import { Blend, SystemEvents, TConfigurableClass } from "@blendsdk/core";
-import { CSS, IStyleSet, stylesheet } from "@blendsdk/css";
-import { Router } from "@blendsdk/router";
+import { CSS, IStyleSet, Sheet } from "@blendsdk/css";
 import { IUIComponentConfig, IUIComponentStyles, UIComponent } from "@blendsdk/ui";
 
 /**
@@ -78,45 +77,47 @@ export class Application extends UIComponent {
      * @param {string} selectorUid
      * @memberof Application
      */
-    protected createStyles(styles: IApplicationStyles, selectorUid: string) {
+    protected createStyles(sheet: Sheet, styles: IApplicationStyles, selectorUid: string) {
+        const borderBoxSettings: IStyleSet = {
+            padding: 0,
+            margin: 0,
+            boxSizing: "border-box"
+        };
+
         // defaults
         Blend.apply(styles, {
             backgroundColor: "#FFFFFF"
         });
 
-        const borderBoxSettings: IStyleSet = {
-                padding: 0,
-                margin: 0,
-                boxSizing: "border-box"
-            },
-            sheet = stylesheet([
-                CSS.block("b-viewport", [
-                    borderBoxSettings,
-                    // sizing
-                    CSS.makeFit()
+        sheet.addRule([
+            CSS.block("b-viewport", [
+                borderBoxSettings,
+                // sizing
+                CSS.makeFit()
+            ]),
+            CSS.block("b-application", [
+                borderBoxSettings,
+                {
+                    opacity: 0
+                },
+                CSS.makeFit(),
+                CSS.transition([
+                    CSS.animationEnterTransition({
+                        property: "opacity",
+                        durationInSeconds: 0.5
+                    })
                 ]),
-                CSS.block("b-application", [
-                    borderBoxSettings,
-                    {
-                        opacity: 0
-                    },
-                    CSS.makeFit(),
-                    CSS.transition([
-                        CSS.animationEnterTransition({
-                            property: "opacity",
-                            durationInSeconds: 0.5
-                        })
-                    ]),
-                    CSS.and("b-ready", {
-                        opacity: 1
-                    }),
-                    CSS.child("b-mainview", CSS.makeFit())
-                ]),
-                CSS.block(selectorUid, {
-                    backgroundColor: styles.backgroundColor
-                })
-            ]);
-        this.attachStyleSheet(sheet, true);
+                CSS.and("b-ready", {
+                    opacity: 1
+                }),
+                CSS.child("b-mainview", CSS.makeFit())
+            ]),
+            CSS.block(selectorUid, {
+                backgroundColor: styles.backgroundColor
+            })
+        ]);
+        sheet.pushToTop();
+        this.attachStyleSheet(sheet);
     }
 
     /**

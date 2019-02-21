@@ -20,6 +20,7 @@ export class Reset extends Sheet {
     public constructor() {
         super();
         const me = this;
+        me.pushToTop();
         me.common();
         me.paddingAndMargins();
         me.displayBlock();

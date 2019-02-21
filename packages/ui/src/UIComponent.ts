@@ -1,6 +1,6 @@
 import { Browser } from "@blendsdk/browser";
 import { Blend, IElementSize, IUILayoutConfig, TFunction } from "@blendsdk/core";
-import { Sheet } from "@blendsdk/css";
+import { Sheet, StyleSheets } from "@blendsdk/css";
 import { Dom, DOMElement, DOMEvent, ICreateElementConfig, IHTMLElementProvider } from "@blendsdk/dom";
 import { IMVCComponentConfig, MVCComponent, TComponentEvent } from "@blendsdk/mvc";
 
@@ -241,8 +241,8 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @param {boolean} [pushTop]
      * @memberof UIComponent
      */
-    protected attachStyleSheet(sheet: Sheet, pushTop?: boolean) {
-        Browser.attachStyleSheet(sheet, pushTop);
+    protected attachStyleSheet(sheet: Sheet) {
+        Browser.attachStyleSheet(sheet);
     }
 
     /**
@@ -525,7 +525,7 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @param {string} selectorUid
      * @memberof UIComponent
      */
-    protected createStyles(styles: IUIComponentStyles, selectorUid: string): any {
+    protected createStyles(sheet: Sheet, styles: IUIComponentStyles, selectorUid: string): any {
         return false;
     }
 
@@ -538,9 +538,11 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
     protected renderStyles() {
         const me = this,
             selectorUid = `c${me.getUID()}`;
-        const styles = Blend.shallowClone((me.config as IStylableUIComponent<any>).styles || {});
-        if (me.createStyles(styles, selectorUid) !== false) {
+        const styles = Blend.shallowClone((me.config as IStylableUIComponent<any>).styles || {}),
+            sheet = StyleSheets.create();
+        if (me.createStyles(sheet, styles, selectorUid) !== false) {
             me.el.classList.add(selectorUid);
+            me.attachStyleSheet(sheet);
         }
     }
 
