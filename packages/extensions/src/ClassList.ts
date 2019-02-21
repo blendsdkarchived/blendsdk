@@ -87,7 +87,10 @@
     /**
      * Adds or removes a class name
      */
-    (ClassList.prototype as any).set = function(className: string | object | string[] | Array<[]>, addRemove: boolean) {
+    (ClassList.prototype as any).set = function(
+        className: string | object | string[] | Array<[]>,
+        addRemove?: boolean
+    ) {
         const me = this,
             css = is_string(className)
                 ? [className as string]
