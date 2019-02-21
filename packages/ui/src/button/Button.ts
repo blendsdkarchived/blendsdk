@@ -1,5 +1,5 @@
 import { Browser } from "@blendsdk/browser";
-import { TIcon } from "@blendsdk/icon";
+import { Icon } from "@blendsdk/icon";
 import { TComponentEvent } from "@blendsdk/mvc";
 import { IUIComponentConfig, IUIComponentStyles, UIComponent } from "../UIComponent";
 
@@ -32,7 +32,7 @@ export interface IUIButtonIcon {
      * @type {TIcon}
      * @memberof IUIButtonIcon
      */
-    icon?: TIcon;
+    icon?: Icon;
 }
 
 /**
@@ -43,7 +43,7 @@ export interface IUIButtonIcon {
  * @extends {IUIComponentConfig<ComponentStylesType>}
  * @template ComponentStylesType
  */
-export interface IUIButtonConfig<ComponentStylesType> extends IUIComponentConfig<ComponentStylesType> {
+export interface IUIButtonConfig extends IUIComponentConfig {
     /**
      * Option to make the button as a submit button;
      *
@@ -68,10 +68,14 @@ export interface IUIButtonConfig<ComponentStylesType> extends IUIComponentConfig
  * @class Button
  * @extends {Blend.ui.Component}
  */
-export abstract class Button<
-    ButtonStylesType extends IUIComponentStyles,
-    ButtonConfigType extends IUIButtonConfig<ButtonStylesType>
-> extends UIComponent<ButtonStylesType, ButtonConfigType> {
+export abstract class Button extends UIComponent {
+    /**
+     * @override
+     * @protected
+     * @type {IUIButtonConfig}
+     * @memberof Button
+     */
+    protected config: IUIButtonConfig;
     /**
      * Reference to the text element.
      *
@@ -128,7 +132,7 @@ export abstract class Button<
      * @param {string} value
      * @memberof Button
      */
-    public setIcon(icon: TIcon) {
+    public setIcon(icon: Icon) {
         const me = this;
         (me.config as IUIButtonIcon).icon = icon;
         if (icon) {
@@ -148,7 +152,7 @@ export abstract class Button<
      * @returns {TIcon}
      * @memberof Button
      */
-    public getIcon(): TIcon {
+    public getIcon(): Icon {
         return (this.config as IUIButtonIcon).icon || undefined;
     }
 
@@ -190,11 +194,11 @@ export abstract class Button<
                 },
                 children: [
                     {
-                        css: "b-button__icon",
+                        css: "b-icon",
                         reference: "imageElement"
                     },
                     {
-                        css: "b-button__text",
+                        css: "b-text",
                         reference: "textElement",
                         textContent: (me.config as IUIButtonText).text || ""
                     }

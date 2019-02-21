@@ -2,20 +2,14 @@ import { Blend } from "./Blend";
 import { IAbstractComponent, IComponentConfig } from "./Types";
 
 /**
- * Type describing a Component with its minimal configuration type.
- */
-export type TComponent = Component<IComponentConfig>;
-
-/**
  * Base class of all configurable components within Blend.
  *
  * @export
  * @abstract
  * @class Component
  * @implements {IAbstractComponent}
- * @template ConfigType
  */
-export abstract class Component<ConfigType extends IComponentConfig> implements IAbstractComponent {
+export abstract class Component implements IAbstractComponent {
     /**
      * Key to identify the unique identifer of this component.
      * This key is used on a DOM component
@@ -40,7 +34,7 @@ export abstract class Component<ConfigType extends IComponentConfig> implements 
      * @type {IDictionary}
      * @memberOf Component
      */
-    protected config: ConfigType;
+    protected config: IComponentConfig;
 
     /**
      * Creates an instance of Component.
@@ -48,14 +42,14 @@ export abstract class Component<ConfigType extends IComponentConfig> implements 
      *
      * @memberOf Component
      */
-    public constructor(config?: ConfigType) {
+    public constructor(config?: IComponentConfig) {
         const me = this;
-        me.config = config || ({} as ConfigType);
+        me.config = config || ({} as IComponentConfig);
         me.configDefaults({
             id: null,
             userData: {}
-        } as ConfigType);
-        me.uid = Blend.ID().toString();
+        } as IComponentConfig);
+        me.uid = Blend.ID().toString(16);
     }
 
     /**
@@ -83,10 +77,10 @@ export abstract class Component<ConfigType extends IComponentConfig> implements 
      * Gets custom date value from this component.
      * If the key is not provided then the entire collection is returned.
      *
-     * @template T
+     * @template R
      * @param {string} [key]
-     * @param {ConfigType} [defaultValue]
-     * @returns {ConfigType}
+     * @param {R} [defaultValue]
+     * @returns {R}
      * @memberof Component
      */
     public getUserData<R>(key?: string, defaultValue?: R): R {
@@ -134,7 +128,7 @@ export abstract class Component<ConfigType extends IComponentConfig> implements 
      * @memberof Component
      */
     public applyMethod<R>(methodName: string, arg?: any[]): R {
-        const fn: (() => any) = (this as any)[methodName] as (() => any);
+        const fn: () => any = (this as any)[methodName] as (() => any);
         if (fn) {
             return fn.apply(this, arg || []) as R;
         } else {
@@ -175,7 +169,7 @@ export abstract class Component<ConfigType extends IComponentConfig> implements 
      * @param {IComponentConfig} defaults
      * @memberof Component
      */
-    protected configDefaults(defaults: ConfigType) {
+    protected configDefaults(defaults: IComponentConfig) {
         const me = this;
         Blend.apply(me.config, defaults || {});
     }

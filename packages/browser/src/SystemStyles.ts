@@ -46,7 +46,7 @@ export class SystemStyles extends Sheet {
                 padding: 0,
                 lineHeight: 0
             };
-        me.addRule(CSS.block(".__screeninfo__", invisible));
+        me.addRule(CSS.block("__screeninfo__", invisible));
     }
 
     /**
@@ -56,7 +56,7 @@ export class SystemStyles extends Sheet {
      * @memberof SystemStyles
      */
     protected createDirection() {
-        this.addRule([CSS.and(".b-rtl", { direction: "rtl" }), CSS.and(".b-ltr", { direction: "ltr" })]);
+        this.addRule([CSS.and("b-rtl", { direction: "rtl" }), CSS.and("b-ltr", { direction: "ltr" })]);
     }
 
     /**
@@ -114,6 +114,6 @@ export class SystemStyles extends Sheet {
      * @memberof System
      */
     protected createDisplayInfo(name: string, data: any): CSSRule {
-        return CSS.block(".__screeninfo__", CSS.and(`.${name}`, CSS.after({ content: `"${data}"` })));
+        return CSS.block("__screeninfo__", CSS.and(`.${name}`, CSS.after({ content: `"${data}"` })));
     }
 }

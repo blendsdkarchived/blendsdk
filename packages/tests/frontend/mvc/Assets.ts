@@ -1,4 +1,4 @@
-import { Component, IComponentConfig, TComponent } from "@blendsdk/core";
+import { Component, IComponentConfig } from "@blendsdk/core";
 import { Controller, ControllerAction, IMVCComponentConfig, MVCComponent, TComponentEvent } from "@blendsdk/mvc";
 
 export namespace Assets {
@@ -15,13 +15,14 @@ export namespace Assets {
         }
     }
 
-    export class ComponentOne extends MVCComponent<IComponentOneConfig> {
+    export class ComponentOne extends MVCComponent {
+        protected config: IComponentOneConfig;
         public constructor(config?: IComponentOneConfig) {
             super(config);
             this.configDefaults({
                 someNumber: 1,
                 someNumberMirror: 0
-            });
+            } as IComponentOneConfig);
         }
 
         public set someNumber(value: number) {
@@ -64,7 +65,7 @@ export namespace Assets {
         }
     }
 
-    export class Ticker extends MVCComponent<ITickerConfig> {
+    export class Ticker extends MVCComponent {
         public constructor(config?: ITickerConfig) {
             super(config);
         }

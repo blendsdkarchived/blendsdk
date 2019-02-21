@@ -2,7 +2,7 @@
     "name": "blendsdk",
     "description": "BlendSDK HTML5 Web Application Framework for TypeScript",
     "private": true,
-    "version": "0.0.44",
+    "version": "0.0.45",
     "devDependencies": {
         "leasot": "^7.3.0",
         "lerna": "^3.11.0"

@@ -5,7 +5,7 @@ export namespace Assets.collection {
         id: string;
     }
 
-    export class SimpleObject extends Component<IComponentConfig> {
+    export class SimpleObject extends Component {
         public constructor(config?: ISimpleObjectConfig) {
             super(config);
             this.config.id = this.config.id || Blend.ID().toString();

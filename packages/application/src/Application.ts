@@ -1,11 +1,37 @@
 import { Browser, eBrowserEvents } from "@blendsdk/browser";
-import { Blend, SystemEvents } from "@blendsdk/core";
+import { Blend, SystemEvents, TConfigurableClass } from "@blendsdk/core";
 import { CSS, IStyleSet, stylesheet } from "@blendsdk/css";
 import { Router } from "@blendsdk/router";
-import { TUIComponent, UIComponent } from "@blendsdk/ui";
-import { IApplicationConfig, IApplicationStyles } from "./Types";
+import { IUIComponentConfig, IUIComponentStyles, UIComponent } from "@blendsdk/ui";
 
-export class Application extends UIComponent<IApplicationStyles, IApplicationConfig> {
+/**
+ * Interface for configuring theme variables for a Application instance.
+ *
+ * @interface IApplicationStyles
+ * @extends {IUIComponentStyles}
+ */
+export interface IApplicationStyles extends IUIComponentStyles {
+    /**
+     * Option to configure a background color for this Application
+     *
+     * @type {string}
+     * @memberof IApplicationThemeConfig
+     */
+    backgroundColor?: string;
+}
+
+export interface IApplicationConfig extends IUIComponentConfig {
+    /**
+     * Required configuration for providing a main view to
+     * an application.
+     *
+     * @type {(TConfigurableClass | Blend.ui.Component)}
+     * @memberof IApplicationConfig
+     */
+    mainView?: TConfigurableClass | UIComponent;
+}
+
+export class Application extends UIComponent {
     /**
      * @override
      * @protected
@@ -20,7 +46,7 @@ export class Application extends UIComponent<IApplicationStyles, IApplicationCon
      * @type {Blend.ui.Component}
      * @memberof Application
      */
-    protected mainView: TUIComponent;
+    protected mainView: UIComponent;
     /**
      * Indicates if the application is ready and everything is rended
      * as it should.
@@ -41,7 +67,7 @@ export class Application extends UIComponent<IApplicationStyles, IApplicationCon
         const me = this;
         me.configDefaults({
             fitToWindow: true
-        });
+        } as IApplicationConfig);
         me.autoStart();
     }
 
@@ -53,54 +79,44 @@ export class Application extends UIComponent<IApplicationStyles, IApplicationCon
      * @memberof Application
      */
     protected createStyles(styles: IApplicationStyles, selectorUid: string) {
+        // defaults
+        Blend.apply(styles, {
+            backgroundColor: "#FFFFFF"
+        });
+
         const borderBoxSettings: IStyleSet = {
                 padding: 0,
                 margin: 0,
                 boxSizing: "border-box"
             },
             sheet = stylesheet([
-                CSS.block(".b-fit-to-window", [
-                    {
-                        overflow: "hidden"
-                    },
-                    CSS.makeFit(),
-                    CSS.child("body", [CSS.makeFit(), borderBoxSettings, CSS.child(".b-application", CSS.makeFit())])
+                CSS.block("b-viewport", [
+                    borderBoxSettings,
+                    // sizing
+                    CSS.makeFit()
                 ]),
-                CSS.block(".b-application", [
+                CSS.block("b-application", [
                     borderBoxSettings,
                     {
-                        opacity: 0,
-                        position: "relative"
+                        opacity: 0
                     },
+                    CSS.makeFit(),
                     CSS.transition([
                         CSS.animationEnterTransition({
                             property: "opacity",
                             durationInSeconds: 0.5
                         })
                     ]),
-                    CSS.and(".b-ready", {
+                    CSS.and("b-ready", {
                         opacity: 1
                     }),
-                    CSS.child(".b-main-view", CSS.makeFit())
+                    CSS.child("b-mainview", CSS.makeFit())
                 ]),
                 CSS.block(selectorUid, {
                     backgroundColor: styles.backgroundColor
                 })
             ]);
-        this.attachStyleSheet(sheet);
-    }
-
-    /**
-     * @override
-     * @protected
-     * @param {IApplicationStyles} styles
-     * @returns {IApplicationStyles}
-     * @memberof Application
-     */
-    protected styleDefaults(styles: IApplicationStyles): IApplicationStyles {
-        return {
-            backgroundColor: "#fff"
-        };
+        this.attachStyleSheet(sheet, true);
     }
 
     /**
@@ -110,21 +126,8 @@ export class Application extends UIComponent<IApplicationStyles, IApplicationCon
      * @returns {T}
      * @memberof Application
      */
-    public getMainView<T extends TUIComponent>(): T {
+    public getMainView<T extends UIComponent>(): T {
         return this.mainView as T;
-    }
-
-    /**
-     * Returns the instance of the Blend.router.Router component if
-     * it was provided at the application configuration.
-     *
-     * It returns `null` when no Router was configured.
-     *
-     * @returns {Blend.router.Router}
-     * @memberof Application
-     */
-    public getRouter(): Router {
-        return this.config.router || null;
     }
 
     /**
@@ -133,12 +136,7 @@ export class Application extends UIComponent<IApplicationStyles, IApplicationCon
      * @memberof Application
      */
     protected initComponent() {
-        const me = this,
-            router = me.getRouter();
-
-        if (router) {
-            router.initComponent();
-        }
+        const me = this;
 
         if (me.config.mainView) {
             me.mainView = Blend.createComponent(me.config.mainView);
@@ -198,7 +196,7 @@ export class Application extends UIComponent<IApplicationStyles, IApplicationCon
         super.finalizeRender();
         const me = this;
         me.el.appendChild(me.mainView);
-        me.mainView.getElement().classList.add("b-main-view");
+        me.mainView.getElement().classList.add("b-mainview");
     }
 
     /**
@@ -221,8 +219,8 @@ export class Application extends UIComponent<IApplicationStyles, IApplicationCon
      */
     protected doLayout(isInitial?: boolean): void {
         const me = this;
-        if (me.config.fitToWindow) {
-            document.documentElement.classList.add("b-fit-to-window");
+        if (isInitial) {
+            document.body.classList.add("b-viewport");
         }
         this.mainView.performLayout();
     }

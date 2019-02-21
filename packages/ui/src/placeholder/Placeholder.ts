@@ -26,7 +26,7 @@ export interface IPlaceholderStyle extends IUIComponentStyles {
  * @extends {IUIComponentConfig}
  * @extends {IThemeableComponent<IPlaceholderThemeConfig>}
  */
-export interface IPlaceholderConfig extends IUIComponentConfig<IPlaceholderStyle> {
+export interface IPlaceholderConfig extends IUIComponentConfig {
     /**
      * Option to configure a caption for the Placeholder component.
      *
@@ -43,19 +43,25 @@ export interface IPlaceholderConfig extends IUIComponentConfig<IPlaceholderStyle
  * @class Placeholder
  * @extends {Component}
  */
-export class Placeholder extends UIComponent<IPlaceholderStyle, IPlaceholderConfig> {
-    protected styleDefaults(styles: IPlaceholderStyle): IPlaceholderStyle {
-        return {
-            backgroundColor: styles.backgroundColor || "#" + Math.floor(Math.random() * 16777215).toString(16),
-            color: styles.color || "rgba(255,255,255,.88)"
-        };
-    }
+export class Placeholder extends UIComponent {
+    /**
+     * @override
+     * @protected
+     * @type {IPlaceholderStyle}
+     * @memberof Placeholder
+     */
+    protected config: IPlaceholderConfig;
 
     protected createStyles(styles: IPlaceholderStyle, selectorUid: string) {
+        Blend.apply(styles, {
+            backgroundColor: styles.backgroundColor || "#" + Math.floor(Math.random() * 16777215).toString(16),
+            color: styles.color || "rgba(255,255,255,.88)"
+        });
+
         this.attachStyleSheet(
             stylesheet([
                 // For all placeholders
-                CSS.block(".placeholder", {
+                CSS.block("placeholder", {
                     width: Blend.toPx(128),
                     height: Blend.toPx(128),
                     display: "flex",
@@ -82,7 +88,7 @@ export class Placeholder extends UIComponent<IPlaceholderStyle, IPlaceholderConf
         const me = this;
         me.configDefaults({
             caption: "Placeholder: " + me.getUID()
-        });
+        } as IPlaceholderConfig);
     }
 
     /**

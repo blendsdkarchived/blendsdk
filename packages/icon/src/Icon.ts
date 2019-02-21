@@ -1,11 +1,6 @@
 import { Component, IComponentConfig } from "@blendsdk/core";
 
 /**
- * Helper type for describing an Icon
- */
-export type TIcon = Icon<IIconConfig>;
-
-/**
  * Interface for configuring an icon
  *
  * @interface IIconConfig
@@ -21,7 +16,14 @@ export interface IIconConfig extends IComponentConfig {}
  * @class Icon
  * @extends {Blend.core.Component}
  */
-export abstract class Icon<T extends IIconConfig> extends Component<T> {
+export abstract class Icon extends Component {
+    /**
+     * @override
+     * @protected
+     * @type {IIconConfig}
+     * @memberof Icon
+     */
+    protected config: IIconConfig;
     /**
      * The element containing the icon
      *
@@ -38,15 +40,25 @@ export abstract class Icon<T extends IIconConfig> extends Component<T> {
      * @memberof Icon
      */
     protected isRendered: boolean;
+    /**
+     * The CSS selector for this icon.
+     *
+     * @protected
+     * @type {string}
+     * @memberof Icon
+     */
+    protected selectorId: string;
 
     /**
      * Creates an instance of Icon.
      * @param {IIconConfig} [config]
      * @memberof Icon
      */
-    public constructor(config?: T) {
+    public constructor(config?: IIconConfig) {
         super(config);
-        this.isRendered = false;
+        const me = this;
+        me.isRendered = false;
+        me.selectorId = `c${me.getUID()}`;
     }
 
     /**

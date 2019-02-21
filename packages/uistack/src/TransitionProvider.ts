@@ -1,6 +1,6 @@
 // tslint:disable:max-classes-per-file
 import { Component, IComponentConfig } from "@blendsdk/core";
-import { TUIComponent, UIComponent } from "@blendsdk/ui";
+import { UIComponent } from "@blendsdk/ui";
 
 export interface IStackTransitionConfig extends IComponentConfig {
     containerElement: HTMLElement;
@@ -29,9 +29,9 @@ export interface IStackTransitionOptions {
  * @class Transition
  * @extends {Blend.core.Component}
  */
-export abstract class TransitionProvider extends Component<IStackTransitionConfig> {
+export abstract class TransitionProvider extends Component {
     protected archive: DocumentFragment;
-    protected currentView: TUIComponent;
+    protected currentView: UIComponent;
     protected config: IStackTransitionConfig & IComponentConfig;
 
     public constructor(config?: IStackTransitionConfig) {
@@ -39,22 +39,22 @@ export abstract class TransitionProvider extends Component<IStackTransitionConfi
         this.archive = document.createDocumentFragment();
     }
 
-    public archiveView(view: TUIComponent) {
+    public archiveView(view: UIComponent) {
         const me = this,
             el = view.getElement();
         me.archive.appendChild(el);
     }
 
-    public unArchiveView(view: TUIComponent) {
+    public unArchiveView(view: UIComponent) {
         const me = this,
             el = view.getElement();
         me.config.containerElement.appendChild(el);
     }
 
     public abstract pushView(
-        view: TUIComponent,
+        view: UIComponent,
         options: IStackTransitionOptions,
-        doneCallback?: (view: TUIComponent, state: boolean) => void
+        doneCallback?: (view: UIComponent, state: boolean) => void
     ): void;
 }
 
@@ -75,9 +75,9 @@ export class DefaultTransitionProvider extends TransitionProvider {
      * @memberof DefaultTransitionProvider
      */
     public pushView(
-        view: TUIComponent,
+        view: UIComponent,
         options: IStackTransitionOptions,
-        doneCallback?: (view: TUIComponent, state: boolean) => void
+        doneCallback?: (view: UIComponent, state: boolean) => void
     ) {
         const me = this,
             done = doneCallback || (() => {});
