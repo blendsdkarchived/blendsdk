@@ -194,11 +194,11 @@ export abstract class Button extends UIComponent {
                 },
                 children: [
                     {
-                        css: "b-button__icon",
+                        css: "b-icon",
                         reference: "imageElement"
                     },
                     {
-                        css: "b-button__text",
+                        css: "b-text",
                         reference: "textElement",
                         textContent: (me.config as IUIButtonText).text || ""
                     }
