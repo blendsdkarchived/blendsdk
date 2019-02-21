@@ -35,8 +35,9 @@ class StyleSheetsSingleton {
      * @param {Sheet} sheet
      * @memberof StyleSheetsSingleton
      */
-    public attach(sheet: Sheet, pushTop?: boolean) {
-        const styles = this.render(sheet).trim();
+    public attach(sheet: Sheet) {
+        const styles = this.render(sheet).trim(),
+            pushTop = sheet.isPushed();
         if (styles.length !== 0) {
             const el = document.createElement("style");
             el.innerHTML = styles;

@@ -257,27 +257,4 @@ export class ViewRouter extends UIComponent {
         const me = this;
         me.uiStack.performLayout();
     }
-
-    /**
-     * @override
-     * @protected
-     * @param {IUIComponentStyles} styles
-     * @returns {IUIComponentStyles}
-     * @memberof ViewRouter
-     */
-    protected styleDefaults(styles: IUIComponentStyles): IUIComponentStyles {
-        // throw new Error("Method not implemented.");
-        return null;
-    }
-
-    /**
-     * @override
-     * @protected
-     * @param {IUIComponentStyles} styles
-     * @param {string} selectorUid
-     * @memberof ViewRouter
-     */
-    protected createStyles(styles: IUIComponentStyles, selectorUid: string) {
-        // throw new Error("Method not implemented.");
-    }
 }

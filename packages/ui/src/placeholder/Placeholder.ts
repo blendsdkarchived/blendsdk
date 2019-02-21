@@ -1,5 +1,5 @@
 import { Blend } from "@blendsdk/core";
-import { CSS, stylesheet } from "@blendsdk/css";
+import { CSS, Sheet } from "@blendsdk/css";
 import { IUIComponentConfig, IUIComponentStyles, UIComponent } from "../UIComponent";
 
 export interface IPlaceholderStyle extends IUIComponentStyles {
@@ -52,30 +52,28 @@ export class Placeholder extends UIComponent {
      */
     protected config: IPlaceholderConfig;
 
-    protected createStyles(styles: IPlaceholderStyle, selectorUid: string) {
+    protected createStyles(sheet: Sheet, styles: IPlaceholderStyle, selectorUid: string) {
         Blend.apply(styles, {
             backgroundColor: styles.backgroundColor || "#" + Math.floor(Math.random() * 16777215).toString(16),
             color: styles.color || "rgba(255,255,255,.88)"
         });
 
-        this.attachStyleSheet(
-            stylesheet([
-                // For all placeholders
-                CSS.block("placeholder", {
-                    width: Blend.toPx(128),
-                    height: Blend.toPx(128),
-                    display: "flex",
-                    "align-items": "center",
-                    "justify-content": "center",
-                    "box-sizing": "border-box"
-                }),
-                // Specific for this Placeholder
-                CSS.block(selectorUid, {
-                    backgroundColor: styles.backgroundColor,
-                    color: styles.color
-                })
-            ])
-        );
+        sheet.addRule([
+            // For all placeholders
+            CSS.block("placeholder", {
+                width: Blend.toPx(128),
+                height: Blend.toPx(128),
+                display: "flex",
+                "align-items": "center",
+                "justify-content": "center",
+                "box-sizing": "border-box"
+            }),
+            // Specific for this Placeholder
+            CSS.block(selectorUid, {
+                backgroundColor: styles.backgroundColor,
+                color: styles.color
+            })
+        ]);
     }
 
     /**

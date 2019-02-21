@@ -18,6 +18,7 @@ export class SystemStyles extends Sheet {
     public constructor() {
         super();
         const me = this;
+        me.pushToTop();
         me.createScreenInfo();
         me.createDirection();
         me.createResponsiveTriggers();

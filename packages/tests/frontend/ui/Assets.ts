@@ -5,9 +5,7 @@ export namespace Assets {
         protected styleDefaults(styles: IUIComponentStyles): IUIComponentStyles {
             return styles;
         }
-        protected createStyles(styles: IUIComponentStyles, selectorUid: string) {
-            // no-op
-        }
+
         protected render(): HTMLElement {
             return this.createElement({
                 css: "ui-render-only",
@@ -23,9 +21,7 @@ export namespace Assets {
         protected styleDefaults(styles: IUIComponentStyles): IUIComponentStyles {
             return styles;
         }
-        protected createStyles(styles: IUIComponentStyles, selectorUid: string) {
-            // no-op
-        }
+
         protected render(): HTMLElement {
             return this.createElement({
                 style: {

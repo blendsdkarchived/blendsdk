@@ -12,6 +12,7 @@ import { IRenderedCSSRule } from "./Types";
  */
 export class Sheet {
     protected rules: CSSRule[];
+    protected pushed: boolean;
 
     /**
      * Creates an instance of Sheet.
@@ -20,6 +21,7 @@ export class Sheet {
      */
     public constructor(rules?: CSSRule | CSSRule[]) {
         this.rules = Blend.wrapInArray(rules || []);
+        this.pushed = false;
     }
 
     /**
@@ -31,6 +33,14 @@ export class Sheet {
     public addRule(rule: CSSRule | CSSRule[]) {
         const me = this;
         me.rules = me.rules.concat(Blend.wrapInArray(rule));
+    }
+
+    public pushToTop() {
+        this.pushed = true;
+    }
+
+    public isPushed(): boolean {
+        return this.pushed;
     }
 
     /**
