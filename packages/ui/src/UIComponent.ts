@@ -10,12 +10,11 @@ export interface IUIComponentStyles {
      * to automatically fill in color values for this component style.
      *
      * @type {string}
-     * @memberof IThemeConfig
      */
     theme?: string;
 }
 
-export interface IStylableUIComponentConfig<ComponentStylesType extends IUIComponentStyles> {
+export interface IStylableUIComponent<ComponentStylesType extends IUIComponentStyles> {
     /**
      * Option for configuring styles for this component.
      *
@@ -539,7 +538,7 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
     protected renderStyles() {
         const me = this,
             selectorUid = `c${me.getUID()}`;
-        const styles = Blend.shallowClone((me.config as IStylableUIComponentConfig<any>).styles || {});
+        const styles = Blend.shallowClone((me.config as IStylableUIComponent<any>).styles || {});
         if (me.createStyles(styles, selectorUid) !== false) {
             me.el.classList.add(selectorUid);
         }
