@@ -1,6 +1,6 @@
 {
     "name": "@blendsdk/core",
-    "version": "0.0.46",
+    "version": "0.0.47",
     "description": "The BlendSDK core package",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
@@ -27,7 +27,7 @@
         "components"
     ],
     "dependencies": {
-        "@blendsdk/extensions": "^0.0.46"
+        "@blendsdk/extensions": "^0.0.47"
     },
     "gitHead": "3cf0c717504e5e6ee768f9423eec41a997662df9",
     "devDependencies": {
