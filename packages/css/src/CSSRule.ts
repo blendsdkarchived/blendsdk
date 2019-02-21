@@ -2,7 +2,7 @@ import { Blend } from "@blendsdk/core";
 import { HTML_TAGS } from "./Tags";
 import { ICssFlattenProvider, IRenderedCSSRule, IStyleSet, TCssRenderer } from "./Types";
 
-const atStartRe = new RegExp("^(\\.|_+|-+|:+|@|\\*)", "gmi");
+const atStartRe = new RegExp("^(\\[|\\.|_+|-+|:+|@|\\[|\\*)", "gmi");
 const tagRe = new RegExp(
     Object.keys(HTML_TAGS)
         .map(t => {
