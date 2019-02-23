@@ -66,6 +66,17 @@ export namespace CSS {
     }
 
     /**
+     * Creates a CSS rule representing a `(.b-disabled) selector`
+     *
+     * @export
+     * @param {(IStyleSet | CSSRule | Array<IStyleSet | CSSRule>)} styles
+     * @returns
+     */
+    export function andDisabled(styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
+        return and(".b-disabled", styles);
+    }
+
+    /**
      * Creates a CSS rule representing a `:not(.b-disabled) selector`
      *
      * @export
