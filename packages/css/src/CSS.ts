@@ -4,15 +4,52 @@ import { Sheet } from "./Sheet";
 import { IStyleSet } from "./Types";
 
 /**
+ * Option for configuring animationFunction of a
+ * CSS transition animation.
+ *
+ * @export
+ * @enum {number}
+ */
+export enum eTransitionFunction {
+    StandardEasing = "cubic-bezier(0.4, 0.0, 0.2, 1)",
+    DecelerateEasing = "cubic-bezier(0.0, 0.0, 0.2, 1)",
+    AccelerateEasing = "cubic-bezier(0.4, 0.0, 1, 1)"
+}
+
+/**
  * Interface for describing a CSS transition
  *
  * @export
  * @interface ICSSTransition
  */
 export interface ICSSTransition {
+    /**
+     * The property that is going to be animated.
+     *
+     * @type {string}
+     * @memberof ICSSTransition
+     */
     property?: string;
+    /**
+     * Duration in seconds.
+     *
+     * @type {number}
+     * @memberof ICSSTransition
+     */
     durationInSeconds?: number;
-    animationFunction?: string;
+    /**
+     * The animation function.
+     *
+     * @type {(string | eTransitionFunction)}
+     * @memberof ICSSTransition
+     */
+    animationFunction?: string | eTransitionFunction;
+    /**
+     * Animation start timeout.
+     *
+     * @type {number}
+     * @memberof ICSSTransition
+     */
     animationTimeout?: number;
 }
 
