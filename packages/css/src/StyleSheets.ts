@@ -41,7 +41,7 @@ class StyleSheetsSingleton {
         if (styles.length !== 0) {
             const el = document.createElement("style");
             el.innerHTML = styles;
-            if (pushTop === true) {
+            if (pushTop !== true) {
                 document.head.appendChild(el);
             } else {
                 const elements = document.querySelectorAll("style");
