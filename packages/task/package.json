@@ -1,6 +1,6 @@
 {
     "name": "@blendsdk/task",
-    "version": "0.0.54",
+    "version": "0.0.55",
     "description": "TODO",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
@@ -18,7 +18,7 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "dependencies": {
-        "@blendsdk/core": "^0.0.54"
+        "@blendsdk/core": "^0.0.55"
     },
     "keywords": [
         "typescript",
@@ -31,7 +31,7 @@
     ],
     "devDependencies": {
         "rimraf": "^2.6.3",
-        "tslint": "^5.12.1",
-        "typescript": "^3.3.3"
+        "tslint": "^5.13.1",
+        "typescript": "^3.3.3333"
     }
 }
