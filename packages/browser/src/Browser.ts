@@ -225,12 +225,14 @@ class BrowserSingleton {
                             me.installSystemStyles();
                             me.runReadyQueue();
                             window.requestAnimationFrame(() => {
-                                me.processSheetQueue();
                                 me.installWindowResizeHandler();
                                 me.updateScreenInformation();
-                                me.readyQueue = [];
-                                me.isBrowserReady = me.isQueueComplete = true;
-                                me.windowResizeHandler(); // initial event when everything is ready
+                                window.requestAnimationFrame(() => {
+                                    me.processSheetQueue();
+                                    me.readyQueue = [];
+                                    me.isBrowserReady = me.isQueueComplete = true;
+                                    me.windowResizeHandler(); // initial event when everything is ready
+                                });
                             });
                         });
                     });
