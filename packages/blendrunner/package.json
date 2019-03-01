@@ -1,6 +1,6 @@
 {
     "name": "@blendsdk/blendrunner",
-    "version": "0.0.55",
+    "version": "0.0.56",
     "description": "BlendSDK InBrowser Test Runner Framework",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",

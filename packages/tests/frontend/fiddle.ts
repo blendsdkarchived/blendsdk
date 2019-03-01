@@ -12,27 +12,27 @@
 //     btn.performLayout();
 // });
 
-// import { Browser } from "@blendsdk/browser";
-// import { Blend } from "@blendsdk/core";
-// import { Dom } from "../../dom/dist";
+import { Browser } from "@blendsdk/browser";
+import { Blend } from "@blendsdk/core";
+import { Dom } from "../../dom/dist";
 
-// Browser.ready(() => {
-//     for (let a = 0; a !== 100; a++) {
-//         document.body.appendChild(
-//             Dom.createElement({
-//                 textContent: `DIV ${a}`,
-//                 style: {
-//                     height: Blend.toPx(100),
-//                     margin: Blend.toPx(10),
-//                     border: `5px solid red`,
-//                     display: "flex",
-//                     alignItems: "center",
-//                     justifyContent: "center"
-//                 }
-//             })
-//         );
-//     }
-// });
+Browser.ready(() => {
+    for (let a = 0; a !== 100; a++) {
+        document.body.appendChild(
+            Dom.createElement({
+                textContent: `DIV ${a}`,
+                style: {
+                    height: Blend.toPx(100),
+                    margin: Blend.toPx(10),
+                    border: `5px solid red`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                }
+            })
+        );
+    }
+});
 
 // import { Application } from "@blendsdk/application";
 // import { Blend } from "@blendsdk/core";
