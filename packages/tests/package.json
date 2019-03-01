@@ -11,7 +11,7 @@
         "tslint": "tslint --config ./tslint.json --project ./frontend/tsconfig.json",
         "rollup": "rollup --config",
         "build": "npm run clean && npm run tslint && npm run build:ts && npm run rollup",
-        "serve": "PORT=5000 DEBUG=testapp:* ./bin/www",
+        "serve": "PORT=9090 DEBUG=testapp:* ./bin/www",
         "watch:rollup": "rollup -w --config ./rollup.config.js",
         "watch": "npm run build && concurrently -p \"[{name}]\" -n \"TSC,ROLLUP,SERVE\"  \"npm run watch:ts\" \"npm run watch:rollup\" \"npm run serve\" "
     },

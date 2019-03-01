@@ -222,17 +222,14 @@ class BrowserSingleton {
                 if (me.isQueueComplete !== true) {
                     me.initViewport(() => {
                         me.installScreenInfoKeys(() => {
-                            me.installSystemStyles();
                             me.runReadyQueue();
                             window.requestAnimationFrame(() => {
+                                me.processSheetQueue();
                                 me.installWindowResizeHandler();
                                 me.updateScreenInformation();
-                                window.requestAnimationFrame(() => {
-                                    me.processSheetQueue();
-                                    me.readyQueue = [];
-                                    me.isBrowserReady = me.isQueueComplete = true;
-                                    me.windowResizeHandler(); // initial event when everything is ready
-                                });
+                                me.readyQueue = [];
+                                me.isBrowserReady = me.isQueueComplete = true;
+                                me.windowResizeHandler(); // initial event when everything is ready
                             });
                         });
                     });
@@ -273,7 +270,8 @@ class BrowserSingleton {
      * @memberof Browser
      */
     protected installScreenInfoKeys(doneCallback: TFunction) {
-        const docFrag = document.createDocumentFragment();
+        const me = this,
+            docFrag = document.createDocumentFragment();
         ["scrollbarSize", "orientation", "display"].forEach(key => {
             docFrag.appendChild(
                 Dom.createElement({
@@ -281,10 +279,24 @@ class BrowserSingleton {
                 })
             );
         });
-        window.document.body.appendChild(docFrag);
-        setTimeout(() => {
-            doneCallback();
-        }, 100);
+
+        const checkInfo = () => {
+            window.requestAnimationFrame(() => {
+                me.updateScreenInformation();
+                const info: IScreenInformation = me.getScreenInformation();
+                if (info.display !== "none") {
+                    doneCallback();
+                } else {
+                    checkInfo();
+                }
+            });
+        };
+
+        window.requestAnimationFrame(() => {
+            me.installSystemStyles();
+            window.document.body.appendChild(docFrag);
+            checkInfo();
+        });
     }
 
     /**
@@ -358,7 +370,7 @@ class BrowserSingleton {
      */
     protected installSystemStyles() {
         const me = this;
-        me.attachStyleSheet(new SystemStyles());
+        StyleSheets.attach(new SystemStyles()); // fore to install outside of the queue
         window.document.documentElement.classList.add(me.isRTL() ? "b-rtl" : "b-ltr");
         window.document.documentElement.classList.add(`b-${DeviceInfo.getBrowserType()}`);
     }
