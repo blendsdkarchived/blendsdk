@@ -253,12 +253,25 @@ class BrowserSingleton {
      * @memberof BrowserSingleton
      */
     protected processSheetQueue() {
-        const me = this;
+        const me = this,
+            docFrag = document.createDocumentFragment(),
+            styles: string[] = [];
         me.sheetQueue.forEach(sheet => {
-            StyleSheets.attach(sheet);
+            StyleSheets.bundle(sheet, docFrag);
         });
         // clear the sheets queue, since everything is rendered now.
         me.sheetQueue = null;
+
+        Blend.forEach(docFrag.children, (sty: HTMLElement) => {
+            styles.push(sty.innerHTML);
+        });
+
+        document.head.appendChild(
+            Dom.createElement({
+                tag: "style",
+                htmlContent: styles.join("\n")
+            })
+        );
     }
 
     /**
