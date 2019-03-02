@@ -14,21 +14,53 @@
 
 import { Browser } from "@blendsdk/browser";
 import { Blend } from "@blendsdk/core";
-import { Dom } from "../../dom/dist";
+import { CSS, IStyleSet, Sheet, StyleSheets } from "@blendsdk/css";
+import { Dom } from "@blendsdk/dom";
+
+const inlineStyle = (name: string, styles: IStyleSet): Sheet => {
+    const sheet = StyleSheets.create();
+    sheet.pushToTop();
+    sheet.addRule(CSS.block(name, styles));
+    return sheet;
+};
 
 Browser.ready(() => {
+    Browser.attachStyleSheet(
+        inlineStyle("x-div", {
+            height: Blend.toPx(100),
+            margin: Blend.toPx(10),
+            border: `5px solid red`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+        })
+    );
+
+    Browser.attachStyleSheet(
+        inlineStyle("x-cyan", {
+            backgroundColor: "cyan"
+        })
+    );
+
+    Browser.attachStyleSheet(
+        inlineStyle("x-bold", {
+            backgroundColor: "cyan"
+        })
+    );
+
+    for (let a = 1; a !== 7; a++) {
+        Browser.attachStyleSheet(
+            inlineStyle("x-head-" + a, {
+                fontSize: Blend.toPx(10 + a * 2)
+            })
+        );
+    }
+
     for (let a = 0; a !== 100; a++) {
         document.body.appendChild(
             Dom.createElement({
                 textContent: `DIV ${a}`,
-                style: {
-                    height: Blend.toPx(100),
-                    margin: Blend.toPx(10),
-                    border: `5px solid red`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center"
-                }
+                css: "x-div"
             })
         );
     }

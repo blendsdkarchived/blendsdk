@@ -30,28 +30,55 @@ class StyleSheetsSingleton {
     }
 
     /**
-     * Attaches a Sheet to the browser DOM.
+     * Attaches a Sheet internally to a given head element.
      *
+     * @protected
      * @param {Sheet} sheet
+     * @param {HTMLElement} head
      * @memberof StyleSheetsSingleton
      */
-    public attach(sheet: Sheet) {
+    protected attachInternal(sheet: Sheet, head: DocumentFragment) {
+        head = head || (document.head as any);
         const styles = this.render(sheet).trim(),
             pushTop = sheet.isPushed();
         if (styles.length !== 0) {
             const el = document.createElement("style");
             el.innerHTML = styles;
             if (pushTop !== true) {
-                document.head.appendChild(el);
+                head.appendChild(el);
             } else {
-                const elements = document.querySelectorAll("style");
+                const elements = head.querySelectorAll("style");
                 if (elements.length === 0) {
-                    document.head.appendChild(el);
+                    head.appendChild(el);
                 } else {
-                    document.head.insertBefore(el, elements[0]);
+                    head.insertBefore(el, elements[0]);
                 }
             }
         }
+    }
+
+    /**
+     * Tries to cache bundle all the cached styles before the
+     * document is ready.
+     *
+     * @param {Sheet} sheet
+     * @param {DocumentFragment} doc
+     * @memberof StyleSheetsSingleton
+     */
+    public bundle(sheet: Sheet, doc: DocumentFragment) {
+        const me = this;
+        me.attachInternal(sheet, doc);
+    }
+
+    /**
+     * Attaches a Sheet to the browser DOM.
+     *
+     * @param {Sheet} sheet
+     * @memberof StyleSheetsSingleton
+     */
+    public attach(sheet: Sheet) {
+        const me = this;
+        me.attachInternal(sheet, document.head as any);
     }
 
     /**
