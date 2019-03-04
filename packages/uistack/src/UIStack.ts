@@ -1,7 +1,7 @@
 import { Blend, TConfigurableClass, TFunction } from "@blendsdk/core";
 import { CSS, Sheet } from "@blendsdk/css";
 import { TComponentEvent } from "@blendsdk/mvc";
-import { IUICollectionConfig, IUIComponentStyles, UICollection, UIComponent } from "@blendsdk/ui";
+import { IStylableUIComponent, IUICollectionConfig, IUIComponentStyles, UICollection, UIComponent } from "@blendsdk/ui";
 
 import {
     DefaultTransitionProvider,
@@ -81,7 +81,7 @@ export interface IUIStackStyles extends IUIComponentStyles {
  * @extends {IUICollectionConfig<UIComponent>}
  * @extends {IThemeableComponent<IUIStackThemeConfig>}
  */
-export interface IUIStackConfig extends IUICollectionConfig<UIComponent> {
+export interface IUIStackConfig extends IUICollectionConfig<UIComponent>, IStylableUIComponent<IUIStackStyles> {
     /**
      * Dispatches when a view is pushed into the visible area of the
      * Stack
@@ -123,6 +123,15 @@ export interface IUIStackConfig extends IUICollectionConfig<UIComponent> {
      * @memberof IUIStackConfig
      */
     skipInitialView?: boolean;
+    /**
+     * Option to configure to skip the item fitting.
+     * This is only useful if the UIStack is used as
+     * part of a composite component.
+     *
+     * @type {boolean}
+     * @memberof IUIStackConfig
+     */
+    skipFittingViews?: boolean;
 }
 
 /**
@@ -157,23 +166,29 @@ export class UIStack extends UICollection<UIComponent> {
         const me = this;
         sheet.addRule([
             CSS.block("b-stack", [
-                CSS.child("b-uc-item", {
-                    top: 0,
-                    left: 0
-                })
-            ]),
-            CSS.block(selectorUid, [
                 {
-                    padding: styles.padding || 0
-                },
-                CSS.child("b-uc-item", [
-                    {
-                        position: styles.padding === 0 ? null : "relative"
-                    },
-                    CSS.makeFit(styles.padding === 0)
-                ])
+                    backgroundColor: styles.backgroundColor
+                }
             ])
         ]);
+
+        if (me.config.skipFittingViews !== true) {
+            sheet.addRule([
+                CSS.block(selectorUid, [
+                    {
+                        padding: styles.padding || 0
+                    },
+                    CSS.child("b-uc-item", [
+                        {
+                            top: 0,
+                            left: 0,
+                            position: styles.padding === 0 ? null : "relative"
+                        },
+                        CSS.makeFit(styles.padding === 0)
+                    ])
+                ])
+            ]);
+        }
         me.attachStyleSheet(sheet);
     }
     /**
@@ -204,7 +219,7 @@ export class UIStack extends UICollection<UIComponent> {
         me.configDefaults({
             activeView: 0,
             skipInitialView: false,
-            fitViews: true,
+            skipFittingViews: false,
             transitionProvider: DefaultTransitionProvider
         } as IUIStackConfig);
     }
