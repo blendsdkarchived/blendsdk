@@ -1,7 +1,7 @@
 import { Blend, TConfigurableClass, TFunction } from "@blendsdk/core";
 import { CSS, Sheet } from "@blendsdk/css";
 import { TComponentEvent } from "@blendsdk/mvc";
-import { IUICollectionConfig, IUIComponentStyles, UICollection, UIComponent, IStylableUIComponent } from "@blendsdk/ui";
+import { IStylableUIComponent, IUICollectionConfig, IUIComponentStyles, UICollection, UIComponent } from "@blendsdk/ui";
 
 import {
     DefaultTransitionProvider,
