@@ -340,11 +340,11 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * internally.
      *
      * @protected
-     * @abstract
      * @param {boolean} value
-     * @memberof Field
+     * @returns
+     * @memberof UIComponent
      */
-    protected setDisabledInternal() {
+    protected setDisabledInternal(value: boolean) {
         return;
     }
 
@@ -363,7 +363,7 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
             } else {
                 me.el.removeAttribute("disabled");
             }
-            me.setDisabledInternal();
+            me.setDisabledInternal(value);
             me.dispatchDisabled(value);
             me.performLayoutIf();
         }
