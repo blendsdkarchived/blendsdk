@@ -91,13 +91,16 @@
         className: string | object | string[] | Array<[]>,
         addRemove?: boolean
     ) {
-        const me = this,
-            css = is_string(className)
-                ? [className as string]
-                : is_object(className)
-                ? Object.keys(className as object).map(key => className[key])
-                : (className as string[]);
+        const me = this;
+        let css = is_string(className)
+            ? [className as string]
+            : is_object(className)
+            ? Object.keys(className as object).map(key => className[key])
+            : (className as string[]);
         addRemove = addRemove === undefined ? true : addRemove;
+
+        // make sure we have an array to continue with.
+        css = css || [];
 
         css.forEach(item => {
             if (item.length && item.length === 2) {
