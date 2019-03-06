@@ -151,7 +151,7 @@ declare global {
          *
          * @memberof DOMTokenList
          */
-        set: (className: string | object | string[] | Array<[]>, addRemove?: boolean) => void;
+        set: (className: string | object | string[] | Array<[]>, addOrRemove?: boolean) => void;
     }
 }
 

@@ -1,6 +1,6 @@
 {
     "name": "@blendsdk/css",
-    "version": "0.0.58",
+    "version": "0.0.59",
     "description": "The BlendSDK css package",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
@@ -27,7 +27,7 @@
         "components"
     ],
     "dependencies": {
-        "@blendsdk/core": "^0.0.58"
+        "@blendsdk/core": "^0.0.59"
     },
     "devDependencies": {
         "rimraf": "^2.6.3",

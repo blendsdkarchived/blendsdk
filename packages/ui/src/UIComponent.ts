@@ -128,6 +128,13 @@ export interface IUIComponentConfig extends IMVCComponentConfig {
      * @memberof IUIComponentConfig
      */
     size?: IElementSize;
+    /**
+     * Option to configure one or more CSS rules when creating this component.
+     *
+     * @type {(string | string[])}
+     * @memberof IUIComponentConfig
+     */
+    cssClass?: string | string[];
 }
 
 /**
@@ -514,6 +521,20 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
         me.setFlexSize(me.config.flexSize);
         me.setHidden(me.config.hidden);
         me.setSize(me.config.size);
+        me.setCssClass(me.config.cssClass, true);
+    }
+
+    /**
+     * Sets the CSS classes on this component.
+     *
+     * @param {(string | string[])} value
+     * @memberof UIComponent
+     */
+    public setCssClass(className: string | object | string[] | Array<[]>, addOrRemove?: boolean) {
+        const me = this;
+        if (me.isRendered) {
+            me.el.classList.set(className, addOrRemove);
+        }
     }
 
     /**
