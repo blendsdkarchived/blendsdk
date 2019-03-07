@@ -121,7 +121,18 @@ export namespace CSS {
      * @returns
      */
     export function notDisabled(styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
-        return and(":not(.b-disabled)", styles);
+        return andNot("b-disabled", styles);
+    }
+
+    /**
+     * Creates a CSS rule representing a `:not() selector`
+     *
+     * @export
+     * @param {(IStyleSet | CSSRule | Array<IStyleSet | CSSRule>)} styles
+     * @returns
+     */
+    export function andNot(selector: string, styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
+        return and(`:not(.${selector})`, styles);
     }
 
     /**
