@@ -1,6 +1,6 @@
 import { Blend } from "@blendsdk/core";
 import { CSS, Sheet } from "@blendsdk/css";
-import { IUIComponentConfig, IUIComponentStyles, UIComponent } from "../UIComponent";
+import { IStylableUIComponent, IUIComponentConfig, IUIComponentStyles, UIComponent } from "../UIComponent";
 
 export interface IPlaceholderStyle extends IUIComponentStyles {
     /**
@@ -26,7 +26,7 @@ export interface IPlaceholderStyle extends IUIComponentStyles {
  * @extends {IUIComponentConfig}
  * @extends {IThemeableComponent<IPlaceholderThemeConfig>}
  */
-export interface IPlaceholderConfig extends IUIComponentConfig {
+export interface IPlaceholderConfig extends IUIComponentConfig, IStylableUIComponent<IPlaceholderStyle> {
     /**
      * Option to configure a caption for the Placeholder component.
      *
