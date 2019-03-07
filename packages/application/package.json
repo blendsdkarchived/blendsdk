@@ -1,6 +1,6 @@
 {
     "name": "@blendsdk/application",
-    "version": "0.0.62",
+    "version": "0.0.63",
     "description": "TODO",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
@@ -18,11 +18,11 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "dependencies": {
-        "@blendsdk/browser": "^0.0.62",
-        "@blendsdk/core": "^0.0.62",
-        "@blendsdk/css": "^0.0.62",
-        "@blendsdk/router": "^0.0.62",
-        "@blendsdk/ui": "^0.0.62"
+        "@blendsdk/browser": "^0.0.63",
+        "@blendsdk/core": "^0.0.63",
+        "@blendsdk/css": "^0.0.63",
+        "@blendsdk/router": "^0.0.63",
+        "@blendsdk/ui": "^0.0.63"
     },
     "keywords": [
         "typescript",

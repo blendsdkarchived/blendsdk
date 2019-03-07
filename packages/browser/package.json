@@ -1,6 +1,6 @@
 {
     "name": "@blendsdk/browser",
-    "version": "0.0.62",
+    "version": "0.0.63",
     "description": "TODO",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
@@ -16,10 +16,10 @@
         "tslint": "tslint --config ../../tslint.json --project ./tsconfig.json"
     },
     "dependencies": {
-        "@blendsdk/core": "^0.0.62",
-        "@blendsdk/css": "^0.0.62",
-        "@blendsdk/deviceinfo": "^0.0.62",
-        "@blendsdk/dom": "^0.0.62"
+        "@blendsdk/core": "^0.0.63",
+        "@blendsdk/css": "^0.0.63",
+        "@blendsdk/deviceinfo": "^0.0.63",
+        "@blendsdk/dom": "^0.0.63"
     },
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
