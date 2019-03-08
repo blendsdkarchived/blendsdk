@@ -102,7 +102,7 @@ export class Application extends UIComponent {
                 },
                 CSS.makeFit(),
                 CSS.transition([
-                    CSS.animationEnterTransition({
+                    CSS.animationEnter({
                         property: "opacity",
                         durationInSeconds: 0.5
                     })
