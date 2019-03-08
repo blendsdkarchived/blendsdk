@@ -292,7 +292,7 @@ export namespace CSS {
      * @param {ICSSTransition} value
      * @returns {ICSSTransition}
      */
-    export function animationEnterTransition(value: ICSSTransition): ICSSTransition {
+    export function animationEnter(value: ICSSTransition): ICSSTransition {
         value = value || {};
         value.animationFunction = "cubic-bezier(0, 0, .2, 1)";
         return value;
@@ -305,7 +305,7 @@ export namespace CSS {
      * @param {ICSSTransition} value
      * @returns {ICSSTransition}
      */
-    export function animationExitTemporary(value: ICSSTransition): ICSSTransition {
+    export function animationExit(value: ICSSTransition): ICSSTransition {
         value = value || {};
         value.animationFunction = "cubic-bezier(.4, 0, .6, 1)";
         return value;
