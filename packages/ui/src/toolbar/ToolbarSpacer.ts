@@ -36,7 +36,7 @@ export class ToolbarSpacer extends UIComponent {
             me.config.size = {};
         }
         me.config.flexSize = Blend.isNullOrUndef(me.config.size.width) ? 1 : me.config.flexSize;
-        me.config.size.height = "auto";
+        me.config.size.height = "100%";
     }
 
     /**
