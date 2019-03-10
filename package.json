@@ -12,6 +12,6 @@
         "build": "lerna run build",
         "bump": "lerna version --no-git-tag-version --no-push ",
         "todo": "leasot -i **/node_modules/** -r vscode ./packages/**/**/src/*.ts > TODO.md || true",
-        "test": "lerna run build && DEBUG=testapp:* packages/tests/bin/www"
+        "test": "PORT=7070 DEBUG=testapp:* packages/tests/bin/www"
     }
 }
