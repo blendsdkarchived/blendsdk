@@ -1,7 +1,6 @@
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import sourcemaps from "rollup-plugin-sourcemaps";
-import pkg from "./package.json";
 import glob from "glob";
 import path from "path";
 import mkdirp from "mkdirp";
