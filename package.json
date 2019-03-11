@@ -2,7 +2,7 @@
     "name": "blendsdk",
     "description": "BlendSDK HTML5 Web Application Framework for TypeScript",
     "private": true,
-    "version": "0.0.65",
+    "version": "0.0.66",
     "devDependencies": {
         "leasot": "^7.3.0",
         "lerna": "^3.11.0"
@@ -12,6 +12,6 @@
         "build": "lerna run build",
         "bump": "lerna version --no-git-tag-version --no-push ",
         "todo": "leasot -i **/node_modules/** -r vscode ./packages/**/**/src/*.ts > TODO.md || true",
-        "test": "lerna run build && DEBUG=testapp:* packages/tests/bin/www"
+        "test": "PORT=7070 DEBUG=testapp:* packages/tests/bin/www"
     }
 }

@@ -1,5 +1,5 @@
 {
-    "name": "@blendsdk/mvc",
+    "name": "@blendsdk/form",
     "version": "0.0.66",
     "description": "TODO",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
@@ -18,7 +18,13 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "dependencies": {
-        "@blendsdk/core": "^0.0.66"
+        "@blendsdk/browser": "^0.0.66",
+        "@blendsdk/core": "^0.0.66",
+        "@blendsdk/css": "^0.0.66",
+        "@blendsdk/dom": "^0.0.66",
+        "@blendsdk/mvc": "^0.0.66",
+        "@blendsdk/task": "^0.0.66",
+        "@blendsdk/ui": "^0.0.66"
     },
     "keywords": [
         "typescript",

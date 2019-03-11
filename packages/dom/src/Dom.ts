@@ -220,9 +220,10 @@ export namespace Dom {
  * Use $e() for convenience
  *
  * @export
- * @class Element
+ * @class DOMElement
+ * @implements {IHTMLElementProvider}
  */
-export class DOMElement {
+export class DOMElement implements IHTMLElementProvider {
     /**
      * Wraps an HTMLElement within a Blend.dom.Element for easy manipulation
      *
@@ -381,7 +382,7 @@ export class DOMElement {
      * @returns {(HTMLElement | null)}
      * @memberof Element
      */
-    public getEl<T extends HTMLElement>(): T | null {
+    public getElement<T extends HTMLElement>(): T | null {
         return this.el as T;
     }
 
