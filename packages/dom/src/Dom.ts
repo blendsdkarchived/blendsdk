@@ -250,7 +250,20 @@ export class DOMElement implements IHTMLElementProvider {
      */
     public constructor(el?: HTMLElement | string | ICreateElementConfig) {
         const me = this;
-        me.el = Dom.createElement(
+        me.el = me.renderElement(el);
+    }
+
+    /**
+     * Internal method that is used to parse and render the HTMLElement.
+     *
+     * @protected
+     * @param {(HTMLElement | string | ICreateElementConfig)} [el]
+     * @returns {HTMLElement}
+     * @memberof DOMElement
+     */
+    protected renderElement(el?: HTMLElement | string | ICreateElementConfig): HTMLElement {
+        const me = this;
+        return Dom.createElement(
             Blend.isString(el) ? { tag: el as any } : Blend.isNullOrUndef(el) ? {} : (el as any),
             (ref: string, elem: HTMLElement) => {
                 if (ref !== "..") {
