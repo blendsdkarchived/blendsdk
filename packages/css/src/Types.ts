@@ -1,4 +1,4 @@
-import { Component, IComponentConfig, IDictionary } from "@blendsdk/core";
+import { IDictionary } from "@blendsdk/core";
 
 /**
  * Interface for describing a virtual CssRule flatten provider.
