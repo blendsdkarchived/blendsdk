@@ -1,6 +1,6 @@
 {
-    "name": "@blendsdk/form",
-    "version": "0.0.67",
+    "name": "@blendsdk/forms",
+    "version": "0.0.68",
     "description": "TODO",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
@@ -18,13 +18,13 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "dependencies": {
-        "@blendsdk/browser": "^0.0.67",
-        "@blendsdk/core": "^0.0.67",
-        "@blendsdk/css": "^0.0.67",
-        "@blendsdk/dom": "^0.0.67",
-        "@blendsdk/mvc": "^0.0.67",
-        "@blendsdk/task": "^0.0.67",
-        "@blendsdk/ui": "^0.0.67"
+        "@blendsdk/browser": "^0.0.68",
+        "@blendsdk/core": "^0.0.68",
+        "@blendsdk/css": "^0.0.68",
+        "@blendsdk/dom": "^0.0.68",
+        "@blendsdk/mvc": "^0.0.68",
+        "@blendsdk/task": "^0.0.68",
+        "@blendsdk/ui": "^0.0.68"
     },
     "keywords": [
         "typescript",
@@ -37,7 +37,7 @@
     ],
     "devDependencies": {
         "rimraf": "^2.6.3",
-        "tslint": "^5.13.1",
+        "tslint": "^5.14.0",
         "typescript": "^3.3.3333"
     }
 }
