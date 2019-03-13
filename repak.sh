@@ -1,6 +1,6 @@
 for d in packages/*/ ; do
 	cd ./${d}
-	ncu -au
+	ncu -u
 	rm -fR package-lock.json
 	rm -fR node_modules
 	cd ../../
