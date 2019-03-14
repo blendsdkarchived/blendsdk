@@ -358,6 +358,7 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
         const me = this;
         me.config.disabled = value;
         if (me.isRendered && !Blend.isNullOrUndef(value)) {
+            me.el.classList.set("b-disabled", value === true ? true : false);
             if (value === true) {
                 me.el.setAttribute("disabled", "");
             } else {
