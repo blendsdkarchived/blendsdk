@@ -129,10 +129,6 @@ export class Reset extends Sheet {
                 .compose("*::after")
                 .compose("*::before")
         ]);
-        me.addRule(CSS.block("*", [CSS.before({ content: "none" })]));
-        me.addRule(CSS.block("*", [CSS.after({ content: "none" })]));
-        me.addRule(CSS.block("*", [CSS.before({ content: "''" })]));
-        me.addRule(CSS.block("*", [CSS.after({ content: "''" })]));
     }
 
     /**
