@@ -185,13 +185,15 @@ export namespace Dom {
                         if ($el.getReference() && refCallback) {
                             refCallback($el.getReference(), item);
                         }
-                    } else if (item && (item as IHTMLElementProvider).getElement) {
-                        el.appendChild(item.getElement());
-                    } else {
-                        (item as ICreateElementConfig).isSVG = config.isSVG || false;
-                        el.appendChild(
-                            Dom.createElement(item as ICreateElementConfig, refCallback, defaultEventTarget)
-                        );
+                    } else if (!Blend.isNullOrUndef(item)) {
+                        if ((item as IHTMLElementProvider).getElement) {
+                            el.appendChild(item.getElement());
+                        } else {
+                            (item as ICreateElementConfig).isSVG = config.isSVG || false;
+                            el.appendChild(
+                                Dom.createElement(item as ICreateElementConfig, refCallback, defaultEventTarget)
+                            );
+                        }
                     }
                 });
                 // }
