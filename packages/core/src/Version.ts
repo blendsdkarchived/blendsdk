@@ -1,1 +1,1 @@
-export const BLEND_VERSION = "0.0.72";
+export const BLEND_VERSION = "0.0.73";
