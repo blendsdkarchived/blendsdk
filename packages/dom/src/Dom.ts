@@ -185,7 +185,7 @@ export namespace Dom {
                         if ($el.getReference() && refCallback) {
                             refCallback($el.getReference(), item);
                         }
-                    } else if ((item as IHTMLElementProvider).getElement) {
+                    } else if (item && (item as IHTMLElementProvider).getElement) {
                         el.appendChild(item.getElement());
                     } else {
                         (item as ICreateElementConfig).isSVG = config.isSVG || false;
