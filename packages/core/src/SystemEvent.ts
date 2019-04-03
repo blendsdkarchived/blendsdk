@@ -95,7 +95,7 @@ export class SystemEventSingleton {
      * @param {Function} handler
      * @memberof SystemEvent
      */
-    public addEventHandler(id: string, eventName: string, handler: TFunction) {
+    public addEventListener(id: string, eventName: string, handler: TFunction) {
         const me = this;
         if (Blend.isEventName(eventName)) {
             me.defineEvent(eventName);

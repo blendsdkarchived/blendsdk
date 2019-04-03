@@ -13,12 +13,12 @@ Browser.ready(() => {
 
     document.body.appendChild(sizeElement);
 
-    SystemEvents.addEventHandler(Blend.ID().toString(), "onWindowResized", () => {
+    SystemEvents.addEventListener(Blend.ID().toString(), "onWindowResized", () => {
         sizeElement.innerHTML = JSON.stringify(Browser.getScreenInformation(), null, 2);
         (window as any).screenInfo = Blend.shallowClone(Browser.getScreenInformation());
     });
 
-    SystemEvents.addEventHandler(Blend.ID().toString(), "onResponsiveChange", () => {
+    SystemEvents.addEventListener(Blend.ID().toString(), "onResponsiveChange", () => {
         (window as any).onResponsiveChangeCount += 1;
     });
 });
