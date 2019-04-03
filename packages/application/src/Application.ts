@@ -170,7 +170,7 @@ export class Application extends UIComponent {
     protected autoStart() {
         const me = this;
         // This also does the first layout since it is initiated from Browse:documentReadyHandler
-        SystemEvents.addEventHandler(me.getUID(), eBrowserEvents.onWindowResized, () => {
+        SystemEvents.addEventListener(me.getUID(), eBrowserEvents.onWindowResized, () => {
             window.requestAnimationFrame(() => {
                 me.performLayout();
                 if (!me.isReady) {

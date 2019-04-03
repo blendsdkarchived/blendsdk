@@ -105,7 +105,7 @@ export abstract class MVCComponent extends Component {
      * @param {TComponentEvent} handler
      * @memberof Component
      */
-    public addEventHandler(eventName: string, handler: TComponentEventHandler) {
+    public addEventListener(eventName: string, handler: TComponentEventHandler) {
         const me = this,
             config: any = me.config;
         if (Blend.isFunction(handler) && Blend.isEventName(eventName)) {
@@ -218,7 +218,7 @@ export abstract class MVCComponent extends Component {
             config: IDictionary = me.config;
         if (SystemEvents.isDefined(eventName)) {
             // tslint:disable-next-line:only-arrow-functions
-            SystemEvents.addEventHandler(me.getUID(), eventName, function() {
+            SystemEvents.addEventListener(me.getUID(), eventName, function() {
                 me.dispatchEvent(eventName, Blend.argumentsToArray(arguments));
             });
         }

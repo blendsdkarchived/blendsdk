@@ -158,7 +158,7 @@ export class Router extends MVCComponent {
         window.addEventListener(eRouterEvents.hashchange, () => {
             me.doRoute(me.getHash());
         });
-        me.addEventHandler(eBrowserEvents.onApplicationReady, (sender: any) => {
+        me.addEventListener(eBrowserEvents.onApplicationReady, (sender: any) => {
             me.doRoute(me.getHash());
         });
         super.initComponent();
