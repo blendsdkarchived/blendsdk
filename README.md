@@ -54,3 +54,4 @@ The core framework consists of the following packages:
 
 The packages mentioned above are all in beta-plus state. This means that everything works as it should and
 except for bug-fixing, and incrementally adding documentation, there are no fundamental changes anymore.
+This also means that the core framework is still in development and will be extended with additional functionality.
