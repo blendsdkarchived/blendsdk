@@ -53,6 +53,16 @@ export interface ICSSTransition {
     animationTimeout?: number;
 }
 
+/**
+ * Interface for creating a `transform` CSS rule
+ *
+ * @interface ICSSTransformation
+ */
+interface ICSSTransformation {
+    scale?: string;
+    translate?: string;
+}
+
 // tslint:disable-next-line:no-namespace
 export namespace CSS {
     /**
@@ -256,6 +266,23 @@ export namespace CSS {
             }
         });
         return block(`@media ${query}`, { rawContent: content.join("\n") });
+    }
+
+    /**
+     * Creates a CSS transformation rule
+     *
+     * @export
+     * @param {ICSSTransformation} transformation
+     * @returns {IStyleSet}
+     */
+    export function transform(transformation: ICSSTransformation): IStyleSet {
+        const v: string[] = [];
+        Blend.forEach(transformation, (value: string, key: string) => {
+            v.push(`${key}(${value})`);
+        });
+        return {
+            transform: v.join(" ")
+        };
     }
 
     /**
