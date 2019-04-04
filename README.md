@@ -18,9 +18,9 @@ developer you have the option to create your components entirely using the provi
 
 The core framework consists of the following packages:
 
--   **Core**: This package provides common utilities and language helpers.
+    **Core**: This package provides common utilities and language helpers.
 
--   **Ajax**: This package provides classes for communicating with a back-end server.
+    **Ajax**: This package provides classes for communicating with a back-end server.
 
     **CSS**: This packages provides classes for generating and rendering dynamic CSS and stylesheets.
 
