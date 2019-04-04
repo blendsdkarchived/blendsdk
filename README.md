@@ -18,37 +18,37 @@ developer you have the option to create your components entirely using the provi
 
 The core framework consists of the following packages:
 
-    **Core**: This package provides common utilities and language helpers.
+-   **Core**: This package provides common utilities and language helpers.
 
-    **Ajax**: This package provides classes for communicating with a back-end server.
+-   **Ajax**: This package provides classes for communicating with a back-end server.
 
-    **CSS**: This packages provides classes for generating and rendering dynamic CSS and stylesheets.
+-   **CSS**: This packages provides classes for generating and rendering dynamic CSS and stylesheets.
 
-    **DeviceInfo**: This package provides functionality for browser and device detection.
+-   **DeviceInfo**: This package provides functionality for browser and device detection.
 
-    **DOM**: This package provides functionality for creating and manipulating DOM elements.
+-   **DOM**: This package provides functionality for creating and manipulating DOM elements.
 
-    **Browser**: This package provides functionality for communicating with the browser to handle browser events.
+-   **Browser**: This package provides functionality for communicating with the browser to handle browser events.
 
-    **Extensions**: This packages provides several extensions and augment on top of the built-in browser objects.
+-   **Extensions**: This packages provides several extensions and augment on top of the built-in browser objects.
 
-    **Form**: This package provides functionality for developing form components and asynchronous data validation.
+-   **Form**: This package provides functionality for developing form components and asynchronous data validation.
 
-    **ICON**: This package provides classes for creating and hosting both SVG and image based icons.
+-   **ICON**: This package provides classes for creating and hosting both SVG and image based icons.
 
-    **MVC**: This package provides functionality for creating event-driven components, controllers, and data stores.
+-   **MVC**: This package provides functionality for creating event-driven components, controllers, and data stores.
 
-    **Router**: This package provides classes to work with hash based URLs.
+-   **Router**: This package provides classes to work with hash based URLs.
 
-    **Task**: This package provides classes for crating and running asynchronous tasks.
+-   **Task**: This package provides classes for crating and running asynchronous tasks.
 
-    **UI**: This package provides classes for creating self-contained UI and Style components.
+-   **UI**: This package provides classes for creating self-contained UI and Style components.
 
-    **UIStack**: This packages provides a component that allows you to stack UI components on top of each other and show a single one at a time.
+-   **UIStack**: This packages provides a component that allows you to stack UI components on top of each other and show a single one at a time.
 
-    **ViewRouter**: This package provides a component that utilizes the Router and UIStack and provides functionality to create virtual pages within an application.
+-   **ViewRouter**: This package provides a component that utilizes the Router and UIStack and provides functionality to create virtual pages within an application.
 
-    **Application**: This package provides a component that is used to bootstrap and startup a Blend based application.
+-   **Application**: This package provides a component that is used to bootstrap and startup a Blend based application.
 
 ## Current State
 
