@@ -59,8 +59,12 @@ export interface ICSSTransition {
  * @interface ICSSTransformation
  */
 interface ICSSTransformation {
-    scale?: string;
-    translate?: string;
+    scale?: any;
+    translate?: any;
+    translateX?: any;
+    translateY?: any;
+    translateZ?: any;
+    [key: string]: any;
 }
 
 // tslint:disable-next-line:no-namespace
