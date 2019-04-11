@@ -1,5 +1,5 @@
 export function RotationCSS(): string {
-    return `@keyframes rotating
+	return `@keyframes rotating
 	{
 	from
 		{

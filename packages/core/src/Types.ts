@@ -13,7 +13,7 @@ export type TFunction = (...args) => any;
  * @interface IAbstractComponent
  */
 export interface IAbstractComponent {
-    getUID(): string;
+	getUID(): string;
 }
 
 /**
@@ -28,14 +28,14 @@ export interface IComponentConfig {
      * @type {string}
      * @memberof IMVCComponentConfig
      */
-    id?: string;
+	id?: string;
     /**
      * Option to configure a dictionary holding user specific data.
      *
      * @type {IDictionary}
      * @memberof ICoreComponentConfig
      */
-    userData?: IDictionary;
+	userData?: IDictionary;
 }
 
 /**
@@ -53,7 +53,7 @@ export interface IScreenInformation {
      * @type {string}
      * @memberof IScreenInformation
      */
-    orientation: string;
+	orientation: string;
     /**
      * Provides information about the display size.
      * The values are `xsmall`, `small`, `medium`, `large`, and `xlarge`
@@ -61,7 +61,7 @@ export interface IScreenInformation {
      * @type {string}
      * @memberof IScreenInformation
      */
-    display: string;
+	display: string;
 }
 
 /**
@@ -75,7 +75,7 @@ export declare type TConfigurableClass = new (config?: { [key: string]: any }) =
  * @interface IDictionary
  */
 export interface IDictionary {
-    [key: string]: any;
+	[key: string]: any;
 }
 
 /**
@@ -86,7 +86,7 @@ export interface IDictionary {
  * @extends {IDictionary}
  */
 // tslint:disable-next-line:no-empty-interface
-export interface IUILayoutConfig {}
+export interface IUILayoutConfig { }
 
 /**
  * Interface for configuring an Element size
@@ -100,14 +100,14 @@ export interface IElementSize {
      * @type {(number|string)}
      * @memberof IElementSize
      */
-    width?: number | string;
+	width?: number | string;
     /**
      * Option to configure the height of the Element.
      *
      * @type {(number|string)}
      * @memberof IElementSize
      */
-    height?: number | string;
+	height?: number | string;
 }
 
 /**
@@ -122,26 +122,26 @@ export interface IElementMargin {
      * @type {(number | string)}
      * @memberof IElementMargin
      */
-    top?: number | string;
+	top?: number | string;
     /**
      * Option to configure the right margin of an Element
      *
      * @type {(number | string)}
      * @memberof IElementMargin
      */
-    right?: number | string;
+	right?: number | string;
     /**
      * Option to configure the bottom margin of an Element
      *
      * @type {(number | string)}
      * @memberof IElementMargin
      */
-    bottom?: number | string;
+	bottom?: number | string;
     /**
      * Option to configure the left margin of an Element
      *
      * @type {(number | string)}
      * @memberof IElementMargin
      */
-    left?: number | string;
+	left?: number | string;
 }

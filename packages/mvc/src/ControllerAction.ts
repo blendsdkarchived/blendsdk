@@ -7,7 +7,7 @@
  * @param {*} description
  */
 export function ControllerAction(target: any, propertyName: string, description: any) {
-    target[propertyName].getMethodName = () => {
-        return propertyName;
-    };
+	target[propertyName].getMethodName = () => {
+		return propertyName;
+	};
 }

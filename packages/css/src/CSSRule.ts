@@ -4,12 +4,12 @@ import { ICssFlattenProvider, IRenderedCSSRule, IStyleSet, TCssRenderer } from "
 
 const atStartRe = new RegExp("^(\\[|\\.|_+|-+|:+|@|\\[|\\*)", "gmi");
 const tagRe = new RegExp(
-    Object.keys(HTML_TAGS)
-        .map(t => {
-            return "\\b" + t + "\\b";
-        })
-        .join("|"),
-    "gmi"
+	Object.keys(HTML_TAGS)
+		.map(t => {
+			return "\\b" + t + "\\b";
+		})
+		.join("|"),
+	"gmi"
 );
 
 /**
@@ -31,7 +31,7 @@ export class CSSRule implements ICssFlattenProvider {
      * @type {string}
      * @memberof CSSRule
      */
-    protected selector: string;
+	protected selector: string;
     /**
      * Collection of css styles configured for in this class.
      *
@@ -39,14 +39,14 @@ export class CSSRule implements ICssFlattenProvider {
      * @type {(Array<IStyleSet | CSSRule>)}
      * @memberof CSSRule
      */
-    protected styles: Array<IStyleSet | CSSRule>;
+	protected styles: Array<IStyleSet | CSSRule>;
     /**
      * Handler for parent to child relationship.
      *
      * @protected
      * @memberof CSSRule
      */
-    protected relHandler: (parent: string, current: string) => string;
+	protected relHandler: (parent: string, current: string) => string;
     /**
      * List of composed selectors to be added in the final render.
      *
@@ -54,7 +54,7 @@ export class CSSRule implements ICssFlattenProvider {
      * @type {string[]}
      * @memberof CSSRule
      */
-    protected composed: string[];
+	protected composed: string[];
 
     /**
      * Creates an instance of CSSRule.
@@ -63,21 +63,21 @@ export class CSSRule implements ICssFlattenProvider {
      * @param {(parent: string, current: string) => string} [relHandler]
      * @memberof CSSRule
      */
-    constructor(
-        selector: string,
-        styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>,
-        relHandler?: (parent: string, current: string) => string
-    ) {
-        const me = this;
-        me.selector = me.parseSelector(selector);
-        me.composed = [];
-        me.styles = Blend.wrapInArray(styles || []);
-        me.relHandler =
-            relHandler ||
-            ((parent: string, current: string) => {
-                return current;
-            });
-    }
+	constructor(
+		selector: string,
+		styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>,
+		relHandler?: (parent: string, current: string) => string
+	) {
+		const me = this;
+		me.selector = me.parseSelector(selector);
+		me.composed = [];
+		me.styles = Blend.wrapInArray(styles || []);
+		me.relHandler =
+			relHandler ||
+			((parent: string, current: string) => {
+				return current;
+			});
+	}
 
     /**
      * Try to automatically parse and prefix the selector with a dot (.)
@@ -87,22 +87,22 @@ export class CSSRule implements ICssFlattenProvider {
      * @returns
      * @memberof CSSRule
      */
-    protected parseSelector(selector: string) {
-        const me = this,
-            hasDash = selector.indexOf("-") !== -1,
-            sel = selector.trim();
+	protected parseSelector(selector: string) {
+		const me = this,
+			hasDash = selector.indexOf("-") !== -1,
+			sel = selector.trim();
 
-        atStartRe.lastIndex = 0;
-        tagRe.lastIndex = 0;
+		atStartRe.lastIndex = 0;
+		tagRe.lastIndex = 0;
 
-        if (atStartRe.test(sel) && sel !== "__screeninfo__") {
-            return sel;
-        } else if (tagRe.test(sel) && !hasDash) {
-            return sel;
-        } else {
-            return `.${sel}`;
-        }
-    }
+		if (atStartRe.test(sel) && sel !== "__screeninfo__") {
+			return sel;
+		} else if (tagRe.test(sel) && !hasDash) {
+			return sel;
+		} else {
+			return `.${sel}`;
+		}
+	}
 
     /**
      * Flattens the recursive structure of the CSSRule of a single array
@@ -113,20 +113,20 @@ export class CSSRule implements ICssFlattenProvider {
      * @returns {Array<TCssRenderer>}
      * @memberof CSSRule
      */
-    public flatten(): TCssRenderer[] {
-        const me = this;
-        let result: TCssRenderer[] = [];
-        let styles: IStyleSet = {};
-        me.styles.forEach(item => {
-            if ((item as ICssFlattenProvider).flatten) {
-                item.relateTo(me.selector);
-                result = result.concat(item.flatten());
-            } else {
-                styles = Blend.apply(styles, item);
-            }
-        });
-        return ([me.createRenderer(styles)] as TCssRenderer[]).concat(result);
-    }
+	public flatten(): TCssRenderer[] {
+		const me = this;
+		let result: TCssRenderer[] = [];
+		let styles: IStyleSet = {};
+		me.styles.forEach(item => {
+			if ((item as ICssFlattenProvider).flatten) {
+				item.relateTo(me.selector);
+				result = result.concat(item.flatten());
+			} else {
+				styles = Blend.apply(styles, item);
+			}
+		});
+		return ([me.createRenderer(styles)] as TCssRenderer[]).concat(result);
+	}
 
     /**
      * One or more selectors that is used to make a composition style.
@@ -135,17 +135,17 @@ export class CSSRule implements ICssFlattenProvider {
      * @param {string} selector
      * @memberof CSSRule
      */
-    public compose(selector: string | string[]): this {
-        const me = this;
-        me.composed = this.composed.concat(
-            Blend.wrapInArray<string>(selector).map(s => {
-                return (a => {
-                    return me.parseSelector(a);
-                })(s);
-            })
-        );
-        return me;
-    }
+	public compose(selector: string | string[]): this {
+		const me = this;
+		me.composed = this.composed.concat(
+			Blend.wrapInArray<string>(selector).map(s => {
+				return (a => {
+					return me.parseSelector(a);
+				})(s);
+			})
+		);
+		return me;
+	}
 
     /**
      * Configure the parent to child relationship.
@@ -153,9 +153,9 @@ export class CSSRule implements ICssFlattenProvider {
      * @param {string} selector
      * @memberof CSSRule
      */
-    public relateTo(selector: string) {
-        this.selector = this.relHandler(selector, this.selector);
-    }
+	public relateTo(selector: string) {
+		this.selector = this.relHandler(selector, this.selector);
+	}
 
     /**
      * Renders the composed selector.
@@ -164,11 +164,11 @@ export class CSSRule implements ICssFlattenProvider {
      * @returns {string}
      * @memberof CSSRule
      */
-    protected renderSelector(): string {
-        const me = this,
-            res = [me.selector].concat(me.composed);
-        return res.join(",");
-    }
+	protected renderSelector(): string {
+		const me = this,
+			res = [me.selector].concat(me.composed);
+		return res.join(",");
+	}
 
     /**
      * Creates a TCssRenderer function.
@@ -178,36 +178,36 @@ export class CSSRule implements ICssFlattenProvider {
      * @returns {TCssRenderer}
      * @memberof CSSRule
      */
-    protected createRenderer(result: IStyleSet): TCssRenderer {
-        const me = this;
-        return (): IRenderedCSSRule => {
-            const styles = [];
-            Blend.forEach(result, (value: any, key: string) => {
-                if (key === "rawContent") {
-                    styles.push(value);
-                } else {
-                    const k = Blend.dashedCase(key);
-                    if (Blend.isArray(value)) {
-                        switch (k) {
-                            case "content":
-                                (value as string[]).forEach(v => {
-                                    styles.push(`${k}:${v};`);
-                                });
-                                break;
-                            default:
-                                styles.push(`${k}:${value.join(", ")};`);
-                        }
-                    } else {
-                        if (!Blend.isNullOrUndef(value)) {
-                            styles.push(`${k}:${value};`);
-                        }
-                    }
-                }
-            });
-            return {
-                css: `${me.renderSelector()} {${styles.join("")}}`,
-                selector: styles.length !== 0 ? me.selector : "" // skips the empty selectors
-            };
-        };
-    }
+	protected createRenderer(result: IStyleSet): TCssRenderer {
+		const me = this;
+		return (): IRenderedCSSRule => {
+			const styles = [];
+			Blend.forEach(result, (value: any, key: string) => {
+				if (key === "rawContent") {
+					styles.push(value);
+				} else {
+					const k = Blend.dashedCase(key);
+					if (Blend.isArray(value)) {
+						switch (k) {
+							case "content":
+								(value as string[]).forEach(v => {
+									styles.push(`${k}:${v};`);
+								});
+								break;
+							default:
+								styles.push(`${k}:${value.join(", ")};`);
+						}
+					} else {
+						if (!Blend.isNullOrUndef(value)) {
+							styles.push(`${k}:${value};`);
+						}
+					}
+				}
+			});
+			return {
+				css: `${me.renderSelector()} {${styles.join("")}}`,
+				selector: styles.length !== 0 ? me.selector : "" // skips the empty selectors
+			};
+		};
+	}
 }

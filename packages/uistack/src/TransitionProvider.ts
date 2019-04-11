@@ -3,7 +3,7 @@ import { Component, IComponentConfig } from "@blendsdk/core";
 import { UIComponent } from "@blendsdk/ui";
 
 export interface IStackTransitionConfig extends IComponentConfig {
-    containerElement: HTMLElement;
+	containerElement: HTMLElement;
 }
 
 export interface IStackTransitionOptions {
@@ -17,7 +17,7 @@ export interface IStackTransitionOptions {
      * @type {boolean}
      * @memberof IStackTransitionOptions
      */
-    animate?: boolean;
+	animate?: boolean;
 }
 
 /**
@@ -30,32 +30,32 @@ export interface IStackTransitionOptions {
  * @extends {Blend.core.Component}
  */
 export abstract class TransitionProvider extends Component {
-    protected archive: DocumentFragment;
-    protected currentView: UIComponent;
-    protected config: IStackTransitionConfig & IComponentConfig;
+	protected archive: DocumentFragment;
+	protected currentView: UIComponent;
+	protected config: IStackTransitionConfig & IComponentConfig;
 
-    public constructor(config?: IStackTransitionConfig) {
-        super(config);
-        this.archive = document.createDocumentFragment();
-    }
+	public constructor(config?: IStackTransitionConfig) {
+		super(config);
+		this.archive = document.createDocumentFragment();
+	}
 
-    public archiveView(view: UIComponent) {
-        const me = this,
-            el = view.getElement();
-        me.archive.appendChild(el);
-    }
+	public archiveView(view: UIComponent) {
+		const me = this,
+			el = view.getElement();
+		me.archive.appendChild(el);
+	}
 
-    public unArchiveView(view: UIComponent) {
-        const me = this,
-            el = view.getElement();
-        me.config.containerElement.appendChild(el);
-    }
+	public unArchiveView(view: UIComponent) {
+		const me = this,
+			el = view.getElement();
+		me.config.containerElement.appendChild(el);
+	}
 
-    public abstract pushView(
-        view: UIComponent,
-        options: IStackTransitionOptions,
-        doneCallback?: (view: UIComponent, state: boolean) => void
-    ): void;
+	public abstract pushView(
+		view: UIComponent,
+		options: IStackTransitionOptions,
+		doneCallback?: (view: UIComponent, state: boolean) => void
+	): void;
 }
 
 /**
@@ -74,19 +74,19 @@ export class DefaultTransitionProvider extends TransitionProvider {
      * @param {Function} [doneCallback]
      * @memberof DefaultTransitionProvider
      */
-    public pushView(
-        view: UIComponent,
-        options: IStackTransitionOptions,
-        doneCallback?: (view: UIComponent, state: boolean) => void
-    ) {
-        const me = this,
-            done = doneCallback || (() => {});
-        me.unArchiveView(view);
-        if (me.currentView) {
-            me.archiveView(me.currentView);
-            done(me.currentView, false);
-        }
-        done(view, true);
-        me.currentView = view;
-    }
+	public pushView(
+		view: UIComponent,
+		options: IStackTransitionOptions,
+		doneCallback?: (view: UIComponent, state: boolean) => void
+	) {
+		const me = this,
+			done = doneCallback || (() => { });
+		me.unArchiveView(view);
+		if (me.currentView) {
+			me.archiveView(me.currentView);
+			done(me.currentView, false);
+		}
+		done(view, true);
+		me.currentView = view;
+	}
 }

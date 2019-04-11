@@ -6,7 +6,7 @@ import { Component, IComponentConfig } from "@blendsdk/core";
  * @interface IIconConfig
  * @extends {ICoreComponentConfig}
  */
-export interface IIconConfig extends IComponentConfig {}
+export interface IIconConfig extends IComponentConfig { }
 
 /**
  * Abstract class
@@ -23,7 +23,7 @@ export abstract class Icon extends Component {
      * @type {IIconConfig}
      * @memberof Icon
      */
-    protected config: IIconConfig;
+	protected config: IIconConfig;
     /**
      * The element containing the icon
      *
@@ -31,7 +31,7 @@ export abstract class Icon extends Component {
      * @type {HTMLElement}
      * @memberof Icon
      */
-    protected el: HTMLElement;
+	protected el: HTMLElement;
     /**
      * Indicates if the icon is rendered
      *
@@ -39,7 +39,7 @@ export abstract class Icon extends Component {
      * @type {boolean}
      * @memberof Icon
      */
-    protected isRendered: boolean;
+	protected isRendered: boolean;
     /**
      * The CSS selector for this icon.
      *
@@ -47,19 +47,19 @@ export abstract class Icon extends Component {
      * @type {string}
      * @memberof Icon
      */
-    protected selectorId: string;
+	protected selectorId: string;
 
     /**
      * Creates an instance of Icon.
      * @param {IIconConfig} [config]
      * @memberof Icon
      */
-    public constructor(config?: IIconConfig) {
-        super(config);
-        const me = this;
-        me.isRendered = false;
-        me.selectorId = `c${me.getUID()}`;
-    }
+	public constructor(config?: IIconConfig) {
+		super(config);
+		const me = this;
+		me.isRendered = false;
+		me.selectorId = `c${me.getUID()}`;
+	}
 
     /**
      * Gets the HTMLElement of the icon.
@@ -67,15 +67,15 @@ export abstract class Icon extends Component {
      * @returns {HTMLElement}
      * @memberof Icon
      */
-    public getElement(): HTMLElement {
-        const me = this;
-        if (!me.isRendered) {
-            me.el = me.render();
-            me.isRendered = true;
-            me.finalizeRender();
-        }
-        return me.el;
-    }
+	public getElement(): HTMLElement {
+		const me = this;
+		if (!me.isRendered) {
+			me.el = me.render();
+			me.isRendered = true;
+			me.finalizeRender();
+		}
+		return me.el;
+	}
 
     /**
      * Abstract method that renders the Icon element.
@@ -85,7 +85,7 @@ export abstract class Icon extends Component {
      * @returns {HTMLElement}
      * @memberof Icon
      */
-    protected abstract render(): HTMLElement;
+	protected abstract render(): HTMLElement;
 
     /**
      * Hook method that can be overridden to finalize the
@@ -94,5 +94,5 @@ export abstract class Icon extends Component {
      * @protected
      * @memberof Icon
      */
-    protected finalizeRender() {}
+	protected finalizeRender() { }
 }

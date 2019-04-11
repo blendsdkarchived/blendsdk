@@ -11,7 +11,7 @@ export interface IUIComponentStyles {
      *
      * @type {string}
      */
-    theme?: string;
+	theme?: string;
 }
 
 export interface IStylableUIComponent<ComponentStylesType extends IUIComponentStyles> {
@@ -21,7 +21,7 @@ export interface IStylableUIComponent<ComponentStylesType extends IUIComponentSt
      * @type {ComponentStylesType}
      * @memberof IUIComponentConfig
      */
-    styles?: ComponentStylesType;
+	styles?: ComponentStylesType;
 }
 
 /**
@@ -39,7 +39,7 @@ export interface IEventListenerComponent {
      * @param {Event} event
      * @memberof IEventListenerComponent
      */
-    handleComponentEvent(eventType: string, element: DOMElement, event: Event): void;
+	handleComponentEvent(eventType: string, element: DOMElement, event: Event): void;
 }
 
 /**
@@ -48,7 +48,7 @@ export interface IEventListenerComponent {
  * @enum {number}
  */
 enum eUIComponentEvents {
-    onDisabled = "onDisabled"
+	onDisabled = "onDisabled"
 }
 
 /**
@@ -66,7 +66,7 @@ export interface IUIComponentConfig extends IMVCComponentConfig {
      * @type {TComponentEvent}
      * @memberof IUIComponentConfig
      */
-    onWindowResized?: TComponentEvent;
+	onWindowResized?: TComponentEvent;
     /**
      * This event is dispatched when the browser window is resized.
      *
@@ -78,7 +78,7 @@ export interface IUIComponentConfig extends IMVCComponentConfig {
      * @type {TComponentEvent}
      * @memberof IUIComponentConfig
      */
-    onResponsiveChange?: TComponentEvent;
+	onResponsiveChange?: TComponentEvent;
     /**
      * This event is dispatched when the disabled state of this UI
      * component is changed.
@@ -86,7 +86,7 @@ export interface IUIComponentConfig extends IMVCComponentConfig {
      * @type {TComponentEvent}
      * @memberof IUIComponentConfig
      */
-    onDisabled?: TComponentEvent;
+	onDisabled?: TComponentEvent;
     /**
      * Option to configure information
      * that is going to be used to layout
@@ -95,7 +95,7 @@ export interface IUIComponentConfig extends IMVCComponentConfig {
      * @type {IUILayoutConfig}
      * @memberof IUIComponentConfig
      */
-    layoutConfig?: IUILayoutConfig;
+	layoutConfig?: IUILayoutConfig;
     /**
      * Option set the disabled state of the component at
      * configuration time. By default this option is set to `null`
@@ -103,7 +103,7 @@ export interface IUIComponentConfig extends IMVCComponentConfig {
      * @type {boolean}
      * @memberof IUIComponentConfig
      */
-    disabled?: boolean;
+	disabled?: boolean;
     /**
      * Option to configure the flex unit of this UI component.
      * This configuration is only going to take effect if the component
@@ -112,14 +112,14 @@ export interface IUIComponentConfig extends IMVCComponentConfig {
      * @type {number}
      * @memberof IUIComponentConfig
      */
-    flexSize?: number;
+	flexSize?: number;
     /**
      * Option to configure the visibility of this UI Component
      *
      * @type {boolean}
      * @memberof IUIComponentConfig
      */
-    hidden?: boolean;
+	hidden?: boolean;
     /**
      * Option to configure the initial size of a UI component.
      * Please Note: This option should only be used for static sizing.
@@ -127,14 +127,14 @@ export interface IUIComponentConfig extends IMVCComponentConfig {
      * @type {IElementSize}
      * @memberof IUIComponentConfig
      */
-    size?: IElementSize;
+	size?: IElementSize;
     /**
      * Option to configure one or more CSS rules when creating this component.
      *
      * @type {(string | string[])}
      * @memberof IUIComponentConfig
      */
-    cssClass?: string | string[];
+	cssClass?: string | string[];
 }
 
 /**
@@ -153,7 +153,7 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @type {IUIComponentConfig}
      * @memberof UIComponent
      */
-    protected config: IUIComponentConfig;
+	protected config: IUIComponentConfig;
     /**
      * Hold a cache of getBoundingClientRect(...) data
      * to be used in various layout scenarios.
@@ -162,7 +162,7 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @type {ClientRect}
      * @memberof Component
      */
-    protected componentBounds: ClientRect;
+	protected componentBounds: ClientRect;
     /**
      * Indicates if the layout sub-system is active.
      *
@@ -170,7 +170,7 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @type {boolean}
      * @memberof Component
      */
-    protected canLayout: boolean;
+	protected canLayout: boolean;
     /**
      * @override
      *
@@ -178,7 +178,7 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @type {UIComponent}
      * @memberof Component
      */
-    protected parentCmp: UIComponent;
+	protected parentCmp: UIComponent;
     /**
      * The internal HTMLElement containing the structure of the Component
      *
@@ -186,7 +186,7 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @type {HTMLElement}
      * @memberOf Component
      */
-    protected el: HTMLElement;
+	protected el: HTMLElement;
     /**
      * Initial layout cycle indicator
      *
@@ -194,7 +194,7 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @type {boolean}
      * @memberof Component
      */
-    protected didInitialLayout: boolean;
+	protected didInitialLayout: boolean;
     /**
      * Indicates whether this component is rendered.
      *
@@ -202,7 +202,7 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @type {boolean}
      * @memberOf Component
      */
-    protected isRendered: boolean;
+	protected isRendered: boolean;
 
     /**
      * This method should render the DOM structure of this Component and must
@@ -214,7 +214,7 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      *
      * @memberOf Component
      */
-    protected abstract render(): HTMLElement;
+	protected abstract render(): HTMLElement;
     /**
      * Method that need to be implemented to take care of the component layout
      *
@@ -223,7 +223,7 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @param {boolean} isInitial
      * @memberof Component
      */
-    protected abstract doLayout(isInitial?: boolean): void;
+	protected abstract doLayout(isInitial?: boolean): void;
 
     /**
      * Creates an instance of Component.
@@ -231,14 +231,14 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      *
      * @memberOf Component
      */
-    public constructor(config?: IUIComponentConfig) {
-        super(config);
-        const me = this;
-        me.isRendered = false;
-        me.enableEvents(false);
-        me.didInitialLayout = false;
-        me.canLayout = true;
-    }
+	public constructor(config?: IUIComponentConfig) {
+		super(config);
+		const me = this;
+		me.isRendered = false;
+		me.enableEvents(false);
+		me.didInitialLayout = false;
+		me.canLayout = true;
+	}
 
     /**
      * Attach a stylesheet to the browser.
@@ -248,9 +248,9 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @param {boolean} [pushTop]
      * @memberof UIComponent
      */
-    protected attachStyleSheet(sheet: Sheet) {
-        Browser.attachStyleSheet(sheet);
-    }
+	protected attachStyleSheet(sheet: Sheet) {
+		Browser.attachStyleSheet(sheet);
+	}
 
     /**
      * Returns the parent of this Component
@@ -259,9 +259,9 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @returns {ConfigType}
      * @memberof Component
      */
-    public getParent<P extends UIComponent>(): P {
-        return this.parentCmp as P;
-    }
+	public getParent<P extends UIComponent>(): P {
+		return this.parentCmp as P;
+	}
 
     /**
      * Sets the parent of this component.
@@ -269,9 +269,9 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @param {UIComponent} parent
      * @memberof Component
      */
-    public setParent(value: UIComponent) {
-        this.parentCmp = value;
-    }
+	public setParent(value: UIComponent) {
+		this.parentCmp = value;
+	}
 
     /**
      * Tries to find a parent component of a given type.
@@ -283,20 +283,20 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @returns {ConfigType}
      * @memberof Component
      */
-    public findParentOfType<P extends UIComponent>(clazz: any): P {
-        let cmp: UIComponent = this,
-            parent: UIComponent = null;
+	public findParentOfType<P extends UIComponent>(clazz: any): P {
+		let cmp: UIComponent = this,
+			parent: UIComponent = null;
 
-        // tslint:disable-next-line:no-conditional-assignment
-        while ((parent = cmp.getParent()) !== null) {
-            if (Blend.isInstanceOf(parent, clazz)) {
-                break;
-            } else {
-                cmp = parent;
-            }
-        }
-        return parent as P;
-    }
+		// tslint:disable-next-line:no-conditional-assignment
+		while ((parent = cmp.getParent()) !== null) {
+			if (Blend.isInstanceOf(parent, clazz)) {
+				break;
+			} else {
+				cmp = parent;
+			}
+		}
+		return parent as P;
+	}
 
     /**
      * Returns the current layout configuration to be used by a
@@ -306,9 +306,9 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @returns {ConfigType}
      * @memberof Component
      */
-    public getLayoutConfig<L extends IUILayoutConfig>(): L {
-        return (this.config.layoutConfig || {}) as L;
-    }
+	public getLayoutConfig<L extends IUILayoutConfig>(): L {
+		return (this.config.layoutConfig || {}) as L;
+	}
 
     /**
      * Sets the componentBounds property to null
@@ -317,9 +317,9 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @protected
      * @memberof Component
      */
-    protected clearBoundsCache() {
-        this.componentBounds = null;
-    }
+	protected clearBoundsCache() {
+		this.componentBounds = null;
+	}
 
     /**
      * Refreshed the componentBounds property if
@@ -328,12 +328,12 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @protected
      * @memberof Component
      */
-    protected refreshBoundsCache() {
-        const me = this;
-        if (!me.componentBounds) {
-            me.componentBounds = me.el.getBoundingClientRect();
-        }
-    }
+	protected refreshBoundsCache() {
+		const me = this;
+		if (!me.componentBounds) {
+			me.componentBounds = me.el.getBoundingClientRect();
+		}
+	}
 
     /**
      * Hook method that is used to enable/disable this ui component
@@ -344,9 +344,9 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @returns
      * @memberof UIComponent
      */
-    protected setDisabledInternal(value: boolean) {
-        return;
-    }
+	protected setDisabledInternal(value: boolean) {
+		return;
+	}
 
     /**
      * Sets enabled or disabled state of this ui component
@@ -354,21 +354,21 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @param {boolean} value
      * @memberof Component
      */
-    public setDisabled(value: boolean) {
-        const me = this;
-        me.config.disabled = value;
-        if (me.isRendered && !Blend.isNullOrUndef(value)) {
-            me.el.classList.set("b-disabled", value === true);
-            if (value === true) {
-                me.el.setAttribute("disabled", "");
-            } else {
-                me.el.removeAttribute("disabled");
-            }
-            me.setDisabledInternal(value);
-            me.dispatchDisabled(value);
-            me.performLayoutIf();
-        }
-    }
+	public setDisabled(value: boolean) {
+		const me = this;
+		me.config.disabled = value;
+		if (me.isRendered && !Blend.isNullOrUndef(value)) {
+			me.el.classList.set("b-disabled", value === true);
+			if (value === true) {
+				me.el.setAttribute("disabled", "");
+			} else {
+				me.el.removeAttribute("disabled");
+			}
+			me.setDisabledInternal(value);
+			me.dispatchDisabled(value);
+			me.performLayoutIf();
+		}
+	}
 
     /**
      * Returns true if this component is disabled otherwise
@@ -377,9 +377,9 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @returns {boolean}
      * @memberof Component
      */
-    public get isDisabled(): boolean {
-        return this.config.disabled;
-    }
+	public get isDisabled(): boolean {
+		return this.config.disabled;
+	}
 
     /**
      * Dispatches a disabled event when the state is changed from
@@ -389,9 +389,9 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @param {boolean} state
      * @memberof Component
      */
-    protected dispatchDisabled(state: boolean) {
-        this.dispatchEvent(eUIComponentEvents.onDisabled, [state]);
-    }
+	protected dispatchDisabled(state: boolean) {
+		this.dispatchEvent(eUIComponentEvents.onDisabled, [state]);
+	}
 
     /**
      * Sets the flex unit of this component.
@@ -404,14 +404,14 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @param {number} value
      * @memberof Component
      */
-    public setFlexSize(value: number) {
-        const me = this;
-        me.config.flexSize = value;
-        if (me.isRendered) {
-            me.el.style.flex = value as any;
-            me.performLayoutIf();
-        }
-    }
+	public setFlexSize(value: number) {
+		const me = this;
+		me.config.flexSize = value;
+		if (me.isRendered) {
+			me.el.style.flex = value as any;
+			me.performLayoutIf();
+		}
+	}
 
     /**
      * Returns the flexSize if it was set before, otherwise
@@ -420,9 +420,9 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @returns {(number | null)}
      * @memberof Component
      */
-    public getFlexSize(): number | null {
-        return this.config.flexSize;
-    }
+	public getFlexSize(): number | null {
+		return this.config.flexSize;
+	}
 
     /**
      * Set the visibility state of this component.
@@ -430,16 +430,16 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @param {boolean} value
      * @memberof Component
      */
-    public setHidden(value: boolean) {
-        const me = this;
-        me.config.hidden = value;
-        if (me.isRendered && !Blend.isNullOrUndef(value)) {
-            me.el.style.display = value === true ? "none" : null;
-            if (value === false) {
-                me.performLayoutIf();
-            }
-        }
-    }
+	public setHidden(value: boolean) {
+		const me = this;
+		me.config.hidden = value;
+		if (me.isRendered && !Blend.isNullOrUndef(value)) {
+			me.el.style.display = value === true ? "none" : null;
+			if (value === false) {
+				me.performLayoutIf();
+			}
+		}
+	}
 
     /**
      * Returns the visibility state of this UI component.
@@ -447,9 +447,9 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @returns {boolean}
      * @memberof Component
      */
-    public isHidden(): boolean {
-        return this.config.hidden;
-    }
+	public isHidden(): boolean {
+		return this.config.hidden;
+	}
 
     /**
      * Sets the size of the Component using the IElementSize interface.
@@ -460,25 +460,25 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @param {IElementSize} size
      * @memberof Element
      */
-    public setSize(size: IElementSize) {
-        const me = this;
-        me.config.size = size;
-        if (me.isRendered) {
-            if (size == null) {
-                me.el.style.width = null;
-                me.el.style.height = null;
-            } else {
-                if (size.width !== undefined) {
-                    me.el.style.width = size.width ? Blend.toPxIf(size.width) : null;
-                }
-                if (size.height !== undefined) {
-                    me.el.style.height = size.height ? Blend.toPxIf(size.height) : null;
-                }
-            }
-            me.clearBoundsCache();
-            me.performLayoutIf();
-        }
-    }
+	public setSize(size: IElementSize) {
+		const me = this;
+		me.config.size = size;
+		if (me.isRendered) {
+			if (size == null) {
+				me.el.style.width = null;
+				me.el.style.height = null;
+			} else {
+				if (size.width !== undefined) {
+					me.el.style.width = size.width ? Blend.toPxIf(size.width) : null;
+				}
+				if (size.height !== undefined) {
+					me.el.style.height = size.height ? Blend.toPxIf(size.height) : null;
+				}
+			}
+			me.clearBoundsCache();
+			me.performLayoutIf();
+		}
+	}
 
     /**
      * Returns the exact size of this component is pixels.
@@ -487,12 +487,12 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @type {IElementSize}
      * @memberof UIComponent
      */
-    public getSize(): IElementSize {
-        const me = this;
-        // normally we would have returned the config.size!
-        me.refreshBoundsCache();
-        return me.componentBounds as IElementSize;
-    }
+	public getSize(): IElementSize {
+		const me = this;
+		// normally we would have returned the config.size!
+		me.refreshBoundsCache();
+		return me.componentBounds as IElementSize;
+	}
 
     /**
      * Gets the HTMLElement of this component. This function will internally
@@ -503,11 +503,11 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      *
      * @memberOf Component
      */
-    public getElement(): HTMLElement {
-        const me = this;
-        me.renderInternal();
-        return me.el;
-    }
+	public getElement(): HTMLElement {
+		const me = this;
+		me.renderInternal();
+		return me.el;
+	}
 
     /**
      * A hook function to be able to do work before the element is rendered.
@@ -516,14 +516,14 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      *
      * @memberof Component
      */
-    protected finalizeRender() {
-        const me = this;
-        me.setDisabled(me.config.disabled);
-        me.setFlexSize(me.config.flexSize);
-        me.setHidden(me.config.hidden);
-        me.setSize(me.config.size);
-        me.setCssClass(me.config.cssClass, true);
-    }
+	protected finalizeRender() {
+		const me = this;
+		me.setDisabled(me.config.disabled);
+		me.setFlexSize(me.config.flexSize);
+		me.setHidden(me.config.hidden);
+		me.setSize(me.config.size);
+		me.setCssClass(me.config.cssClass, true);
+	}
 
     /**
      * Sets the CSS classes on this component.
@@ -531,12 +531,12 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @param {(string | string[])} value
      * @memberof UIComponent
      */
-    public setCssClass(className: string | object | string[] | Array<[]>, addOrRemove?: boolean) {
-        const me = this;
-        if (me.isRendered) {
-            me.el.classList.set(className, addOrRemove);
-        }
-    }
+	public setCssClass(className: string | object | string[] | Array<[]>, addOrRemove?: boolean) {
+		const me = this;
+		if (me.isRendered) {
+			me.el.classList.set(className, addOrRemove);
+		}
+	}
 
     /**
      * Abstract method that can be used to create and attach stylesheet and CSSRules
@@ -547,9 +547,9 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @param {string} selectorUid
      * @memberof UIComponent
      */
-    protected createStyles(sheet: Sheet, styles: IUIComponentStyles, selectorUid: string): any {
-        return false;
-    }
+	protected createStyles(sheet: Sheet, styles: IUIComponentStyles, selectorUid: string): any {
+		return false;
+	}
 
     /**
      * Prepare and render the styles for this UI component.
@@ -557,16 +557,16 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @protected
      * @memberof UIComponent
      */
-    protected renderStyles() {
-        const me = this,
-            selectorUid = `c${me.getUID()}`;
-        const styles = Blend.shallowClone((me.config as IStylableUIComponent<any>).styles || {}),
-            sheet = StyleSheets.create();
-        if (me.createStyles(sheet, styles, selectorUid) !== false) {
-            me.el.classList.add(selectorUid);
-            me.attachStyleSheet(sheet);
-        }
-    }
+	protected renderStyles() {
+		const me = this,
+			selectorUid = `c${me.getUID()}`;
+		const styles = Blend.shallowClone((me.config as IStylableUIComponent<any>).styles || {}),
+			sheet = StyleSheets.create();
+		if (me.createStyles(sheet, styles, selectorUid) !== false) {
+			me.el.classList.add(selectorUid);
+			me.attachStyleSheet(sheet);
+		}
+	}
 
     /**
      * Internally renders the element and prepares it to be added
@@ -575,19 +575,19 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @protected
      * @memberof Component
      */
-    protected renderInternal() {
-        const me = this;
-        if (!me.isRendered) {
-            me.enableEvents(false);
-            me.initComponent();
-            me.el = me.render();
-            me.isRendered = true;
-            me.finalizeRender();
-            me.renderStyles();
-            DOMElement.getElement(me.el).setUID(me.getUID());
-            me.enableEvents(true);
-        }
-    }
+	protected renderInternal() {
+		const me = this;
+		if (!me.isRendered) {
+			me.enableEvents(false);
+			me.initComponent();
+			me.el = me.render();
+			me.isRendered = true;
+			me.finalizeRender();
+			me.renderStyles();
+			DOMElement.getElement(me.el).setUID(me.getUID());
+			me.enableEvents(true);
+		}
+	}
 
     /**
      * Gets the computed styles of the component
@@ -600,9 +600,9 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      *
      * @memberof Component
      */
-    protected getComputedStyle<C>(pseudo?: string): C {
-        return window.getComputedStyle(this.el, pseudo) as any;
-    }
+	protected getComputedStyle<C>(pseudo?: string): C {
+		return window.getComputedStyle(this.el, pseudo) as any;
+	}
 
     /**
      * Utility function for creating en `HTMLElement`.
@@ -622,10 +622,10 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @returns {H}
      * @memberof Component
      */
-    protected createElement<H extends HTMLElement>(conf?: ICreateElementConfig): H {
-        const me = this;
-        return Dom.createElement(conf, me.referenceHTMLElement.bind(me), me as any);
-    }
+	protected createElement<H extends HTMLElement>(conf?: ICreateElementConfig): H {
+		const me = this;
+		return Dom.createElement(conf, me.referenceHTMLElement.bind(me), me as any);
+	}
 
     /**
      * Perform a layout cycle if the initial layout cycle is done.
@@ -634,13 +634,13 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @returns {this}
      * @memberof Component
      */
-    protected performLayoutIf(): this {
-        const me = this;
-        if (me.didInitialLayout === true) {
-            me.performLayout();
-        }
-        return me;
-    }
+	protected performLayoutIf(): this {
+		const me = this;
+		if (me.didInitialLayout === true) {
+			me.performLayout();
+		}
+		return me;
+	}
 
     /**
      * Initiates a layout process
@@ -648,14 +648,14 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @returns {this}
      * @memberof Component
      */
-    public performLayout(): this {
-        const me = this;
-        if (me.isRendered && me.canLayout) {
-            me.doLayout(me.didInitialLayout === false);
-            me.didInitialLayout = true;
-        }
-        return me;
-    }
+	public performLayout(): this {
+		const me = this;
+		if (me.isRendered && me.canLayout) {
+			me.doLayout(me.didInitialLayout === false);
+			me.didInitialLayout = true;
+		}
+		return me;
+	}
 
     /**
      * Performs an operation on this component with the layout
@@ -666,14 +666,14 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @param {Function} callback
      * @memberof Component
      */
-    public withLayoutDisabled(callback: (done: TFunction) => void) {
-        const me = this;
-        me.canLayout = false;
-        callback(() => {
-            me.canLayout = true;
-            me.performLayoutIf();
-        });
-    }
+	public withLayoutDisabled(callback: (done: TFunction) => void) {
+		const me = this;
+		me.canLayout = false;
+		callback(() => {
+			me.canLayout = true;
+			me.performLayoutIf();
+		});
+	}
 
     /**
      * Automatically assigns an HTMLElement from the `createElement` to a
@@ -684,13 +684,13 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @param {HTMLElement} el
      * @memberof Component
      */
-    protected referenceHTMLElement(ref: string, el: HTMLElement) {
-        const me: any = this;
-        if (ref !== "..") {
-            me[ref] = el;
-            DOMElement.getElement(el).setUID(me.getUID());
-        }
-    }
+	protected referenceHTMLElement(ref: string, el: HTMLElement) {
+		const me: any = this;
+		if (ref !== "..") {
+			me[ref] = el;
+			DOMElement.getElement(el).setUID(me.getUID());
+		}
+	}
 
     /**
      * Global event handler for this component required by the EventListenerObject interface
@@ -698,29 +698,29 @@ export abstract class UIComponent extends MVCComponent implements EventListenerO
      * @param {Event} evt
      * @memberof Component
      */
-    public handleEvent(evt: Event): void {
-        const me: any = this,
-            refEl = DOMEvent.getReferencedTarget(evt as any),
-            handleComponentEvent = (me as any).handleComponentEvent;
-        if (handleComponentEvent && Blend.isFunction(handleComponentEvent)) {
-            handleComponentEvent.apply(me, [evt.type, refEl, evt]);
-        }
-    }
+	public handleEvent(evt: Event): void {
+		const me: any = this,
+			refEl = DOMEvent.getReferencedTarget(evt as any),
+			handleComponentEvent = (me as any).handleComponentEvent;
+		if (handleComponentEvent && Blend.isFunction(handleComponentEvent)) {
+			handleComponentEvent.apply(me, [evt.type, refEl, evt]);
+		}
+	}
 
     /**
      * @override
      * @memberOf Component
      */
-    public destroy() {
-        const me = this;
-        if (me.isRendered) {
-            if (me.el) {
-                if (me.el.parentElement) {
-                    me.el.parentElement.removeChild(me.el);
-                }
-            }
-            delete me.el;
-        }
-        super.destroy();
-    }
+	public destroy() {
+		const me = this;
+		if (me.isRendered) {
+			if (me.el) {
+				if (me.el.parentElement) {
+					me.el.parentElement.removeChild(me.el);
+				}
+			}
+			delete me.el;
+		}
+		super.destroy();
+	}
 }

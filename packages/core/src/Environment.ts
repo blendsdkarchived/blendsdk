@@ -16,14 +16,14 @@ export interface IEnvironmentConfig extends IComponentConfig {
      * @type {string}
      * @memberof IEnvironmentConfig
      */
-    fontsBaseURL?: string;
+	fontsBaseURL?: string;
     /**
      * Option to configure the base url for images and icons
      *
      * @type {string}
      * @memberof IEnvironmentConfig
      */
-    imagesBaseURL?: string;
+	imagesBaseURL?: string;
 }
 
 /**
@@ -40,20 +40,20 @@ export class Environment extends Component {
      * @type {IEnvironmentConfig}
      * @memberof Environment
      */
-    protected config: IEnvironmentConfig;
+	protected config: IEnvironmentConfig;
 
     /**
      * Creates an instance of Environment.
      * @param {IEnvironmentConfig} [config]
      * @memberof Environment
      */
-    public constructor(config?: IEnvironmentConfig) {
-        super(config);
-        this.configDefaults({
-            fontsBaseURL: "/fonts",
-            imagesBaseURL: "/images"
-        } as IEnvironmentConfig);
-    }
+	public constructor(config?: IEnvironmentConfig) {
+		super(config);
+		this.configDefaults({
+			fontsBaseURL: "/fonts",
+			imagesBaseURL: "/images"
+		} as IEnvironmentConfig);
+	}
 
     /**
      * Set  configuration variables.
@@ -61,10 +61,10 @@ export class Environment extends Component {
      * @param {IEnvironmentConfig} config
      * @memberof Environment
      */
-    public configure(config: IEnvironmentConfig) {
-        const me = this;
-        Blend.apply(me.config, config, { overwrite: true });
-    }
+	public configure(config: IEnvironmentConfig) {
+		const me = this;
+		Blend.apply(me.config, config, { overwrite: true });
+	}
 
     /**
      * This method will map an image with the configured imagesBaseURL.
@@ -74,9 +74,9 @@ export class Environment extends Component {
      * @returns
      * @memberof Environment
      */
-    protected mapImage(partialURL: string) {
-        return `${this.config.imagesBaseURL}${{ partialURL }}`;
-    }
+	protected mapImage(partialURL: string) {
+		return `${this.config.imagesBaseURL}${{ partialURL }}`;
+	}
 
     /**
      * This method will map a font with the configured fontsBaseURL.
@@ -86,7 +86,7 @@ export class Environment extends Component {
      * @returns
      * @memberof Environment
      */
-    protected mapFont(partialURL: string) {
-        return `${this.config.fontsBaseURL}${partialURL}`;
-    }
+	protected mapFont(partialURL: string) {
+		return `${this.config.fontsBaseURL}${partialURL}`;
+	}
 }

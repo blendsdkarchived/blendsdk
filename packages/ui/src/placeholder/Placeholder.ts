@@ -9,14 +9,14 @@ export interface IPlaceholderStyle extends IUIComponentStyles {
      * @type {string}
      * @memberof IPlaceholderConfig
      */
-    backgroundColor?: string;
+	backgroundColor?: string;
     /**
      * Option to configure the text color.
      *
      * @type {string}
      * @memberof IPlaceholderConfig
      */
-    color?: string;
+	color?: string;
 }
 
 /**
@@ -33,7 +33,7 @@ export interface IPlaceholderConfig extends IUIComponentConfig, IStylableUICompo
      * @type {string}
      * @memberof IPlaceholderConfig
      */
-    caption?: string;
+	caption?: string;
 }
 
 /**
@@ -50,44 +50,44 @@ export class Placeholder extends UIComponent {
      * @type {IPlaceholderStyle}
      * @memberof Placeholder
      */
-    protected config: IPlaceholderConfig;
+	protected config: IPlaceholderConfig;
 
-    protected createStyles(sheet: Sheet, styles: IPlaceholderStyle, selectorUid: string) {
-        Blend.apply(styles, {
-            backgroundColor: styles.backgroundColor || "#" + Math.floor(Math.random() * 16777215).toString(16),
-            color: styles.color || "rgba(255,255,255,.88)"
-        });
+	protected createStyles(sheet: Sheet, styles: IPlaceholderStyle, selectorUid: string) {
+		Blend.apply(styles, {
+			backgroundColor: styles.backgroundColor || "#" + Math.floor(Math.random() * 16777215).toString(16),
+			color: styles.color || "rgba(255,255,255,.88)"
+		});
 
-        sheet.addRule([
-            // For all placeholders
-            CSS.block("placeholder", {
-                width: Blend.toPx(128),
-                height: Blend.toPx(128),
-                display: "flex",
-                "align-items": "center",
-                "justify-content": "center",
-                "box-sizing": "border-box"
-            }),
-            // Specific for this Placeholder
-            CSS.block(selectorUid, {
-                backgroundColor: styles.backgroundColor,
-                color: styles.color
-            })
-        ]);
-    }
+		sheet.addRule([
+			// For all placeholders
+			CSS.block("placeholder", {
+				width: Blend.toPx(128),
+				height: Blend.toPx(128),
+				display: "flex",
+				"align-items": "center",
+				"justify-content": "center",
+				"box-sizing": "border-box"
+			}),
+			// Specific for this Placeholder
+			CSS.block(selectorUid, {
+				backgroundColor: styles.backgroundColor,
+				color: styles.color
+			})
+		]);
+	}
 
     /**
      * Creates an instance of Placeholder.
      * @param {IPlaceholderConfig} [config]
      * @memberof Placeholder
      */
-    public constructor(config?: IPlaceholderConfig) {
-        super(config);
-        const me = this;
-        me.configDefaults({
-            caption: "Placeholder: " + me.getUID()
-        } as IPlaceholderConfig);
-    }
+	public constructor(config?: IPlaceholderConfig) {
+		super(config);
+		const me = this;
+		me.configDefaults({
+			caption: "Placeholder: " + me.getUID()
+		} as IPlaceholderConfig);
+	}
 
     /**
      * Returns the configured caption of this component.
@@ -95,9 +95,9 @@ export class Placeholder extends UIComponent {
      * @returns {string}
      * @memberof Placeholder
      */
-    public getCaption(): string {
-        return this.config.caption;
-    }
+	public getCaption(): string {
+		return this.config.caption;
+	}
 
     /**
      * Sets the caption of this Placeholder.
@@ -105,24 +105,24 @@ export class Placeholder extends UIComponent {
      * @param {*} value
      * @memberof Placeholder
      */
-    public setCaption(value: any) {
-        const me = this;
-        me.config.caption = value;
-        if (me.isRendered) {
-            me.el.innerHTML = value + "";
-        }
-    }
+	public setCaption(value: any) {
+		const me = this;
+		me.config.caption = value;
+		if (me.isRendered) {
+			me.el.innerHTML = value + "";
+		}
+	}
 
     /**
      * @override
      * @protected
      * @memberof Placeholder
      */
-    protected finalizeRender() {
-        super.finalizeRender();
-        const me = this;
-        me.setCaption(me.config.caption);
-    }
+	protected finalizeRender() {
+		super.finalizeRender();
+		const me = this;
+		me.setCaption(me.config.caption);
+	}
 
     /**
      * override
@@ -130,12 +130,12 @@ export class Placeholder extends UIComponent {
      * @returns {HTMLElement}
      * @memberof Placeholder
      */
-    protected render(): HTMLElement {
-        const me = this;
-        return me.createElement({
-            css: "placeholder"
-        });
-    }
+	protected render(): HTMLElement {
+		const me = this;
+		return me.createElement({
+			css: "placeholder"
+		});
+	}
 
     /**
      * override
@@ -143,5 +143,5 @@ export class Placeholder extends UIComponent {
      * @param {boolean} [isInitial]
      * @memberof Placeholder
      */
-    protected doLayout(isInitial?: boolean): void {}
+	protected doLayout(isInitial?: boolean): void { }
 }

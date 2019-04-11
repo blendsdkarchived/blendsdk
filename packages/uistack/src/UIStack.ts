@@ -4,10 +4,10 @@ import { TComponentEvent } from "@blendsdk/mvc";
 import { IStylableUIComponent, IUICollectionConfig, IUIComponentStyles, UICollection, UIComponent } from "@blendsdk/ui";
 
 import {
-    DefaultTransitionProvider,
-    IStackTransitionConfig,
-    IStackTransitionOptions,
-    TransitionProvider
+	DefaultTransitionProvider,
+	IStackTransitionConfig,
+	IStackTransitionOptions,
+	TransitionProvider
 } from "./TransitionProvider";
 
 /**
@@ -16,10 +16,10 @@ import {
  * @enum {number}
  */
 enum eUIStackEvents {
-    onViewDismissed = "onViewDismissed",
-    onViewPushed = "onViewPushed",
-    onViewDeactivated = "onViewDeactivated",
-    onViewActivated = "onViewActivated"
+	onViewDismissed = "onViewDismissed",
+	onViewPushed = "onViewPushed",
+	onViewDeactivated = "onViewDeactivated",
+	onViewActivated = "onViewActivated"
 }
 
 /**
@@ -40,14 +40,14 @@ export interface IActivatableUIComponent {
      *
      * @memberof IActivatableUIComponent
      */
-    onViewActivated: TComponentEvent;
+	onViewActivated: TComponentEvent;
     /**
      * Called when this UI Component is deactivated
      * (dismissed)  by a Stack view
      *
      * @memberof IActivatableUIComponent
      */
-    onViewDeactivated: TComponentEvent;
+	onViewDeactivated: TComponentEvent;
 }
 
 /**
@@ -63,14 +63,14 @@ export interface IUIStackStyles extends IUIComponentStyles {
      * @type {number}
      * @memberof IUIStackThemeConfig
      */
-    padding?: number | string;
+	padding?: number | string;
     /**
      * Option to configure a background color for the Stack
      *
      * @type {string}
      * @memberof IUIStackThemeConfig
      */
-    backgroundColor?: string;
+	backgroundColor?: string;
 }
 
 /**
@@ -89,7 +89,7 @@ export interface IUIStackConfig extends IUICollectionConfig<UIComponent>, IStyla
      * @type {TComponentEvent}
      * @memberof IUIStackConfig
      */
-    onViewPushed?: TComponentEvent;
+	onViewPushed?: TComponentEvent;
     /**
      * Dispatches when a view is pushed out fo the visible area of the
      * Stack
@@ -97,7 +97,7 @@ export interface IUIStackConfig extends IUICollectionConfig<UIComponent>, IStyla
      * @type {TComponentEvent}
      * @memberof IUIStackConfig
      */
-    onViewDismissed?: TComponentEvent;
+	onViewDismissed?: TComponentEvent;
     /**
      * The index or the id, or the instance of the view that is going to be activated at startup.
      * If non provided, then the first view will be the active view.
@@ -105,7 +105,7 @@ export interface IUIStackConfig extends IUICollectionConfig<UIComponent>, IStyla
      * @type {(number | string | UIComponent)}
      * @memberof IUIStackConfig
      */
-    activeView?: number | string | UIComponent;
+	activeView?: number | string | UIComponent;
     /**
      * Option to configure a transition provider for
      * when pushing and dismissing views within a Blend.Stack
@@ -113,7 +113,7 @@ export interface IUIStackConfig extends IUICollectionConfig<UIComponent>, IStyla
      * @type {(Blend.stack.TransitionProvider | TConfigurableClass)}
      * @memberof IUIStackConfig
      */
-    transitionProvider?: TransitionProvider | TConfigurableClass;
+	transitionProvider?: TransitionProvider | TConfigurableClass;
     /**
      * Option to skip pushing the first view when no activeView is configured
      * on initialization time. This will result the UIStack to be empty on
@@ -122,7 +122,7 @@ export interface IUIStackConfig extends IUICollectionConfig<UIComponent>, IStyla
      * @type {boolean}
      * @memberof IUIStackConfig
      */
-    skipInitialView?: boolean;
+	skipInitialView?: boolean;
     /**
      * Option to configure to skip the item fitting.
      * This is only useful if the UIStack is used as
@@ -131,7 +131,7 @@ export interface IUIStackConfig extends IUICollectionConfig<UIComponent>, IStyla
      * @type {boolean}
      * @memberof IUIStackConfig
      */
-    skipFittingViews?: boolean;
+	skipFittingViews?: boolean;
 }
 
 /**
@@ -148,7 +148,7 @@ export class UIStack extends UICollection<UIComponent> {
      * @type {IUIStackConfig}
      * @memberof UIStack
      */
-    protected config: IUIStackConfig;
+	protected config: IUIStackConfig;
 
     /**
      * @override
@@ -157,40 +157,40 @@ export class UIStack extends UICollection<UIComponent> {
      * @param {string} selectorUid
      * @memberof UIStack
      */
-    protected createStyles(sheet: Sheet, styles: IUIStackStyles, selectorUid: string) {
-        Blend.apply(styles, {
-            backgroundColor: styles.backgroundColor || "transparent",
-            padding: styles.padding || 0
-        });
+	protected createStyles(sheet: Sheet, styles: IUIStackStyles, selectorUid: string) {
+		Blend.apply(styles, {
+			backgroundColor: styles.backgroundColor || "transparent",
+			padding: styles.padding || 0
+		});
 
-        const me = this;
-        sheet.addRule([
-            CSS.block("b-stack", [
-                {
-                    backgroundColor: styles.backgroundColor
-                }
-            ])
-        ]);
+		const me = this;
+		sheet.addRule([
+			CSS.block("b-stack", [
+				{
+					backgroundColor: styles.backgroundColor
+				}
+			])
+		]);
 
-        if (me.config.skipFittingViews !== true) {
-            sheet.addRule([
-                CSS.block(selectorUid, [
-                    {
-                        padding: styles.padding || 0
-                    },
-                    CSS.child("b-uc-item", [
-                        {
-                            top: 0,
-                            left: 0,
-                            position: styles.padding === 0 ? null : "relative"
-                        },
-                        CSS.makeFit(styles.padding === 0)
-                    ])
-                ])
-            ]);
-        }
-        me.attachStyleSheet(sheet);
-    }
+		if (me.config.skipFittingViews !== true) {
+			sheet.addRule([
+				CSS.block(selectorUid, [
+					{
+						padding: styles.padding || 0
+					},
+					CSS.child("b-uc-item", [
+						{
+							top: 0,
+							left: 0,
+							position: styles.padding === 0 ? null : "relative"
+						},
+						CSS.makeFit(styles.padding === 0)
+					])
+				])
+			]);
+		}
+		me.attachStyleSheet(sheet);
+	}
     /**
      * Reference to the current active view
      *
@@ -198,7 +198,7 @@ export class UIStack extends UICollection<UIComponent> {
      * @type {UIComponent}
      * @memberof Stack
      */
-    protected currentView: UIComponent;
+	protected currentView: UIComponent;
     /**
      * Reference to the transition provider
      *
@@ -206,23 +206,23 @@ export class UIStack extends UICollection<UIComponent> {
      * @type {Blend.stack.TransitionProvider}
      * @memberof Stack
      */
-    protected transitionProvider: TransitionProvider;
+	protected transitionProvider: TransitionProvider;
 
     /**
      * Creates an instance of Stack.
      * @param {IUIStackConfig} [config]
      * @memberof Stack
      */
-    public constructor(config?: IUIStackConfig) {
-        super(config);
-        const me = this;
-        me.configDefaults({
-            activeView: 0,
-            skipInitialView: false,
-            skipFittingViews: false,
-            transitionProvider: DefaultTransitionProvider
-        } as IUIStackConfig);
-    }
+	public constructor(config?: IUIStackConfig) {
+		super(config);
+		const me = this;
+		me.configDefaults({
+			activeView: 0,
+			skipInitialView: false,
+			skipFittingViews: false,
+			transitionProvider: DefaultTransitionProvider
+		} as IUIStackConfig);
+	}
 
     /**
      * Dispatches a `onViewDismissed` event.
@@ -231,11 +231,11 @@ export class UIStack extends UICollection<UIComponent> {
      * @param {UIComponent} view
      * @memberof Stack
      */
-    protected dispatchViewDismissed(view: UIComponent) {
-        const me = this;
-        me.dispatchEvent(eUIStackEvents.onViewDismissed, [view]);
-        view.applyMethod("dispatchEvent", [eUIStackEvents.onViewDeactivated, [me]]);
-    }
+	protected dispatchViewDismissed(view: UIComponent) {
+		const me = this;
+		me.dispatchEvent(eUIStackEvents.onViewDismissed, [view]);
+		view.applyMethod("dispatchEvent", [eUIStackEvents.onViewDeactivated, [me]]);
+	}
 
     /**
      * Dispatches a `onViewPushed` event.
@@ -244,11 +244,11 @@ export class UIStack extends UICollection<UIComponent> {
      * @param {UIComponent} view
      * @memberof Stack
      */
-    protected dispatchViewPushed(view: UIComponent) {
-        const me = this;
-        me.dispatchEvent(eUIStackEvents.onViewPushed, [view]);
-        view.applyMethod("dispatchEvent", [eUIStackEvents.onViewActivated, [me]]);
-    }
+	protected dispatchViewPushed(view: UIComponent) {
+		const me = this;
+		me.dispatchEvent(eUIStackEvents.onViewPushed, [view]);
+		view.applyMethod("dispatchEvent", [eUIStackEvents.onViewActivated, [me]]);
+	}
 
     /**
      * Pushes/Activates a given view within the Stack
@@ -258,36 +258,36 @@ export class UIStack extends UICollection<UIComponent> {
      * @param {Function} [doneCallback]
      * @memberof Stack
      */
-    public pushView(
-        newView: number | string | UIComponent,
-        transitionOptions?: IStackTransitionOptions,
-        doneCallback?: TFunction
-    ) {
-        const me = this,
-            vw: UIComponent = me.find(newView);
-        if (vw && me.contains(vw)) {
-            if (me.currentView !== vw) {
-                Blend.apply(transitionOptions || {}, { animate: true });
-                me.transitionProvider.pushView(vw, transitionOptions, (view: UIComponent, pushed?: boolean) => {
-                    if (pushed) {
-                        me.currentView = view;
-                        view.performLayout();
-                        me.dispatchViewPushed(view);
-                        if (doneCallback) {
-                            doneCallback();
-                        }
-                    } else {
-                        me.dispatchViewDismissed(view);
-                    }
-                });
-            }
-        } else {
-            throw new Error(
-                `The provided view (${newView}) is not part of
+	public pushView(
+		newView: number | string | UIComponent,
+		transitionOptions?: IStackTransitionOptions,
+		doneCallback?: TFunction
+	) {
+		const me = this,
+			vw: UIComponent = me.find(newView);
+		if (vw && me.contains(vw)) {
+			if (me.currentView !== vw) {
+				Blend.apply(transitionOptions || {}, { animate: true });
+				me.transitionProvider.pushView(vw, transitionOptions, (view: UIComponent, pushed?: boolean) => {
+					if (pushed) {
+						me.currentView = view;
+						view.performLayout();
+						me.dispatchViewPushed(view);
+						if (doneCallback) {
+							doneCallback();
+						}
+					} else {
+						me.dispatchViewDismissed(view);
+					}
+				});
+			}
+		} else {
+			throw new Error(
+				`The provided view (${newView}) is not part of
 				the items of the component. Did you forget to added it first?`
-            );
-        }
-    }
+			);
+		}
+	}
 
     /**
      * Sets the current active view either by index if ID
@@ -295,14 +295,14 @@ export class UIStack extends UICollection<UIComponent> {
      * @param {(number | string | UIComponent)} view
      * @memberof Stack
      */
-    public setActiveView(view: number | string | UIComponent) {
-        const me = this;
-        if (me.isRendered && me.items().length !== 0) {
-            me.pushView(view);
-        } else {
-            me.config.activeView = view;
-        }
-    }
+	public setActiveView(view: number | string | UIComponent) {
+		const me = this;
+		if (me.isRendered && me.items().length !== 0) {
+			me.pushView(view);
+		} else {
+			me.config.activeView = view;
+		}
+	}
 
     /**
      * Get the current active view within the Stack
@@ -311,14 +311,14 @@ export class UIStack extends UICollection<UIComponent> {
      * @returns {T}
      * @memberof Stack
      */
-    public getActiveView<T extends UIComponent>(): T {
-        const me = this;
-        if (me.isRendered) {
-            return (this.currentView || null) as T;
-        } else {
-            return me.find(me.config.activeView) as T;
-        }
-    }
+	public getActiveView<T extends UIComponent>(): T {
+		const me = this;
+		if (me.isRendered) {
+			return (this.currentView || null) as T;
+		} else {
+			return me.find(me.config.activeView) as T;
+		}
+	}
 
     /**
      * @override
@@ -327,9 +327,9 @@ export class UIStack extends UICollection<UIComponent> {
      * @returns {HTMLElement}
      * @memberof My
      */
-    protected getWrapperOf(item: UIComponent): HTMLElement {
-        return item.getElement();
-    }
+	protected getWrapperOf(item: UIComponent): HTMLElement {
+		return item.getElement();
+	}
 
     /**
      * @override
@@ -338,9 +338,9 @@ export class UIStack extends UICollection<UIComponent> {
      * @returns {HTMLElement}
      * @memberof Stack
      */
-    protected renderItem(item: UIComponent): HTMLElement {
-        return item.getElement();
-    }
+	protected renderItem(item: UIComponent): HTMLElement {
+		return item.getElement();
+	}
 
     /**
      * @override
@@ -348,29 +348,29 @@ export class UIStack extends UICollection<UIComponent> {
      * @param {UIComponent} item
      * @memberof Stack
      */
-    protected removeElement(item: UIComponent): void {
-        const parent = item.getElement().parentElement || item.getElement().parentNode;
-        if (parent) {
-            parent.removeChild(item.getElement());
-        }
-    }
+	protected removeElement(item: UIComponent): void {
+		const parent = item.getElement().parentElement || item.getElement().parentNode;
+		if (parent) {
+			parent.removeChild(item.getElement());
+		}
+	}
 
     /**
      * @override
      * @protected
      * @memberof Stack
      */
-    protected finalizeRender() {
-        super.finalizeRender();
-        const me = this;
-        me.transitionProvider = Blend.createComponent<TransitionProvider>(me.config.transitionProvider, {
-            containerElement: me.containerElement
-        } as IStackTransitionConfig);
-        me.stashAll();
-        if (!me.config.skipInitialView) {
-            me.setActiveView(me.config.activeView);
-        }
-    }
+	protected finalizeRender() {
+		super.finalizeRender();
+		const me = this;
+		me.transitionProvider = Blend.createComponent<TransitionProvider>(me.config.transitionProvider, {
+			containerElement: me.containerElement
+		} as IStackTransitionConfig);
+		me.stashAll();
+		if (!me.config.skipInitialView) {
+			me.setActiveView(me.config.activeView);
+		}
+	}
 
     /**
      * override
@@ -378,13 +378,13 @@ export class UIStack extends UICollection<UIComponent> {
      * @returns {HTMLElement}
      * @memberof Stack
      */
-    protected render(): HTMLElement {
-        const me = this;
-        return me.createElement({
-            css: ["b-stack"],
-            reference: "containerElement"
-        });
-    }
+	protected render(): HTMLElement {
+		const me = this;
+		return me.createElement({
+			css: ["b-stack"],
+			reference: "containerElement"
+		});
+	}
 
     /**
      * override
@@ -392,27 +392,27 @@ export class UIStack extends UICollection<UIComponent> {
      * @param {boolean} [isInitial]
      * @memberof Stack
      */
-    protected doLayout(isInitial?: boolean): void {
-        const me = this;
-        me.doLayoutItems();
-    }
+	protected doLayout(isInitial?: boolean): void {
+		const me = this;
+		me.doLayoutItems();
+	}
 
     /**
      * @override
      * @protected
      * @memberof Stack
      */
-    protected doLayoutItems() {
-        const me = this;
-        me.shouldReIndex();
-        me.forEach((item: UIComponent) => {
-            if (item === me.currentView) {
-                me.activateItem(item);
-                item.performLayout();
-            } else {
-                me.deActivateItem(item);
-            }
-        });
-        me.assignFirstVisible();
-    }
+	protected doLayoutItems() {
+		const me = this;
+		me.shouldReIndex();
+		me.forEach((item: UIComponent) => {
+			if (item === me.currentView) {
+				me.activateItem(item);
+				item.performLayout();
+			} else {
+				me.deActivateItem(item);
+			}
+		});
+		me.assignFirstVisible();
+	}
 }
