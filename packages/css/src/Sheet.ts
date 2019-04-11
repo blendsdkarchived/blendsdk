@@ -11,18 +11,18 @@ import { IRenderedCSSRule } from "./Types";
  * @class Sheet
  */
 export class Sheet {
-    protected rules: CSSRule[];
-    protected pushed: boolean;
+	protected rules: CSSRule[];
+	protected pushed: boolean;
 
     /**
      * Creates an instance of Sheet.
      * @param {(CSSRule | CSSRule[])} rules
      * @memberof Sheet
      */
-    public constructor(rules?: CSSRule | CSSRule[]) {
-        this.rules = Blend.wrapInArray(rules || []);
-        this.pushed = false;
-    }
+	public constructor(rules?: CSSRule | CSSRule[]) {
+		this.rules = Blend.wrapInArray(rules || []);
+		this.pushed = false;
+	}
 
     /**
      * Adds one or more rules to this Sheet
@@ -30,18 +30,18 @@ export class Sheet {
      * @param {(CSSRule | CSSRule[])} rule
      * @memberof Sheet
      */
-    public addRule(rule: CSSRule | CSSRule[]) {
-        const me = this;
-        me.rules = me.rules.concat(Blend.wrapInArray(rule));
-    }
+	public addRule(rule: CSSRule | CSSRule[]) {
+		const me = this;
+		me.rules = me.rules.concat(Blend.wrapInArray(rule));
+	}
 
-    public pushToTop() {
-        this.pushed = true;
-    }
+	public pushToTop() {
+		this.pushed = true;
+	}
 
-    public isPushed(): boolean {
-        return this.pushed;
-    }
+	public isPushed(): boolean {
+		return this.pushed;
+	}
 
     /**
      * Renders the rules within in Sheet to an array of
@@ -50,15 +50,15 @@ export class Sheet {
      * @returns {IRenderedCSSRule[]}
      * @memberof Sheet
      */
-    public render(): IRenderedCSSRule[] {
-        const me = this;
-        let rules: IRenderedCSSRule[] = [];
+	public render(): IRenderedCSSRule[] {
+		const me = this;
+		let rules: IRenderedCSSRule[] = [];
 
-        me.rules.forEach(rule => {
-            rule.flatten().forEach(renderer => {
-                rules = rules.concat(renderer());
-            });
-        });
-        return rules;
-    }
+		me.rules.forEach(rule => {
+			rule.flatten().forEach(renderer => {
+				rules = rules.concat(renderer());
+			});
+		});
+		return rules;
+	}
 }

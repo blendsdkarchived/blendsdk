@@ -8,7 +8,7 @@ export namespace Debug {
      * @param {string} key
      * @param {*} obj
      */
-    export function makePublic(key: string, obj: any) {
-        (window as any)[key] = obj;
-    }
+	export function makePublic(key: string, obj: any) {
+		(window as any)[key] = obj;
+	}
 }

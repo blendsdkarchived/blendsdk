@@ -36,5 +36,5 @@ ExtensionsTests(t);
 BlendTests(t);
 
 TestRunner.start({
-    hidePassed: true
+	hidePassed: true
 });

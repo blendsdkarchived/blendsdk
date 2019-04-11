@@ -5,8 +5,8 @@ declare global {
      * @interface Array
      * @template T
      */
-    // tslint:disable-next-line:interface-name
-    interface Array<T> {
+	// tslint:disable-next-line:interface-name
+	interface Array<T> {
         /**
          * Removes duplicate values from an array.
          *
@@ -14,7 +14,7 @@ declare global {
          *
          * @memberOf Array
          */
-        unique(): T[];
+		unique(): T[];
         /**
          * Removes an element at a given index and returns the removed element
          * if the element is actually removed from the array.
@@ -25,7 +25,7 @@ declare global {
          *
          * @memberOf Array
          */
-        removeAt<T>(index: number): T | null;
+		removeAt<T>(index: number): T | null;
         /**
          * Inserts an element into a given index within this Array.
          *
@@ -34,14 +34,14 @@ declare global {
          * @returns {Array<any>}
          * @memberof Array
          */
-        insertAt(index: number, item: any): any[];
+		insertAt(index: number, item: any): any[];
         /**
          * Gets a random item from this Array.
          *
          * @returns {*}
          * @memberof Array
          */
-        random(): any;
+		random(): any;
         /**
          * Computes the intersection of an array, optionally
          * taking an argument to compare the elements
@@ -51,16 +51,16 @@ declare global {
          * @returns {Array<any>}
          * @memberof Array
          */
-        intersect(ar: any[]): any[];
-    }
+		intersect(ar: any[]): any[];
+	}
 
     /**
      * Extension to the built-in String type
      *
      * @interface String
      */
-    // tslint:disable-next-line:interface-name
-    export interface String {
+	// tslint:disable-next-line:interface-name
+	export interface String {
         /**
          * Uppercase the first character of this string.
          *
@@ -68,7 +68,7 @@ declare global {
          *
          * @memberOf String
          */
-        ucFirst(): string;
+		ucFirst(): string;
         /**
          * Repeats this string by the number of provided counts.
          *
@@ -77,7 +77,7 @@ declare global {
          *
          * @memberOf String
          */
-        repeat(counts: number): string;
+		repeat(counts: number): string;
         /**
          *  Determines whether this string begins with the characters of
          * a specified string.
@@ -88,7 +88,7 @@ declare global {
          *
          * @memberOf String
          */
-        startsWith(searchString: string, position?: number): boolean;
+		startsWith(searchString: string, position?: number): boolean;
         /**
          * Tests if this string exists in a given array.
          *
@@ -97,7 +97,7 @@ declare global {
          *
          * @memberOf String
          */
-        inArray(list: string[]): boolean;
+		inArray(list: string[]): boolean;
         /**
          * Removes whitespace from both ends of a string.
          *
@@ -105,21 +105,21 @@ declare global {
          *
          * @memberOf String
          */
-        trim(): string;
+		trim(): string;
         /**
          * Determines whether this string is empty.
          *
          * @type {boolean}
          * @memberOf String
          */
-        isEmpty(): boolean;
+		isEmpty(): boolean;
         /**
          * Creates a weak hash from this string.
          *
          * @returns {string}
          * @memberof String
          */
-        hash(): string;
+		hash(): string;
         /**
          * Cuts the string to given lengths and adds "&hellip;" (...) at the end.
          *
@@ -128,22 +128,22 @@ declare global {
          * @returns {string}
          * @memberof String
          */
-        ellipsis(maxChars: number, html?: boolean): string;
-    }
+		ellipsis(maxChars: number, html?: boolean): string;
+	}
 
     /**
      * Extension to the built-in ClassList
      *
      * @interface DOMTokenList
      */
-    // tslint:disable-next-line:interface-name
-    export interface DOMTokenList {
+	// tslint:disable-next-line:interface-name
+	export interface DOMTokenList {
         /**
          * Replaces a css class with another on the space position.
          *
          * @memberof DOMTokenList
          */
-        replace: (oldClass: string, newClass: string) => void;
+		replace: (oldClass: string, newClass: string) => void;
         /**
          * Sets or removes a class from the element.
          * This function is not standard DOM and it is augmented
@@ -151,8 +151,8 @@ declare global {
          *
          * @memberof DOMTokenList
          */
-        set: (className: string | object | string[] | Array<[]>, addOrRemove?: boolean) => void;
-    }
+		set: (className: string | object | string[] | Array<[]>, addOrRemove?: boolean) => void;
+	}
 }
 
-export {};
+export { };

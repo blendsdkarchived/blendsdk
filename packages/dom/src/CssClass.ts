@@ -20,7 +20,7 @@ export interface ICssClass<T> {
      * @returns {T}
      * @memberof ICssClass
      */
-    serialize(el?: HTMLElement): T;
+	serialize(el?: HTMLElement): T;
     /**
      * Sets all the rules to the given value
      *
@@ -28,7 +28,7 @@ export interface ICssClass<T> {
      * @returns {T}
      * @memberof ICssClass
      */
-    setAll(state: boolean | -1): T;
+	setAll(state: boolean | -1): T;
     /**
      * Sets a single rule to the given value
      *
@@ -37,7 +37,7 @@ export interface ICssClass<T> {
      * @returns {T}
      * @memberof ICssClass
      */
-    set(key: string, state: boolean | -1): T;
+	set(key: string, state: boolean | -1): T;
     /**
      * Adds one or more rules to the rule-set
      *
@@ -45,7 +45,7 @@ export interface ICssClass<T> {
      * @returns {T}
      * @memberof ICssClass
      */
-    addRule(rules: string | string[]): T;
+	addRule(rules: string | string[]): T;
 }
 
 /**
@@ -76,9 +76,9 @@ export class CssClass implements ICssClass<any> {
      * @param {HTMLElement} [el]
      * @returns {T}
      */
-    public static create<T extends ICssClass<T>>(cssKeys: string[], el?: HTMLElement): T {
-        return (new CssClass(cssKeys, el) as any) as T;
-    }
+	public static create<T extends ICssClass<T>>(cssKeys: string[], el?: HTMLElement): T {
+		return (new CssClass(cssKeys, el) as any) as T;
+	}
     /**
      * Reference to the HTMLElement
      * on which this class operates
@@ -87,7 +87,7 @@ export class CssClass implements ICssClass<any> {
      * @type {HTMLElement}
      * @memberof CssClass
      */
-    protected el: HTMLElement;
+	protected el: HTMLElement;
     /**
      * Internal collection of CSS rules
      *
@@ -95,7 +95,7 @@ export class CssClass implements ICssClass<any> {
      * @type {IDictionary}
      * @memberof CssClass
      */
-    protected cssKeys: IDictionary;
+	protected cssKeys: IDictionary;
     /**
      * A cache for keeping the css rules names
      * to be used to the builder.
@@ -107,7 +107,7 @@ export class CssClass implements ICssClass<any> {
      * @type {Array<string>}
      * @memberof CssClass
      */
-    protected cssKeysCache: string[];
+	protected cssKeysCache: string[];
     /**
      * A prefix to be removed from the css rules.
      *
@@ -115,7 +115,7 @@ export class CssClass implements ICssClass<any> {
      * @type {string}
      * @memberof CssClass
      */
-    protected removePrefix: string;
+	protected removePrefix: string;
     /**
      * RegExp for cleaning up the css rules
      *
@@ -123,7 +123,7 @@ export class CssClass implements ICssClass<any> {
      * @type {RegExp}
      * @memberof CssClass
      */
-    protected re: RegExp;
+	protected re: RegExp;
     /**
      * Check if the current state is synched with the class attribute
      * value.
@@ -132,7 +132,7 @@ export class CssClass implements ICssClass<any> {
      * @type {boolean}
      * @memberof CssClass
      */
-    protected synced: boolean;
+	protected synced: boolean;
 
     /**
      * Creates an instance of CssClass.
@@ -141,15 +141,15 @@ export class CssClass implements ICssClass<any> {
      * @param {string} [removePrefix]
      * @memberof CssClass
      */
-    public constructor(cssKeys: string[], el?: HTMLElement, removePrefix?: string) {
-        const me = this;
-        me.el = el;
-        me.cssKeysCache = cssKeys;
-        me.cssKeys = {};
-        me.removePrefix = removePrefix || "b-";
-        me.buildSetters();
-        me.synced = false;
-    }
+	public constructor(cssKeys: string[], el?: HTMLElement, removePrefix?: string) {
+		const me = this;
+		me.el = el;
+		me.cssKeysCache = cssKeys;
+		me.cssKeys = {};
+		me.removePrefix = removePrefix || "b-";
+		me.buildSetters();
+		me.synced = false;
+	}
 
     /**
      * Adds one or more rule to the rule-set
@@ -157,12 +157,12 @@ export class CssClass implements ICssClass<any> {
      * @param {(string | string[])} rules
      * @memberof CssClass
      */
-    public addRule(rules: string | string[]) {
-        const me = this;
-        me.cssKeysCache = me.cssKeysCache.concat(Blend.wrapInArray(rules));
-        me.re = null;
-        me.buildSetters();
-    }
+	public addRule(rules: string | string[]) {
+		const me = this;
+		me.cssKeysCache = me.cssKeysCache.concat(Blend.wrapInArray(rules));
+		me.re = null;
+		me.buildSetters();
+	}
 
     /**
      * Serializes the current CSS rules to a an optional {HTMLElement}
@@ -172,38 +172,38 @@ export class CssClass implements ICssClass<any> {
      * @returns {this}
      * @memberof CssClass
      */
-    public serialize(el?: HTMLElement): this {
-        const me = this,
-            element: HTMLElement = el || me.el;
-        let list: string[], current: string;
+	public serialize(el?: HTMLElement): this {
+		const me = this,
+			element: HTMLElement = el || me.el;
+		let list: string[], current: string;
 
-        if (element && !me.synced) {
-            current = element.getAttribute("class") || "";
-            list = current
-                .replace(me.re, "")
-                .trim()
-                .split(" ");
-            list = list.length === 1 && list[0] === "" ? [] : list;
-            Blend.forEach(me.cssKeys, (val: true | false, key: string) => {
-                if (val === true) {
-                    list.push(key);
-                }
-            });
-            if (list.length !== 0) {
-                const value = list
-                    .unique()
-                    .join(" ")
-                    .trim();
-                if (value !== current) {
-                    element.setAttribute("class", list.join(" ").trim());
-                }
-            } else {
-                element.removeAttribute("class");
-            }
-            me.synced = true;
-        }
-        return this;
-    }
+		if (element && !me.synced) {
+			current = element.getAttribute("class") || "";
+			list = current
+				.replace(me.re, "")
+				.trim()
+				.split(" ");
+			list = list.length === 1 && list[0] === "" ? [] : list;
+			Blend.forEach(me.cssKeys, (val: true | false, key: string) => {
+				if (val === true) {
+					list.push(key);
+				}
+			});
+			if (list.length !== 0) {
+				const value = list
+					.unique()
+					.join(" ")
+					.trim();
+				if (value !== current) {
+					element.setAttribute("class", list.join(" ").trim());
+				}
+			} else {
+				element.removeAttribute("class");
+			}
+			me.synced = true;
+		}
+		return this;
+	}
 
     /**
      * Sets all the values at once
@@ -212,13 +212,13 @@ export class CssClass implements ICssClass<any> {
      * @returns {this}
      * @memberof CssClass
      */
-    public setAll(state: boolean | -1): this {
-        const me = this;
-        Blend.forEach(me.cssKeys, (value: true | false, key: string) => {
-            me.set(key, state);
-        });
-        return me;
-    }
+	public setAll(state: boolean | -1): this {
+		const me = this;
+		Blend.forEach(me.cssKeys, (value: true | false, key: string) => {
+			me.set(key, state);
+		});
+		return me;
+	}
 
     /**
      * Sets a state to a css rule
@@ -228,19 +228,19 @@ export class CssClass implements ICssClass<any> {
      * @param {(boolean | -1)} state
      * @memberof CssClass
      */
-    public set(key: string, state: boolean | -1): this {
-        const me = this;
-        if (state === undefined) {
-            state = true;
-        }
-        if (state === -1) {
-            me.cssKeys[key] = me.cssKeys[key] === true ? false : true;
-        } else {
-            me.cssKeys[key] = state;
-        }
-        me.synced = false;
-        return me;
-    }
+	public set(key: string, state: boolean | -1): this {
+		const me = this;
+		if (state === undefined) {
+			state = true;
+		}
+		if (state === -1) {
+			me.cssKeys[key] = me.cssKeys[key] === true ? false : true;
+		} else {
+			me.cssKeys[key] = state;
+		}
+		me.synced = false;
+		return me;
+	}
 
     /**
      * Create a camelCase function name from a css rule name.
@@ -250,16 +250,16 @@ export class CssClass implements ICssClass<any> {
      * @returns
      * @memberof CssClass
      */
-    protected createSetterName(key: string, removeMethodPrefix: string) {
-        const ar = key
-            .trim()
-            .replace(removeMethodPrefix || "", "")
-            .split("-");
-        ar.forEach((part: string, index: number) => {
-            ar[index] = index === 0 ? part.toLocaleLowerCase() : part.ucFirst();
-        });
-        return ar.join("");
-    }
+	protected createSetterName(key: string, removeMethodPrefix: string) {
+		const ar = key
+			.trim()
+			.replace(removeMethodPrefix || "", "")
+			.split("-");
+		ar.forEach((part: string, index: number) => {
+			ar[index] = index === 0 ? part.toLocaleLowerCase() : part.ucFirst();
+		});
+		return ar.join("");
+	}
 
     /**
      * Creates a RegEx object for splitting and tokenizing the css class value.
@@ -268,14 +268,14 @@ export class CssClass implements ICssClass<any> {
      * @param {Array<string>} cssKeys
      * @memberof CssClass
      */
-    protected createSplitterRegExp() {
-        const me = this,
-            result: string[] = [];
-        me.cssKeysCache.forEach((key: string) => {
-            result.push(`\\b${key}\\b(\\s|$)`);
-        });
-        me.re = new RegExp(result.join("|"), "gi");
-    }
+	protected createSplitterRegExp() {
+		const me = this,
+			result: string[] = [];
+		me.cssKeysCache.forEach((key: string) => {
+			result.push(`\\b${key}\\b(\\s|$)`);
+		});
+		me.re = new RegExp(result.join("|"), "gi");
+	}
 
     /**
      * Build the setter functions for this class
@@ -284,27 +284,27 @@ export class CssClass implements ICssClass<any> {
      * @param {Array<string>} keys
      * @memberof CssClass
      */
-    protected buildSetters() {
-        const host: any = this,
-            me = this;
+	protected buildSetters() {
+		const host: any = this,
+			me = this;
 
-        let setterName: string;
+		let setterName: string;
 
-        if (!me.re) {
-            me.createSplitterRegExp();
-        }
+		if (!me.re) {
+			me.createSplitterRegExp();
+		}
 
-        me.cssKeysCache.forEach((item: string) => {
-            setterName = me.createSetterName(item, me.removePrefix);
-            if (!host[setterName]) {
-                me.cssKeys[item] = undefined; // reset the key set to undefined
-                host[setterName] = (itm => {
-                    return function(state: boolean | -1) {
-                        me.set(itm, state);
-                        return this;
-                    };
-                })(item);
-            }
-        });
-    }
+		me.cssKeysCache.forEach((item: string) => {
+			setterName = me.createSetterName(item, me.removePrefix);
+			if (!host[setterName]) {
+				me.cssKeys[item] = undefined; // reset the key set to undefined
+				host[setterName] = (itm => {
+					return function (state: boolean | -1) {
+						me.set(itm, state);
+						return this;
+					};
+				})(item);
+			}
+		});
+	}
 }

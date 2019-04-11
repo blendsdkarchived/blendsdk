@@ -16,7 +16,7 @@ export abstract class Component implements IAbstractComponent {
      *
      * @export
      */
-    public static KEY_UID = "_uid";
+	public static KEY_UID = "_uid";
 
     /**
      * references the unique for this component.
@@ -25,7 +25,7 @@ export abstract class Component implements IAbstractComponent {
      * @type {string}
      * @memberof Component
      */
-    protected uid: string;
+	protected uid: string;
 
     /**
      * The configuration object
@@ -34,7 +34,7 @@ export abstract class Component implements IAbstractComponent {
      * @type {IDictionary}
      * @memberOf Component
      */
-    protected config: IComponentConfig;
+	protected config: IComponentConfig;
 
     /**
      * Creates an instance of Component.
@@ -42,15 +42,15 @@ export abstract class Component implements IAbstractComponent {
      *
      * @memberOf Component
      */
-    public constructor(config?: IComponentConfig) {
-        const me = this;
-        me.config = config || ({} as IComponentConfig);
-        me.configDefaults({
-            id: null,
-            userData: {}
-        } as IComponentConfig);
-        me.uid = Blend.ID().toString(16);
-    }
+	public constructor(config?: IComponentConfig) {
+		const me = this;
+		me.config = config || ({} as IComponentConfig);
+		me.configDefaults({
+			id: null,
+			userData: {}
+		} as IComponentConfig);
+		me.uid = Blend.ID().toString(16);
+	}
 
     /**
      * Sets a custom data value in this component.
@@ -62,16 +62,16 @@ export abstract class Component implements IAbstractComponent {
      * @returns {this}
      * @memberof Component
      */
-    public setUserData(key: string | object, value?: any): this {
-        const me = this;
-        value = value || undefined;
-        if (Blend.isObject(key)) {
-            me.config.userData = key as any;
-        } else if (Blend.isString(key)) {
-            me.config.userData[key as string] = value;
-        }
-        return me;
-    }
+	public setUserData(key: string | object, value?: any): this {
+		const me = this;
+		value = value || undefined;
+		if (Blend.isObject(key)) {
+			me.config.userData = key as any;
+		} else if (Blend.isString(key)) {
+			me.config.userData[key as string] = value;
+		}
+		return me;
+	}
 
     /**
      * Gets custom date value from this component.
@@ -83,15 +83,15 @@ export abstract class Component implements IAbstractComponent {
      * @returns {R}
      * @memberof Component
      */
-    public getUserData<R>(key?: string, defaultValue?: R): R {
-        const me = this;
-        key = key || null;
-        if (key === null) {
-            return (me.config.userData || {}) as R;
-        } else if (Blend.isString(key)) {
-            return me.config.userData[key as string] || defaultValue || undefined;
-        }
-    }
+	public getUserData<R>(key?: string, defaultValue?: R): R {
+		const me = this;
+		key = key || null;
+		if (key === null) {
+			return (me.config.userData || {}) as R;
+		} else if (Blend.isString(key)) {
+			return me.config.userData[key as string] || defaultValue || undefined;
+		}
+	}
 
     /**
      * Gets the unique internal identifier of this component.
@@ -103,9 +103,9 @@ export abstract class Component implements IAbstractComponent {
      * @returns
      * @memberof Component
      */
-    public getUID(): string {
-        return this.uid;
-    }
+	public getUID(): string {
+		return this.uid;
+	}
 
     /**
      * Returns component identifier that was provided as config time
@@ -113,9 +113,9 @@ export abstract class Component implements IAbstractComponent {
      *
      * @memberof Component
      */
-    public getId() {
-        return this.config.id || null;
-    }
+	public getId() {
+		return this.config.id || null;
+	}
 
     /**
      * A utility function for exposing internal component
@@ -127,40 +127,40 @@ export abstract class Component implements IAbstractComponent {
      * @returns {ConfigType}
      * @memberof Component
      */
-    public applyMethod<R>(methodName: string, arg?: any[]): R {
-        const fn: () => any = (this as any)[methodName] as (() => any);
-        if (fn) {
-            return fn.apply(this, arg || []) as R;
-        } else {
-            // tslint:disable-next-line:no-console
-            if (console && console.trace) {
-                // tslint:disable-next-line:no-console
-                console.trace(`${this} does not implement ${methodName}`);
-            }
-            return undefined as R;
-        }
-    }
+	public applyMethod<R>(methodName: string, arg?: any[]): R {
+		const fn: () => any = (this as any)[methodName] as (() => any);
+		if (fn) {
+			return fn.apply(this, arg || []) as R;
+		} else {
+			// tslint:disable-next-line:no-console
+			if (console && console.trace) {
+				// tslint:disable-next-line:no-console
+				console.trace(`${this} does not implement ${methodName}`);
+			}
+			return undefined as R;
+		}
+	}
     /**
      * Destroys this component by freeing retained properties.
      *
      * @memberOf Component
      */
-    public destroy() {
-        const me: any = this;
-        if (me.setParent) {
-            me.setParent(null);
-        }
+	public destroy() {
+		const me: any = this;
+		if (me.setParent) {
+			me.setParent(null);
+		}
         /**
          * Delete/Release all properties of this component.
          * If the property has a `destroy` function then
          * we call it before removing the property
          */
-        Object.keys(me).forEach(prop => {
-            me[prop] = null;
-            delete me[prop];
-        });
-        delete me.config;
-    }
+		Object.keys(me).forEach(prop => {
+			me[prop] = null;
+			delete me[prop];
+		});
+		delete me.config;
+	}
 
     /**
      * Apply default values to the class configuration object.
@@ -169,10 +169,10 @@ export abstract class Component implements IAbstractComponent {
      * @param {IComponentConfig} defaults
      * @memberof Component
      */
-    protected configDefaults(defaults: IComponentConfig) {
-        const me = this;
-        Blend.apply(me.config, defaults || {});
-    }
+	protected configDefaults(defaults: IComponentConfig) {
+		const me = this;
+		Blend.apply(me.config, defaults || {});
+	}
 
     /**
      * Initializes this component.
@@ -180,6 +180,6 @@ export abstract class Component implements IAbstractComponent {
      * @protected
      * @memberof Component
      */
-    // tslint:disable-next-line:no-empty
-    protected initComponent() {}
+	// tslint:disable-next-line:no-empty
+	protected initComponent() { }
 }

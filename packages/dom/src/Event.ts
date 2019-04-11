@@ -11,14 +11,14 @@ export namespace DOMEvent {
      * @param {(MouseEvent | TouchEvent)} event
      * @returns {HTMLElement}
      */
-    export function getReferencedTarget(event: MouseEvent | TouchEvent): DOMElement {
-        const targetEl: HTMLElement = (event.target as HTMLElement) || null,
-            currentEl: HTMLElement = (event.currentTarget as HTMLElement) || null;
-        if (targetEl === currentEl) {
-            return DOMElement.getElement(currentEl);
-        } else {
-            const $el = DOMElement.getElement(targetEl);
-            return $el.getReferencedParent() || DOMElement.getElement(currentEl);
-        }
-    }
+	export function getReferencedTarget(event: MouseEvent | TouchEvent): DOMElement {
+		const targetEl: HTMLElement = (event.target as HTMLElement) || null,
+			currentEl: HTMLElement = (event.currentTarget as HTMLElement) || null;
+		if (targetEl === currentEl) {
+			return DOMElement.getElement(currentEl);
+		} else {
+			const $el = DOMElement.getElement(targetEl);
+			return $el.getReferencedParent() || DOMElement.getElement(currentEl);
+		}
+	}
 }

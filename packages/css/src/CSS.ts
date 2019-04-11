@@ -11,9 +11,9 @@ import { IStyleSet } from "./Types";
  * @enum {number}
  */
 export enum eTransitionFunction {
-    StandardEasing = "cubic-bezier(0.4, 0.0, 0.2, 1)",
-    DecelerateEasing = "cubic-bezier(0.0, 0.0, 0.2, 1)",
-    AccelerateEasing = "cubic-bezier(0.4, 0.0, 1, 1)"
+	StandardEasing = "cubic-bezier(0.4, 0.0, 0.2, 1)",
+	DecelerateEasing = "cubic-bezier(0.0, 0.0, 0.2, 1)",
+	AccelerateEasing = "cubic-bezier(0.4, 0.0, 1, 1)"
 }
 
 /**
@@ -29,28 +29,28 @@ export interface ICSSTransition {
      * @type {string}
      * @memberof ICSSTransition
      */
-    property?: string;
+	property?: string;
     /**
      * Duration in seconds.
      *
      * @type {number}
      * @memberof ICSSTransition
      */
-    durationInSeconds?: number;
+	durationInSeconds?: number;
     /**
      * The animation function.
      *
      * @type {(string | eTransitionFunction)}
      * @memberof ICSSTransition
      */
-    animationFunction?: string | eTransitionFunction;
+	animationFunction?: string | eTransitionFunction;
     /**
      * Animation start timeout.
      *
      * @type {number}
      * @memberof ICSSTransition
      */
-    animationTimeout?: number;
+	animationTimeout?: number;
 }
 
 /**
@@ -59,12 +59,12 @@ export interface ICSSTransition {
  * @interface ICSSTransformation
  */
 interface ICSSTransformation {
-    scale?: any;
-    translate?: any;
-    translateX?: any;
-    translateY?: any;
-    translateZ?: any;
-    [key: string]: any;
+	scale?: any;
+	translate?: any;
+	translateX?: any;
+	translateY?: any;
+	translateZ?: any;
+	[key: string]: any;
 }
 
 // tslint:disable-next-line:no-namespace
@@ -77,10 +77,10 @@ export namespace CSS {
      * @param {number} fontSize
      * @returns {string}
      */
-    export function letterSpacing(tracking: number, fontSize: number): string {
-        const t = tracking / (fontSize * Blend.BASE_FONT_SIZE);
-        return `${Math.round(t * 1000) / 1000}em`;
-    }
+	export function letterSpacing(tracking: number, fontSize: number): string {
+		const t = tracking / (fontSize * Blend.BASE_FONT_SIZE);
+		return `${Math.round(t * 1000) / 1000}em`;
+	}
 
     /**
      * CSS rules to make an element selectable.
@@ -89,15 +89,15 @@ export namespace CSS {
      * @param {(boolean | any)} value
      * @returns {IStyleSet}
      */
-    export function selectable(value: boolean | any): IStyleSet {
-        value = value === false ? "none" : value;
-        return {
-            "-webkit-user-select": value,
-            "-moz-user-select": value,
-            "-ms-user-select": value,
-            "user-select": value
-        };
-    }
+	export function selectable(value: boolean | any): IStyleSet {
+		value = value === false ? "none" : value;
+		return {
+			"-webkit-user-select": value,
+			"-moz-user-select": value,
+			"-ms-user-select": value,
+			"user-select": value
+		};
+	}
 
     /**
      * Creates a CSS rules representing a selector that is preceded by
@@ -110,11 +110,11 @@ export namespace CSS {
      * @param {(IStyleSet | CSSRule | Array<IStyleSet | CSSRule>)} styles
      * @returns
      */
-    export function precededBy(selector: string, styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
-        return new CSSRule(selector, styles, (parent: string, current: string) => {
-            return `${parent} ~ ${current}`;
-        });
-    }
+	export function precededBy(selector: string, styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
+		return new CSSRule(selector, styles, (parent: string, current: string) => {
+			return `${parent} ~ ${current}`;
+		});
+	}
 
     /**
      * Creates a CSS rule representing a `(.b-disabled) selector`
@@ -123,9 +123,9 @@ export namespace CSS {
      * @param {(IStyleSet | CSSRule | Array<IStyleSet | CSSRule>)} styles
      * @returns
      */
-    export function andDisabled(styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
-        return and(".b-disabled", styles);
-    }
+	export function andDisabled(styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
+		return and(".b-disabled", styles);
+	}
 
     /**
      * Creates a CSS rule representing a `:not(.b-disabled) selector`
@@ -134,9 +134,9 @@ export namespace CSS {
      * @param {(IStyleSet | CSSRule | Array<IStyleSet | CSSRule>)} styles
      * @returns
      */
-    export function notDisabled(styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
-        return andNot("b-disabled", styles);
-    }
+	export function notDisabled(styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
+		return andNot("b-disabled", styles);
+	}
 
     /**
      * Creates a CSS rule representing a `:not() selector`
@@ -145,9 +145,9 @@ export namespace CSS {
      * @param {(IStyleSet | CSSRule | Array<IStyleSet | CSSRule>)} styles
      * @returns
      */
-    export function andNot(selector: string, styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
-        return and(`:not(.${selector})`, styles);
-    }
+	export function andNot(selector: string, styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
+		return and(`:not(.${selector})`, styles);
+	}
 
     /**
      * Creates a CSS rules representing a selector that is placed immediately after
@@ -160,11 +160,11 @@ export namespace CSS {
      * @param {(IStyleSet | CSSRule | Array<IStyleSet | CSSRule>)} styles
      * @returns
      */
-    export function immediatelyAfter(selector: string, styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
-        return new CSSRule(selector, styles, (parent: string, current: string) => {
-            return `${parent} + ${current}`;
-        });
-    }
+	export function immediatelyAfter(selector: string, styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
+		return new CSSRule(selector, styles, (parent: string, current: string) => {
+			return `${parent} + ${current}`;
+		});
+	}
 
     /**
      * Creates a CSS rules representing `::before`
@@ -172,9 +172,9 @@ export namespace CSS {
      * @export
      * @param {(IStyleSet | CSSRule | Array<IStyleSet | CSSRule>)} styles
      */
-    export function before(styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
-        return and("::before", styles);
-    }
+	export function before(styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
+		return and("::before", styles);
+	}
 
     /**
      * Creates a CSS rules representing `::after`
@@ -182,9 +182,9 @@ export namespace CSS {
      * @export
      * @param {(IStyleSet | CSSRule | Array<IStyleSet | CSSRule>)} styles
      */
-    export function after(styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
-        return and("::after", styles);
-    }
+	export function after(styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
+		return and("::after", styles);
+	}
 
     /**
      * Creates a CSS rules representing `::hover`
@@ -192,9 +192,9 @@ export namespace CSS {
      * @export
      * @param {(IStyleSet | CSSRule | Array<IStyleSet | CSSRule>)} styles
      */
-    export function hover(styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
-        return and(":hover", styles);
-    }
+	export function hover(styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
+		return and(":hover", styles);
+	}
 
     /**
      * Creates a CSS rules representing a composed selector.
@@ -205,11 +205,11 @@ export namespace CSS {
      * @param {(IStyleSet | CSSRule | Array<IStyleSet | CSSRule>)} styles
      * @returns
      */
-    export function and(selector: string, styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
-        return new CSSRule(selector, styles, (parent: string, current: string) => {
-            return `${parent}${current}`;
-        });
-    }
+	export function and(selector: string, styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
+		return new CSSRule(selector, styles, (parent: string, current: string) => {
+			return `${parent}${current}`;
+		});
+	}
 
     /**
      * Creates a CSS rules representing a child selector.
@@ -220,11 +220,11 @@ export namespace CSS {
      * @param {(IStyleSet | CSSRule | Array<IStyleSet | CSSRule>)} styles
      * @returns
      */
-    export function child(selector: string, styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
-        return new CSSRule(selector, styles, (parent: string, current: string) => {
-            return `${parent} > ${current}`;
-        });
-    }
+	export function child(selector: string, styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
+		return new CSSRule(selector, styles, (parent: string, current: string) => {
+			return `${parent} > ${current}`;
+		});
+	}
 
     /**
      * Creates a CSS rules representing a nested selector.
@@ -235,11 +235,11 @@ export namespace CSS {
      * @param {(IStyleSet | CSSRule | Array<IStyleSet | CSSRule>)} styles
      * @returns
      */
-    export function nest(selector: string, styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
-        return new CSSRule(selector, styles, (parent: string, current: string) => {
-            return `${parent} ${current}`;
-        });
-    }
+	export function nest(selector: string, styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
+		return new CSSRule(selector, styles, (parent: string, current: string) => {
+			return `${parent} ${current}`;
+		});
+	}
 
     /**
      * Creates a CSS rule for a block level element or a selector.
@@ -249,9 +249,9 @@ export namespace CSS {
      * @param {(IStyleSet | CSSRule | Array<IStyleSet | CSSRule>)} styles
      * @returns
      */
-    export function block(selector: string, styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
-        return new CSSRule(selector, styles);
-    }
+	export function block(selector: string, styles: IStyleSet | CSSRule | Array<IStyleSet | CSSRule>) {
+		return new CSSRule(selector, styles);
+	}
 
     /**
      * Creates a `@media query` CSS rule.
@@ -261,16 +261,16 @@ export namespace CSS {
      * @param {(CSSRule | CSSRule[])} rules
      * @returns
      */
-    export function mediaQuery(query: string, rules: CSSRule | CSSRule[]) {
-        const sheet = stylesheet(rules),
-            content: string[] = [];
-        sheet.render().forEach(item => {
-            if (item.selector !== "") {
-                content.push(item.css);
-            }
-        });
-        return block(`@media ${query}`, { rawContent: content.join("\n") });
-    }
+	export function mediaQuery(query: string, rules: CSSRule | CSSRule[]) {
+		const sheet = stylesheet(rules),
+			content: string[] = [];
+		sheet.render().forEach(item => {
+			if (item.selector !== "") {
+				content.push(item.css);
+			}
+		});
+		return block(`@media ${query}`, { rawContent: content.join("\n") });
+	}
 
     /**
      * Creates a CSS transformation rule
@@ -279,15 +279,15 @@ export namespace CSS {
      * @param {ICSSTransformation} transformation
      * @returns {IStyleSet}
      */
-    export function transform(transformation: ICSSTransformation): IStyleSet {
-        const v: string[] = [];
-        Blend.forEach(transformation, (value: string, key: string) => {
-            v.push(`${key}(${value})`);
-        });
-        return {
-            transform: v.join(" ")
-        };
-    }
+	export function transform(transformation: ICSSTransformation): IStyleSet {
+		const v: string[] = [];
+		Blend.forEach(transformation, (value: string, key: string) => {
+			v.push(`${key}(${value})`);
+		});
+		return {
+			transform: v.join(" ")
+		};
+	}
 
     /**
      * Creates one or more transition animation.
@@ -296,25 +296,25 @@ export namespace CSS {
      * @param {(ICSSTransition | ICSSTransition[])} value
      * @returns {IStyleSet}
      */
-    export function transition(value: ICSSTransition | ICSSTransition[]): IStyleSet {
-        const values = Blend.wrapInArray<ICSSTransition>(value),
-            css: string[] = [];
-        values.forEach(item => {
-            if (value) {
-                css.push(
-                    `${item.property || "all"}  ${item.durationInSeconds || 0}s ${item.animationFunction ||
-                        "linear"} ${item.animationTimeout || 0}s`
-                );
-            }
-        });
-        if (values.length !== 0) {
-            return {
-                transition: css.join(", ")
-            };
-        } else {
-            return {};
-        }
-    }
+	export function transition(value: ICSSTransition | ICSSTransition[]): IStyleSet {
+		const values = Blend.wrapInArray<ICSSTransition>(value),
+			css: string[] = [];
+		values.forEach(item => {
+			if (value) {
+				css.push(
+					`${item.property || "all"}  ${item.durationInSeconds || 0}s ${item.animationFunction ||
+					"linear"} ${item.animationTimeout || 0}s`
+				);
+			}
+		});
+		if (values.length !== 0) {
+			return {
+				transition: css.join(", ")
+			};
+		} else {
+			return {};
+		}
+	}
 
     /**
      * Creates an entry transition animation.
@@ -323,11 +323,11 @@ export namespace CSS {
      * @param {ICSSTransition} value
      * @returns {ICSSTransition}
      */
-    export function animationEnter(value: ICSSTransition): ICSSTransition {
-        value = value || {};
-        value.animationFunction = "cubic-bezier(0, 0, .2, 1)";
-        return value;
-    }
+	export function animationEnter(value: ICSSTransition): ICSSTransition {
+		value = value || {};
+		value.animationFunction = "cubic-bezier(0, 0, .2, 1)";
+		return value;
+	}
 
     /**
      * Creates an exit transition animation.
@@ -336,11 +336,11 @@ export namespace CSS {
      * @param {ICSSTransition} value
      * @returns {ICSSTransition}
      */
-    export function animationExit(value: ICSSTransition): ICSSTransition {
-        value = value || {};
-        value.animationFunction = "cubic-bezier(.4, 0, .6, 1)";
-        return value;
-    }
+	export function animationExit(value: ICSSTransition): ICSSTransition {
+		value = value || {};
+		value.animationFunction = "cubic-bezier(.4, 0, .6, 1)";
+		return value;
+	}
 
     /**
      * CSS Rules to fit the element into its parent element.
@@ -350,18 +350,18 @@ export namespace CSS {
      * @param {boolean} [stretch]
      * @returns {IStyleSet}
      */
-    export function makeFit(absolute?: boolean, stretch?: boolean): IStyleSet {
-        const size: string = stretch === false ? null : "100%";
-        return {
-            position: absolute === false ? null : "absolute",
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-            width: size,
-            height: size
-        };
-    }
+	export function makeFit(absolute?: boolean, stretch?: boolean): IStyleSet {
+		const size: string = stretch === false ? null : "100%";
+		return {
+			position: absolute === false ? null : "absolute",
+			top: 0,
+			right: 0,
+			bottom: 0,
+			left: 0,
+			width: size,
+			height: size
+		};
+	}
 }
 
 /**
@@ -373,5 +373,5 @@ export namespace CSS {
  * @returns
  */
 export function stylesheet(rules: CSSRule | CSSRule[]) {
-    return new Sheet(rules);
+	return new Sheet(rules);
 }

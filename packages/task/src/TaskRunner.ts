@@ -22,7 +22,7 @@ export interface ITaskRunnerConfig extends IComponentConfig {
      * @type {boolean}
      * @memberof ITaskRunnerConfig
      */
-    stopAtErrors: boolean;
+	stopAtErrors: boolean;
 }
 
 /**
@@ -39,7 +39,7 @@ export class TaskRunner extends Component {
      * @type {ITaskRunnerConfig}
      * @memberof TaskRunner
      */
-    protected config: ITaskRunnerConfig;
+	protected config: ITaskRunnerConfig;
     /**
      * A queue/list of task to be run.
      *
@@ -47,19 +47,19 @@ export class TaskRunner extends Component {
      * @type {Array<TFunction>}
      * @memberof TaskRunner
      */
-    protected taskQueue: TFunction[] = [];
+	protected taskQueue: TFunction[] = [];
 
     /**
      * Creates an instance of TaskRunner.
      * @param {ITaskRunnerConfig} [config]
      * @memberof TaskRunner
      */
-    public constructor(config?: ITaskRunnerConfig) {
-        super(config);
-        this.configDefaults({
-            stopAtErrors: false
-        } as ITaskRunnerConfig);
-    }
+	public constructor(config?: ITaskRunnerConfig) {
+		super(config);
+		this.configDefaults({
+			stopAtErrors: false
+		} as ITaskRunnerConfig);
+	}
 
     /**
      * Adds a task to the tasks queue.
@@ -68,13 +68,13 @@ export class TaskRunner extends Component {
      * @returns {this}
      * @memberof TaskRunner
      */
-    public addTask(task: TTask): this {
-        const me = this;
-        me.taskQueue.push((done: (stop: boolean) => void) => {
-            task(done);
-        });
-        return me;
-    }
+	public addTask(task: TTask): this {
+		const me = this;
+		me.taskQueue.push((done: (stop: boolean) => void) => {
+			task(done);
+		});
+		return me;
+	}
 
     /**
      * Creates a sequential chain of functions containing
@@ -86,20 +86,20 @@ export class TaskRunner extends Component {
      * @returns {TFunction}
      * @memberof TaskRunner
      */
-    protected chainTask(task: TTask, chain: (stop: boolean) => void): TFunction {
-        const me = this;
-        return (stopChain: boolean) => {
-            if (me.config.stopAtErrors) {
-                if (stopChain !== true) {
-                    task(chain);
-                } else {
-                    chain(stopChain);
-                }
-            } else {
-                task(chain);
-            }
-        };
-    }
+	protected chainTask(task: TTask, chain: (stop: boolean) => void): TFunction {
+		const me = this;
+		return (stopChain: boolean) => {
+			if (me.config.stopAtErrors) {
+				if (stopChain !== true) {
+					task(chain);
+				} else {
+					chain(stopChain);
+				}
+			} else {
+				task(chain);
+			}
+		};
+	}
 
     /**
      * Runs a tasks queue and finally calls the `done` callback
@@ -108,25 +108,25 @@ export class TaskRunner extends Component {
      * @memberof TaskRunner
      */
 
-    public run(done?: TFunction) {
-        const me = this;
-        done = done || (() => {});
+	public run(done?: TFunction) {
+		const me = this;
+		done = done || (() => { });
 
-        let chain: TFunction = () => {
-            done();
-        };
+		let chain: TFunction = () => {
+			done();
+		};
 
-        // Adds the `done` function as the last task
-        me.addTask((doneTask: TFunction) => {
-            doneTask();
-        });
+		// Adds the `done` function as the last task
+		me.addTask((doneTask: TFunction) => {
+			doneTask();
+		});
 
-        // creates a method chain
-        me.taskQueue.reverse().forEach((item: TTask) => {
-            chain = me.chainTask(item, chain as any);
-        });
+		// creates a method chain
+		me.taskQueue.reverse().forEach((item: TTask) => {
+			chain = me.chainTask(item, chain as any);
+		});
 
-        // run the chain
-        chain();
-    }
+		// run the chain
+		chain();
+	}
 }
