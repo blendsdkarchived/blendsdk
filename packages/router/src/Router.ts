@@ -10,8 +10,8 @@ import { RouterPath } from "./Path";
  * @enum {number}
  */
 export enum eRouterEvents {
-    onRouteChanged = "onRouteChanged",
-    hashchange = "hashchange"
+	onRouteChanged = "onRouteChanged",
+	hashchange = "hashchange"
 }
 
 /**
@@ -28,7 +28,7 @@ export interface IRouterEvents {
      * @type {TComponentEvent}
      * @memberof IRouterEvents
      */
-    onRouteChanged?: TComponentEvent;
+	onRouteChanged?: TComponentEvent;
 }
 
 /**
@@ -44,28 +44,28 @@ export interface IRouteItemConfig {
      * @type {(string | Blend.router.Path)}
      * @memberof IRouteItemConfig
      */
-    path: string | RouterPath;
+	path: string | RouterPath;
     /**
      * Option to configure a name for the route.
      *
      * @type {string}
      * @memberof IRouteItemConfig
      */
-    name?: string;
+	name?: string;
     /**
      *  TODO:1112 Document this config option.
      *
      * @type {(string | Array<string>)}
      * @memberof IRouteItemConfig
      */
-    dispatch?: string | string[];
+	dispatch?: string | string[];
     /**
      * Option to configure default values for this route.
      *
      * @type {IDictionary}
      * @memberof IRouteItemConfig
      */
-    defaults?: IDictionary;
+	defaults?: IDictionary;
 }
 
 /**
@@ -81,14 +81,14 @@ export interface IRouterConfig extends IMVCComponentConfig, IRouterEvents {
      * @type {(IRouteItemConfig | Array<IRouteItemConfig>)}
      * @memberof IRouterConfig
      */
-    routes?: IRouteItemConfig | IRouteItemConfig[];
+	routes?: IRouteItemConfig | IRouteItemConfig[];
     /**
      * Option to configure the default route for this Router.
      *
      * @type {string}
      * @memberof IRouterConfig
      */
-    defaultRoute?: string;
+	defaultRoute?: string;
 }
 
 /**
@@ -105,7 +105,7 @@ export class Router extends MVCComponent {
      * @type {IRouterConfig}
      * @memberof Router
      */
-    protected config: IRouterConfig;
+	protected config: IRouterConfig;
     /**
      * Internal collection of routes withing this Router.
      *
@@ -113,7 +113,7 @@ export class Router extends MVCComponent {
      * @type {Array<Blend.router.Path>}
      * @memberof Router
      */
-    protected routes: IRouteItemConfig[];
+	protected routes: IRouteItemConfig[];
     /**
      * Reference to the parameters of the current route.
      *
@@ -121,19 +121,19 @@ export class Router extends MVCComponent {
      * @type {IDictionary}
      * @memberof Path
      */
-    protected currentRouteParams: IDictionary;
+	protected currentRouteParams: IDictionary;
 
     /**
      * Creates an instance of Router.
      * @param {IRouterConfig} [config]
      * @memberof Router
      */
-    public constructor(config?: IRouterConfig) {
-        super(config);
-        const me = this;
-        me.configDefaults({} as IRouterConfig);
-        me.routes = [];
-    }
+	public constructor(config?: IRouterConfig) {
+		super(config);
+		const me = this;
+		me.configDefaults({} as IRouterConfig);
+		me.routes = [];
+	}
 
     /**
      * Returns the parameters of the currently matched Path.
@@ -142,27 +142,27 @@ export class Router extends MVCComponent {
      * @returns {T}
      * @memberof Path
      */
-    public getCurrentParameters<T extends IDictionary>(): T {
-        return (this.currentRouteParams || {}) as T;
-    }
+	public getCurrentParameters<T extends IDictionary>(): T {
+		return (this.currentRouteParams || {}) as T;
+	}
 
     /**
      * @override
      * @memberof Router
      */
-    public initComponent() {
-        const me = this;
-        me.addRoute(me.config.routes);
-        me.config.routes = null; // free some memory
-        SystemEvents.defineEvent(eRouterEvents.onRouteChanged);
-        window.addEventListener(eRouterEvents.hashchange, () => {
-            me.doRoute(me.getHash());
-        });
-        me.addEventListener(eBrowserEvents.onApplicationReady, (sender: any) => {
-            me.doRoute(me.getHash());
-        });
-        super.initComponent();
-    }
+	public initComponent() {
+		const me = this;
+		me.addRoute(me.config.routes);
+		me.config.routes = null; // free some memory
+		SystemEvents.defineEvent(eRouterEvents.onRouteChanged);
+		window.addEventListener(eRouterEvents.hashchange, () => {
+			me.doRoute(me.getHash());
+		});
+		me.addEventListener(eBrowserEvents.onApplicationReady, (sender: any) => {
+			me.doRoute(me.getHash());
+		});
+		super.initComponent();
+	}
 
     /**
      * Get the current hash
@@ -171,9 +171,9 @@ export class Router extends MVCComponent {
      * @returns {string}
      * @memberof Router
      */
-    protected getHash(): string {
-        return window.location.hash.substring(1);
-    }
+	protected getHash(): string {
+		return window.location.hash.substring(1);
+	}
 
     /**
      * Applies default values to the matched parameters.
@@ -184,10 +184,10 @@ export class Router extends MVCComponent {
      * @returns
      * @memberof Router
      */
-    protected applyDefaults(match: IDictionary, defaults: IDictionary) {
-        // TODO:1113 Add the `lang`
-        return Blend.apply(match, defaults || {});
-    }
+	protected applyDefaults(match: IDictionary, defaults: IDictionary) {
+		// TODO:1113 Add the `lang`
+		return Blend.apply(match, defaults || {});
+	}
 
     /**
      * Perform a route operation and dispatches the `onRouteChanged` or the
@@ -197,33 +197,33 @@ export class Router extends MVCComponent {
      * @param {string} hash
      * @memberof Router
      */
-    protected doRoute(hash: string) {
-        const me = this;
-        let routed: boolean = false;
-        me.routes.forEach((route: IRouteItemConfig) => {
-            if (!routed) {
-                let match: IDictionary = (route.path as RouterPath).match(hash);
-                if (match) {
-                    match = me.applyDefaults(match, route.defaults);
-                    routed = true;
-                    me.currentRouteParams = match;
-                    Blend.wrapInArray(route.dispatch || eRouterEvents.onRouteChanged).forEach(handler => {
-                        me.dispatchHashChange(handler as string, match, route);
-                    });
-                }
-            }
-        });
-        // Here we check and set the default route if none is provided.
-        if (!me.config.defaultRoute && me.routes.length !== 0) {
-            me.setDefaultRoute(me.routes[0].name);
-        }
-        if (!routed && me.config.defaultRoute) {
-            const defRoute = me.findRouteByName(me.config.defaultRoute);
-            if (defRoute) {
-                me.navigateTo(defRoute.name, defRoute.defaults || {});
-            }
-        }
-    }
+	protected doRoute(hash: string) {
+		const me = this;
+		let routed: boolean = false;
+		me.routes.forEach((route: IRouteItemConfig) => {
+			if (!routed) {
+				let match: IDictionary = (route.path as RouterPath).match(hash);
+				if (match) {
+					match = me.applyDefaults(match, route.defaults);
+					routed = true;
+					me.currentRouteParams = match;
+					Blend.wrapInArray(route.dispatch || eRouterEvents.onRouteChanged).forEach(handler => {
+						me.dispatchHashChange(handler as string, match, route);
+					});
+				}
+			}
+		});
+		// Here we check and set the default route if none is provided.
+		if (!me.config.defaultRoute && me.routes.length !== 0) {
+			me.setDefaultRoute(me.routes[0].name);
+		}
+		if (!routed && me.config.defaultRoute) {
+			const defRoute = me.findRouteByName(me.config.defaultRoute);
+			if (defRoute) {
+				me.navigateTo(defRoute.name, defRoute.defaults || {});
+			}
+		}
+	}
 
     /**
      * Sets the default route.
@@ -231,9 +231,9 @@ export class Router extends MVCComponent {
      * @param {string} name
      * @memberof Router
      */
-    public setDefaultRoute(name: string) {
-        this.config.defaultRoute = name;
-    }
+	public setDefaultRoute(name: string) {
+		this.config.defaultRoute = name;
+	}
 
     /**
      * Finds a route by its name.
@@ -243,16 +243,16 @@ export class Router extends MVCComponent {
      * @returns {IRouteItemConfig}
      * @memberof Router
      */
-    protected findRouteByName(name: string): IRouteItemConfig {
-        const me = this;
-        let result: IRouteItemConfig = null;
-        me.routes.forEach((route: IRouteItemConfig) => {
-            if (result === null && name.toLocaleLowerCase() === route.name.toLocaleLowerCase()) {
-                result = route;
-            }
-        });
-        return result;
-    }
+	protected findRouteByName(name: string): IRouteItemConfig {
+		const me = this;
+		let result: IRouteItemConfig = null;
+		me.routes.forEach((route: IRouteItemConfig) => {
+			if (result === null && name.toLocaleLowerCase() === route.name.toLocaleLowerCase()) {
+				result = route;
+			}
+		});
+		return result;
+	}
 
     /**
      * Generates a URL based on a given route name.
@@ -262,16 +262,16 @@ export class Router extends MVCComponent {
      * @returns {string}
      * @memberof Router
      */
-    public generateUrl(routeName: string, params: IDictionary): string {
-        const me = this,
-            route = me.findRouteByName(routeName);
-        if (route) {
-            const path = (route.path as RouterPath).generate(params);
-            return `${window.location.href.split("#")[0]}#${path}`;
-        } else {
-            return null;
-        }
-    }
+	public generateUrl(routeName: string, params: IDictionary): string {
+		const me = this,
+			route = me.findRouteByName(routeName);
+		if (route) {
+			const path = (route.path as RouterPath).generate(params);
+			return `${window.location.href.split("#")[0]}#${path}`;
+		} else {
+			return null;
+		}
+	}
 
     /**
      * Cause the browser to navigate to a new url using a given
@@ -281,13 +281,13 @@ export class Router extends MVCComponent {
      * @param {IDictionary} params
      * @memberof Router
      */
-    public navigateTo(routeName: string, params: IDictionary) {
-        const me = this,
-            url = me.generateUrl(routeName, params);
-        if (url) {
-            window.location.href = url;
-        }
-    }
+	public navigateTo(routeName: string, params: IDictionary) {
+		const me = this,
+			url = me.generateUrl(routeName, params);
+		if (url) {
+			window.location.href = url;
+		}
+	}
 
     /**
      * Dispatches a given event when the window location hash is changed.
@@ -297,9 +297,9 @@ export class Router extends MVCComponent {
      * @param {*} params
      * @memberof Router
      */
-    protected dispatchHashChange(eventName: string, params: any, routeConfig: IRouteItemConfig) {
-        SystemEvents.dispatchEvent(eventName, [params, routeConfig]);
-    }
+	protected dispatchHashChange(eventName: string, params: any, routeConfig: IRouteItemConfig) {
+		SystemEvents.dispatchEvent(eventName, [params, routeConfig]);
+	}
 
     /**
      * Adds a route to this router
@@ -307,22 +307,22 @@ export class Router extends MVCComponent {
      * @param {(IRouteItemConfig | Array<IRouteItemConfig>)} path
      * @memberof Router
      */
-    public addRoute(path: IRouteItemConfig | IRouteItemConfig[]) {
-        const me = this;
-        Blend.wrapInArray(path).forEach((pItem: IRouteItemConfig) => {
-            if (Blend.isString(pItem.path)) {
-                let pt: string = ((pItem.path || "") as any).trim();
-                if (pt === "") {
-                    pt = "/";
-                }
-                pItem.path = new RouterPath({ path: pt });
-            }
-            Blend.wrapInArray(pItem.dispatch || []).forEach((dpItem: string) => {
-                if (Blend.isString(dpItem)) {
-                    SystemEvents.defineEvent(dpItem);
-                }
-            });
-            me.routes.push(pItem);
-        });
-    }
+	public addRoute(path: IRouteItemConfig | IRouteItemConfig[]) {
+		const me = this;
+		Blend.wrapInArray(path).forEach((pItem: IRouteItemConfig) => {
+			if (Blend.isString(pItem.path)) {
+				let pt: string = ((pItem.path || "") as any).trim();
+				if (pt === "") {
+					pt = "/";
+				}
+				pItem.path = new RouterPath({ path: pt });
+			}
+			Blend.wrapInArray(pItem.dispatch || []).forEach((dpItem: string) => {
+				if (Blend.isString(dpItem)) {
+					SystemEvents.defineEvent(dpItem);
+				}
+			});
+			me.routes.push(pItem);
+		});
+	}
 }

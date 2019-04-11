@@ -5,12 +5,12 @@
  * @enum {number}
  */
 export enum eBrowserType {
-    Chrome = "chrome",
-    FireFox = "firefox",
-    Safari = "safari",
-    MSIE = "msie",
-    Edge = "edge",
-    Unsupported = "unsupported"
+	Chrome = "chrome",
+	FireFox = "firefox",
+	Safari = "safari",
+	MSIE = "msie",
+	Edge = "edge",
+	Unsupported = "unsupported"
 }
 
 /**
@@ -20,29 +20,29 @@ export enum eBrowserType {
  * @interface IDeviceInformation
  */
 export interface IDeviceInfo {
-    iOS: boolean;
-    AndroidOS: boolean;
-    AndroidStock: boolean;
-    IEMobile: boolean;
-    Chrome: boolean;
-    Safari: boolean;
-    Firefox: boolean;
-    Opera: boolean;
-    Yandex: boolean;
-    UCBrowser: boolean;
-    Cordova: boolean;
-    Electron: boolean;
-    Windows: boolean;
-    Linux: boolean;
-    OSX: boolean;
-    iPhone: boolean;
-    iPad: boolean;
-    iPod: boolean;
-    Edge: boolean;
-    IE: boolean;
-    Unsupported: boolean;
-    Device: boolean;
-    Desktop: boolean;
+	iOS: boolean;
+	AndroidOS: boolean;
+	AndroidStock: boolean;
+	IEMobile: boolean;
+	Chrome: boolean;
+	Safari: boolean;
+	Firefox: boolean;
+	Opera: boolean;
+	Yandex: boolean;
+	UCBrowser: boolean;
+	Cordova: boolean;
+	Electron: boolean;
+	Windows: boolean;
+	Linux: boolean;
+	OSX: boolean;
+	iPhone: boolean;
+	iPad: boolean;
+	iPod: boolean;
+	Edge: boolean;
+	IE: boolean;
+	Unsupported: boolean;
+	Device: boolean;
+	Desktop: boolean;
 }
 
 /**
@@ -80,7 +80,7 @@ export class DeviceInfoSingleton {
      * @type {string}
      * @memberof DeviceInformation
      */
-    protected userAgent: string;
+	protected userAgent: string;
     /**
      * The current browser type;
      *
@@ -88,18 +88,18 @@ export class DeviceInfoSingleton {
      * @type {string}
      * @memberof DeviceInfoSingleton
      */
-    protected browserType: eBrowserType;
+	protected browserType: eBrowserType;
 
-    public constructor(nav?: Navigator) {
-        const me = this;
-        nav = nav || navigator;
-        me.userAgent = "";
-        if (nav) {
-            if (nav.userAgent) {
-                me.userAgent = nav.userAgent;
-            }
-        }
-    }
+	public constructor(nav?: Navigator) {
+		const me = this;
+		nav = nav || navigator;
+		me.userAgent = "";
+		if (nav) {
+			if (nav.userAgent) {
+				me.userAgent = nav.userAgent;
+			}
+		}
+	}
 
     /**
      * Get the current device information by tokenizing and recognizing
@@ -108,110 +108,110 @@ export class DeviceInfoSingleton {
      * @returns {IDeviceInfo}
      * @memberof DeviceInformation
      */
-    public getInformation(): IDeviceInfo {
-        const me = this,
-            // Look for 'Chrome'
-            chrome = /\bChrome\b|\bCriOS\b/.test(me.userAgent),
-            // Look for 'Macintosh'
-            macintosh = /\bMacintosh\b/.test(me.userAgent),
-            // Look for 'OS X'
-            osx = /OS\ X/.test(me.userAgent),
-            // Look for Firefox or FxiOS
-            firefox = /\bFirefox\b|\bFxiOS\b/.test(me.userAgent),
-            // Look for 'Safari'
-            safari = /\bSafari\b/.test(me.userAgent),
-            // Look for 'Opera'
-            opera = /\bOPR\b/.test(me.userAgent),
-            // Look for 'YaBrowser'
-            yandex = /\bYaBrowser\b/.test(me.userAgent),
-            // Look for 'iPhone'
-            iphone = /\biPhone\b/.test(me.userAgent),
-            // Look for 'iPad'
-            ipad = /\biPad\b/.test(me.userAgent),
-            // Look for 'iPod'
-            ipod = /\biPod\b/.test(me.userAgent),
-            // Look for 'UCBrowser' (from China)
-            ucbrowser = /\bUCBrowser\b/.test(me.userAgent),
-            // Look for 'Android'
-            // tslint:disable-next-line:variable-name
-            _androidos = /\bAndroid\b/.test(me.userAgent),
-            // Look for 'Linux'
-            linux = /\bLinux\b/.test(me.userAgent),
-            // Look for 'Tablet'
-            tablet = /\bTablet\b/.test(me.userAgent),
-            // Look for 'Mobile'
-            mobile = /\bMobile\b/.test(me.userAgent),
-            // Look for 'Silk-Accelerated' (Amazon Kindle)
-            slickacc = /\bSilk\-Accelerated\b/.test(me.userAgent),
-            // Calculate Android OS
-            androidos =
-                (_androidos && linux) || (_androidos && tablet) || (_androidos && mobile) || (linux && slickacc),
-            // Look for 'Windows NT'
-            windows = /\bWindows\ NT\b/.test(me.userAgent),
-            // Look for 'Trident'
-            trident = /\bTrident\b/.test(me.userAgent),
-            // Look for 'rev:11' or IE11
-            rev11 = /\brv\:11\b/.test(me.userAgent),
-            // Look for 'MSIE'
-            msie = /\bMSIE\b/.test(me.userAgent),
-            // Look for 'Edge'
-            edge = /\bEdge\b/.test(me.userAgent),
-            // Look for 'IEMobile'
-            iemobile = /\bIEMobile\b/.test(me.userAgent),
-            // Look for 'Windows Phone'
-            winphone = /\bWindows\ Phone\b/.test(me.userAgent),
-            // Canculate for MS Phone or Windows Phone
-            msphone = iemobile || winphone,
-            cordova = !!(window as any).cordova,
-            electron = me.isElectron();
+	public getInformation(): IDeviceInfo {
+		const me = this,
+			// Look for 'Chrome'
+			chrome = /\bChrome\b|\bCriOS\b/.test(me.userAgent),
+			// Look for 'Macintosh'
+			macintosh = /\bMacintosh\b/.test(me.userAgent),
+			// Look for 'OS X'
+			osx = /OS\ X/.test(me.userAgent),
+			// Look for Firefox or FxiOS
+			firefox = /\bFirefox\b|\bFxiOS\b/.test(me.userAgent),
+			// Look for 'Safari'
+			safari = /\bSafari\b/.test(me.userAgent),
+			// Look for 'Opera'
+			opera = /\bOPR\b/.test(me.userAgent),
+			// Look for 'YaBrowser'
+			yandex = /\bYaBrowser\b/.test(me.userAgent),
+			// Look for 'iPhone'
+			iphone = /\biPhone\b/.test(me.userAgent),
+			// Look for 'iPad'
+			ipad = /\biPad\b/.test(me.userAgent),
+			// Look for 'iPod'
+			ipod = /\biPod\b/.test(me.userAgent),
+			// Look for 'UCBrowser' (from China)
+			ucbrowser = /\bUCBrowser\b/.test(me.userAgent),
+			// Look for 'Android'
+			// tslint:disable-next-line:variable-name
+			_androidos = /\bAndroid\b/.test(me.userAgent),
+			// Look for 'Linux'
+			linux = /\bLinux\b/.test(me.userAgent),
+			// Look for 'Tablet'
+			tablet = /\bTablet\b/.test(me.userAgent),
+			// Look for 'Mobile'
+			mobile = /\bMobile\b/.test(me.userAgent),
+			// Look for 'Silk-Accelerated' (Amazon Kindle)
+			slickacc = /\bSilk\-Accelerated\b/.test(me.userAgent),
+			// Calculate Android OS
+			androidos =
+				(_androidos && linux) || (_androidos && tablet) || (_androidos && mobile) || (linux && slickacc),
+			// Look for 'Windows NT'
+			windows = /\bWindows\ NT\b/.test(me.userAgent),
+			// Look for 'Trident'
+			trident = /\bTrident\b/.test(me.userAgent),
+			// Look for 'rev:11' or IE11
+			rev11 = /\brv\:11\b/.test(me.userAgent),
+			// Look for 'MSIE'
+			msie = /\bMSIE\b/.test(me.userAgent),
+			// Look for 'Edge'
+			edge = /\bEdge\b/.test(me.userAgent),
+			// Look for 'IEMobile'
+			iemobile = /\bIEMobile\b/.test(me.userAgent),
+			// Look for 'Windows Phone'
+			winphone = /\bWindows\ Phone\b/.test(me.userAgent),
+			// Canculate for MS Phone or Windows Phone
+			msphone = iemobile || winphone,
+			cordova = !!(window as any).cordova,
+			electron = me.isElectron();
         /**
          * Combine the tokens and return the IDeviceInformation
          */
-        const result: IDeviceInfo = {
-            iOS: iphone || ipad || ipod,
-            // tslint:disable-next-line:object-literal-sort-keys
-            AndroidOS: androidos && !msphone,
-            AndroidStock: (androidos && linux && safari && !chrome) || (linux && slickacc) /* Amazon Kindle */,
-            IEMobile: msphone && !msie,
-            Chrome: (chrome && !opera && !yandex && !edge && !msphone) || cordova || electron,
-            Safari: safari && !chrome && !opera && !firefox && !_androidos && !linux,
-            Firefox: firefox,
-            Cordova: cordova,
-            Opera: opera,
-            Yandex: yandex,
-            UCBrowser: ucbrowser,
-            Electron: electron,
-            Windows: windows || winphone,
-            Linux: linux && !androidos && !msphone,
-            OSX: macintosh && osx && !msphone,
-            iPhone: iphone,
-            iPad: ipad,
-            iPod: ipod,
-            Edge: edge && !msphone,
-            IE: !msie && windows && trident && rev11,
-            Unsupported: msie,
-            Desktop: false,
-            Device: false
-        };
-        result.Device = !msie && (result.iOS || result.AndroidOS || result.AndroidStock || winphone || msphone);
-        result.Desktop = !result.Device;
+		const result: IDeviceInfo = {
+			iOS: iphone || ipad || ipod,
+			// tslint:disable-next-line:object-literal-sort-keys
+			AndroidOS: androidos && !msphone,
+			AndroidStock: (androidos && linux && safari && !chrome) || (linux && slickacc) /* Amazon Kindle */,
+			IEMobile: msphone && !msie,
+			Chrome: (chrome && !opera && !yandex && !edge && !msphone) || cordova || electron,
+			Safari: safari && !chrome && !opera && !firefox && !_androidos && !linux,
+			Firefox: firefox,
+			Cordova: cordova,
+			Opera: opera,
+			Yandex: yandex,
+			UCBrowser: ucbrowser,
+			Electron: electron,
+			Windows: windows || winphone,
+			Linux: linux && !androidos && !msphone,
+			OSX: macintosh && osx && !msphone,
+			iPhone: iphone,
+			iPad: ipad,
+			iPod: ipod,
+			Edge: edge && !msphone,
+			IE: !msie && windows && trident && rev11,
+			Unsupported: msie,
+			Desktop: false,
+			Device: false
+		};
+		result.Device = !msie && (result.iOS || result.AndroidOS || result.AndroidStock || winphone || msphone);
+		result.Desktop = !result.Device;
 
-        if (result.Chrome || result.Opera || result.Yandex || result.UCBrowser) {
-            me.browserType = eBrowserType.Chrome;
-        } else if (result.IE) {
-            me.browserType = eBrowserType.MSIE;
-        } else if (result.Safari) {
-            me.browserType = eBrowserType.Safari;
-        } else if (result.Edge) {
-            me.browserType = eBrowserType.Edge;
-        } else if (result.Firefox) {
-            me.browserType = eBrowserType.FireFox;
-        } else {
-            me.browserType = eBrowserType.Unsupported;
-        }
+		if (result.Chrome || result.Opera || result.Yandex || result.UCBrowser) {
+			me.browserType = eBrowserType.Chrome;
+		} else if (result.IE) {
+			me.browserType = eBrowserType.MSIE;
+		} else if (result.Safari) {
+			me.browserType = eBrowserType.Safari;
+		} else if (result.Edge) {
+			me.browserType = eBrowserType.Edge;
+		} else if (result.Firefox) {
+			me.browserType = eBrowserType.FireFox;
+		} else {
+			me.browserType = eBrowserType.Unsupported;
+		}
 
-        return result;
-    }
+		return result;
+	}
 
     /**
      * Gets the current browser type.
@@ -219,11 +219,11 @@ export class DeviceInfoSingleton {
      * @returns {string}
      * @memberof DeviceInfoSingleton
      */
-    public getBrowserType(): string {
-        const me = this;
-        me.getInformation();
-        return this.browserType;
-    }
+	public getBrowserType(): string {
+		const me = this;
+		me.getInformation();
+		return this.browserType;
+	}
 
     /**
      * Detects is we are running inside an Electron shell
@@ -233,25 +233,25 @@ export class DeviceInfoSingleton {
      * @memberof DeviceInformation
      * @license https://github.com/cheton/is-electron (MIT) Original source is modified!
      */
-    protected isElectron(): boolean {
-        const me = this;
-        // Renderer process
-        if (window && (window as any).process && (window as any).process.type === "renderer") {
-            return true;
-        }
+	protected isElectron(): boolean {
+		const me = this;
+		// Renderer process
+		if (window && (window as any).process && (window as any).process.type === "renderer") {
+			return true;
+		}
 
-        // Main process
-        if (typeof process !== "undefined" && process.versions && !!(process as any).versions.electron) {
-            return true;
-        }
+		// Main process
+		if (typeof process !== "undefined" && process.versions && !!(process as any).versions.electron) {
+			return true;
+		}
 
-        // Detect the user agent when the `nodeIntegration` option is set to true
-        if (me.userAgent.indexOf("Electron") >= 0) {
-            return true;
-        }
+		// Detect the user agent when the `nodeIntegration` option is set to true
+		if (me.userAgent.indexOf("Electron") >= 0) {
+			return true;
+		}
 
-        return false;
-    }
+		return false;
+	}
 }
 
 export const DeviceInfo: DeviceInfoSingleton = new DeviceInfoSingleton();

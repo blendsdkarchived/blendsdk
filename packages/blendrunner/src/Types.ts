@@ -13,11 +13,11 @@ export type TFunction = (...args) => any;
  * @interface IBrowserWindowConfig
  */
 export interface IBrowserWindowConfig {
-    width?: number;
-    height?: number;
-    center?: boolean;
-    top?: number;
-    left?: number;
+	width?: number;
+	height?: number;
+	center?: boolean;
+	top?: number;
+	left?: number;
 }
 
 /**
@@ -27,15 +27,15 @@ export interface IBrowserWindowConfig {
  * @interface ILogProvider
  */
 export interface ILogProvider {
-    log(message?: any, ...optionalParams: any[]): any;
+	log(message?: any, ...optionalParams: any[]): any;
 }
 
 export interface IDescribeProvider extends ILogProvider {
-    describe(specName: string, specTFunction: (t: ITestDescription) => any): any;
-    before(callable: (t: IFinishable) => any): any;
-    after(callable: (t: IFinishable) => any): any;
-    afterEach(callable: (t: IFinishable) => any): any;
-    beforeEach(callable: (t: IFinishable) => any): any;
+	describe(specName: string, specTFunction: (t: ITestDescription) => any): any;
+	before(callable: (t: IFinishable) => any): any;
+	after(callable: (t: IFinishable) => any): any;
+	afterEach(callable: (t: IFinishable) => any): any;
+	beforeEach(callable: (t: IFinishable) => any): any;
 }
 
 /**
@@ -44,17 +44,17 @@ export interface IDescribeProvider extends ILogProvider {
  * @interface ITestDescription
  */
 export interface ITestDescription {
-    it(testName: string, testFn: (t: IAssertionProvider) => any): any;
-    inBrowser(
-        name: string,
-        url: string,
-        remoteGlobalTFunction?: string | TFunction,
-        windowConfig?: IBrowserWindowConfig
-    ): any;
-    before(beforeFn: (t: IFinishable) => any): any;
-    after(afterFn: (t: IFinishable) => any): any;
-    beforeEach(beforeEachFn: (t: IFinishable) => any): any;
-    afterEach(afterEachFn: (t: IFinishable) => any): any;
+	it(testName: string, testFn: (t: IAssertionProvider) => any): any;
+	inBrowser(
+		name: string,
+		url: string,
+		remoteGlobalTFunction?: string | TFunction,
+		windowConfig?: IBrowserWindowConfig
+	): any;
+	before(beforeFn: (t: IFinishable) => any): any;
+	after(afterFn: (t: IFinishable) => any): any;
+	beforeEach(beforeEachFn: (t: IFinishable) => any): any;
+	afterEach(afterEachFn: (t: IFinishable) => any): any;
 }
 
 /**
@@ -64,8 +64,8 @@ export interface ITestDescription {
  * @interface IFinishable
  */
 export interface IFinishable extends ILogProvider {
-    done(): any;
-    setTimeout(about: number): any;
+	done(): any;
+	setTimeout(about: number): any;
 }
 
 /**
@@ -74,15 +74,15 @@ export interface IFinishable extends ILogProvider {
  * @interface IAssertionProvider
  */
 export interface IAssertionProvider extends IFinishable {
-    assertTrue(actual: any, description?: string): boolean;
-    assertFalse(actual: any, description?: string): boolean;
-    assertExists(actual: any, description?: string): boolean;
-    assertNotExists(actual: any, description?: string): boolean;
-    assertEqual(actual: any, expected: any, description?: string): boolean;
-    assertNotEqual(actual: any, expected: any, description?: string): boolean;
-    assertThrows(action: TFunction, criteria?: TFunction, description?: string): boolean;
-    assertImage(actual: HTMLElement, expected: string, done: TFunction, tolerance?: number, description?: string): any;
-    delay(ms: number, callback: TFunction, scope?: any): void;
+	assertTrue(actual: any, description?: string): boolean;
+	assertFalse(actual: any, description?: string): boolean;
+	assertExists(actual: any, description?: string): boolean;
+	assertNotExists(actual: any, description?: string): boolean;
+	assertEqual(actual: any, expected: any, description?: string): boolean;
+	assertNotEqual(actual: any, expected: any, description?: string): boolean;
+	assertThrows(action: TFunction, criteria?: TFunction, description?: string): boolean;
+	assertImage(actual: HTMLElement, expected: string, done: TFunction, tolerance?: number, description?: string): any;
+	delay(ms: number, callback: TFunction, scope?: any): void;
 }
 
 /**
@@ -91,12 +91,12 @@ export interface IAssertionProvider extends IFinishable {
  * @interface IAssertLog
  */
 export interface IAssertLog {
-    name?: string;
-    actual: any;
-    expected: any;
-    status: string;
-    log: string;
-    imageDiff: IDiffImageResult;
+	name?: string;
+	actual: any;
+	expected: any;
+	status: string;
+	log: string;
+	imageDiff: IDiffImageResult;
 }
 /**
  * Interface for configuring a key/value dictionary
@@ -104,7 +104,7 @@ export interface IAssertLog {
  * @interface IDictionary
  */
 export interface IDictionary {
-    [key: string]: any;
+	[key: string]: any;
 }
 
 /**
@@ -113,13 +113,13 @@ export interface IDictionary {
  * @interface ICallable
  */
 export interface ICallable {
-    name: string;
-    fn: (t: IFinishable) => any;
-    duration?: number;
-    numAsserts?: number;
-    numPassed?: number;
-    numFailed?: number;
-    assertLog?: IAssertLog[];
+	name: string;
+	fn: (t: IFinishable) => any;
+	duration?: number;
+	numAsserts?: number;
+	numPassed?: number;
+	numFailed?: number;
+	assertLog?: IAssertLog[];
 }
 
 /**
@@ -128,23 +128,23 @@ export interface ICallable {
  * @interface ITestSpecification
  */
 export interface ITestSpecification {
-    name: string;
-    beforeFn: ICallable;
-    beforeStatus?: string;
-    afterStatus?: string;
-    afterFn: ICallable;
-    beforeEachFn: ICallable;
-    afterEachFn: ICallable;
-    beforeEachStatus?: string;
-    afterEachStatus?: string;
-    testSpecs: ITestSpecDictionary;
-    duration?: number;
-    numAsserts?: number;
-    numAssertsPassed?: number;
-    numAssertsFailed?: number;
-    numTests?: number;
-    numTestsPassed?: number;
-    numTestsFailed?: number;
+	name: string;
+	beforeFn: ICallable;
+	beforeStatus?: string;
+	afterStatus?: string;
+	afterFn: ICallable;
+	beforeEachFn: ICallable;
+	afterEachFn: ICallable;
+	beforeEachStatus?: string;
+	afterEachStatus?: string;
+	testSpecs: ITestSpecDictionary;
+	duration?: number;
+	numAsserts?: number;
+	numAssertsPassed?: number;
+	numAssertsFailed?: number;
+	numTests?: number;
+	numTestsPassed?: number;
+	numTestsFailed?: number;
 }
 
 /**
@@ -153,7 +153,7 @@ export interface ITestSpecification {
  * @interface ITestSpecDatabase
  */
 export interface ITestSpecDictionary {
-    [id: string]: ICallable;
+	[id: string]: ICallable;
 }
 
 /**
@@ -162,7 +162,7 @@ export interface ITestSpecDictionary {
  * @interface IEventDictionary
  */
 export interface IEventDictionary {
-    [name: string]: Array<{ scope: any; fn: TFunction }>;
+	[name: string]: Array<{ scope: any; fn: TFunction }>;
 }
 
 /**
@@ -172,13 +172,13 @@ export interface IEventDictionary {
  * @interface ITestQueue
  */
 export interface ITestQueue {
-    [specId: string]: string[];
+	[specId: string]: string[];
 }
 
 export enum eStatus {
-    EVENT_PROGRESS = "progress",
-    EVENT_ASSERT_STATUS = "assert_status",
-    EVENT_EXECUTION_STAGE_STATUS = "exe_stage_status"
+	EVENT_PROGRESS = "progress",
+	EVENT_ASSERT_STATUS = "assert_status",
+	EVENT_EXECUTION_STAGE_STATUS = "exe_stage_status"
 }
 
 /**
@@ -187,7 +187,7 @@ export enum eStatus {
  * @interface TSpecDatabase
  */
 export interface ISpecDictionary {
-    [id: string]: ITestSpecification;
+	[id: string]: ITestSpecification;
 }
 
 /**
@@ -196,11 +196,11 @@ export interface ISpecDictionary {
  * @interface TAssertStatus
  */
 export interface IAssertStatus {
-    stage: string;
-    spec: ITestSpecification;
-    test: ICallable;
-    testId: string;
-    specId: string;
+	stage: string;
+	spec: ITestSpecification;
+	test: ICallable;
+	testId: string;
+	specId: string;
 }
 
 /**
@@ -211,8 +211,8 @@ export interface IAssertStatus {
  * @extends {IAssertStatus}
  */
 export interface IExecutionStageStatus extends IAssertStatus {
-    status?: string;
-    error: Error;
+	status?: string;
+	error: Error;
 }
 
 /**
@@ -221,13 +221,13 @@ export interface IExecutionStageStatus extends IAssertStatus {
  * @interface IProgress
  */
 export interface IProgress {
-    description?: string;
-    pct?: number;
-    current?: number;
-    total?: number;
-    specId?: string;
-    testId?: string;
-    stage?: string;
+	description?: string;
+	pct?: number;
+	current?: number;
+	total?: number;
+	specId?: string;
+	testId?: string;
+	stage?: string;
 }
 
 /**
@@ -243,28 +243,28 @@ export interface ICreateElementConfig {
      * @type {string}
      * @memberOf ICreateElementConfig
      */
-    tag?: string;
+	tag?: string;
     /**
      * The id if the element .
      *
      * @type {string}
      * @memberOf ICreateElementConfig
      */
-    id?: string;
+	id?: string;
     /**
      * The reference id of the element .
      *
      * @type {string}
      * @memberOf ICreateElementConfig
      */
-    reference?: string;
+	reference?: string;
     /**
      * The text content (innerText) of the element .
      *
      * @type {string}
      * @memberOf ICreateElementConfig
      */
-    textContent?: string;
+	textContent?: string;
     /**
      * Utility method for adding, removing, and toggling CSS
      * classes on an HTMLElement.
@@ -282,21 +282,21 @@ export interface ICreateElementConfig {
      * @type {string}
      * @memberOf ICreateElementConfig
      */
-    htmlContent?: string;
+	htmlContent?: string;
     /**
      * The css class(es) of the element.
      *
      * @type {(string | Array<string>)}
      * @memberof ICreateElementConfig
      */
-    css?: string | string[];
+	css?: string | string[];
     /**
      * The inline styles of the element.
      *
      * @type {ICssInlineStyleRules}
      * @memberOf ICreateElementConfig
      */
-    style?: IDictionary;
+	style?: IDictionary;
     /**
      * The data attributes of the element.
      *
@@ -305,9 +305,9 @@ export interface ICreateElementConfig {
      *     }}
      * @memberOf ICreateElementConfig
      */
-    data?: {
-        [key: string]: any;
-    };
+	data?: {
+		[key: string]: any;
+	};
     /**
      * The attributes of the element.
      *
@@ -316,18 +316,18 @@ export interface ICreateElementConfig {
      *     }}
      * @memberOf ICreateElementConfig
      */
-    attrs?: {
-        [key: string]: any;
-    };
+	attrs?: {
+		[key: string]: any;
+	};
     /**
      * The element listeners of the element.
      *
      *
      * @memberOf ICreateElementConfig
      */
-    listeners?: {
-        [name: string]: EventListenerOrEventListenerObject;
-    };
+	listeners?: {
+		[name: string]: EventListenerOrEventListenerObject;
+	};
     /**
      * The children of the element. The `children` property
      * either accepts a single item or an array of items.
@@ -341,23 +341,23 @@ export interface ICreateElementConfig {
      *         | Array<Blend.ui.Collection<any> | string | ICreateElementConfig | HTMLElement | Blend.ui.Component>)}
      * @memberof ICreateElementConfig
      */
-    children?: string | ICreateElementConfig | HTMLElement | Array<string | ICreateElementConfig | HTMLElement>;
+	children?: string | ICreateElementConfig | HTMLElement | Array<string | ICreateElementConfig | HTMLElement>;
     /**
      * Indicates whether this configuration is an svg element
      *
      * @type {boolean}
      * @memberof ICreateElementConfig
      */
-    isSVG?: boolean;
+	isSVG?: boolean;
 }
 
 declare global {
-    // tslint:disable-next-line:interface-name
-    interface HTMLElement {
+	// tslint:disable-next-line:interface-name
+	interface HTMLElement {
         /**
          * @internal
          * Internal property used to hold arbitrary data
          */
-        $blend: any;
-    }
+		$blend: any;
+	}
 }

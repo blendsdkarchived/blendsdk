@@ -16,7 +16,7 @@ export interface IUIButtonText {
      * @type {string}
      * @memberof IUIButtonText
      */
-    text?: string;
+	text?: string;
 }
 
 /**
@@ -32,7 +32,7 @@ export interface IUIButtonIcon {
      * @type {TIcon}
      * @memberof IUIButtonIcon
      */
-    icon?: Icon;
+	icon?: Icon;
 }
 
 /**
@@ -50,14 +50,14 @@ export interface IUIButtonConfig extends IUIComponentConfig {
      * @type {boolean}
      * @memberof IUIButtonText
      */
-    submit?: boolean;
+	submit?: boolean;
     /**
      * Dispatches when the button is clicked.
      *
      * @type {TComponentEvent}
      * @memberof IUIButtonConfig
      */
-    onClick?: TComponentEvent;
+	onClick?: TComponentEvent;
 }
 
 /**
@@ -75,7 +75,7 @@ export abstract class Button extends UIComponent {
      * @type {IUIButtonConfig}
      * @memberof Button
      */
-    protected config: IUIButtonConfig;
+	protected config: IUIButtonConfig;
     /**
      * Reference to the text element.
      *
@@ -83,7 +83,7 @@ export abstract class Button extends UIComponent {
      * @type {HTMLElement}
      * @memberof Button
      */
-    protected textElement: HTMLElement = null;
+	protected textElement: HTMLElement = null;
     /**
      * Reference to the image element.
      *
@@ -91,7 +91,7 @@ export abstract class Button extends UIComponent {
      * @type {HTMLElement}
      * @memberof Button
      */
-    protected imageElement: HTMLElement = null;
+	protected imageElement: HTMLElement = null;
     /**
      * Reference to the wrapper element.
      *
@@ -99,7 +99,7 @@ export abstract class Button extends UIComponent {
      * @type {HTMLElement}
      * @memberof Button
      */
-    protected wrapperElement: HTMLElement = null;
+	protected wrapperElement: HTMLElement = null;
 
     /**
      * Sets the text of the Button
@@ -107,14 +107,14 @@ export abstract class Button extends UIComponent {
      * @param {string} value
      * @memberof Button
      */
-    public setText(value: string) {
-        const me = this;
-        (me.config as IUIButtonText).text = value;
-        if (me.isRendered) {
-            me.textElement.innerText = value || "";
-            me.performLayoutIf();
-        }
-    }
+	public setText(value: string) {
+		const me = this;
+		(me.config as IUIButtonText).text = value;
+		if (me.isRendered) {
+			me.textElement.innerText = value || "";
+			me.performLayoutIf();
+		}
+	}
 
     /**
      * Returns the text value of this Button
@@ -122,9 +122,9 @@ export abstract class Button extends UIComponent {
      * @returns {string}
      * @memberof Button
      */
-    public getText(): string {
-        return (this.config as IUIButtonText).text;
-    }
+	public getText(): string {
+		return (this.config as IUIButtonText).text;
+	}
 
     /**
      * Sets the icon of the Button
@@ -132,19 +132,19 @@ export abstract class Button extends UIComponent {
      * @param {string} value
      * @memberof Button
      */
-    public setIcon(icon: Icon) {
-        const me = this;
-        (me.config as IUIButtonIcon).icon = icon;
-        if (icon) {
-            if (me.isRendered) {
-                while (me.imageElement.children.length !== 0) {
-                    me.imageElement.children.item(0).parentElement.removeChild(me.imageElement.children.item(0));
-                }
-                me.imageElement.appendChild(icon.getElement());
-                me.performLayoutIf();
-            }
-        }
-    }
+	public setIcon(icon: Icon) {
+		const me = this;
+		(me.config as IUIButtonIcon).icon = icon;
+		if (icon) {
+			if (me.isRendered) {
+				while (me.imageElement.children.length !== 0) {
+					me.imageElement.children.item(0).parentElement.removeChild(me.imageElement.children.item(0));
+				}
+				me.imageElement.appendChild(icon.getElement());
+				me.performLayoutIf();
+			}
+		}
+	}
 
     /**
      * Returns the Icon instance configured for this button.
@@ -152,9 +152,9 @@ export abstract class Button extends UIComponent {
      * @returns {TIcon}
      * @memberof Button
      */
-    public getIcon(): Icon {
-        return (this.config as IUIButtonIcon).icon || undefined;
-    }
+	public getIcon(): Icon {
+		return (this.config as IUIButtonIcon).icon || undefined;
+	}
 
     /**
      * Dispatches a click event when the button is clicked.
@@ -162,21 +162,21 @@ export abstract class Button extends UIComponent {
      * @protected
      * @memberof Button
      */
-    protected dispatchClickEvent() {
-        this.dispatchEvent("onClick");
-    }
+	protected dispatchClickEvent() {
+		this.dispatchEvent("onClick");
+	}
 
     /**
      * @override
      * @protected
      * @memberof Button
      */
-    protected finalizeRender() {
-        super.finalizeRender();
-        const me = this;
-        me.setText((me.config as IUIButtonText).text);
-        me.setIcon((me.config as IUIButtonIcon).icon);
-    }
+	protected finalizeRender() {
+		super.finalizeRender();
+		const me = this;
+		me.setText((me.config as IUIButtonText).text);
+		me.setIcon((me.config as IUIButtonIcon).icon);
+	}
 
     /**
      * @override
@@ -184,28 +184,28 @@ export abstract class Button extends UIComponent {
      * @returns {HTMLElement}
      * @memberof Button
      */
-    protected render(): HTMLElement {
-        const me = this,
-            el = me.createElement({
-                tag: "button",
-                css: ["b-button"],
-                attrs: {
-                    type: me.config.submit ? "submit" : "button"
-                },
-                children: [
-                    {
-                        css: "b-icon",
-                        reference: "imageElement"
-                    },
-                    {
-                        css: "b-text",
-                        reference: "textElement",
-                        textContent: (me.config as IUIButtonText).text || ""
-                    }
-                ]
-            });
-        return el;
-    }
+	protected render(): HTMLElement {
+		const me = this,
+			el = me.createElement({
+				tag: "button",
+				css: ["b-button"],
+				attrs: {
+					type: me.config.submit ? "submit" : "button"
+				},
+				children: [
+					{
+						css: "b-icon",
+						reference: "imageElement"
+					},
+					{
+						css: "b-text",
+						reference: "textElement",
+						textContent: (me.config as IUIButtonText).text || ""
+					}
+				]
+			});
+		return el;
+	}
 
     /**
      * @override
@@ -213,15 +213,15 @@ export abstract class Button extends UIComponent {
      * @param {boolean} [isInitial]
      * @memberof Button
      */
-    protected doLayout(isInitial?: boolean): void {
-        const me = this;
-        if (isInitial) {
+	protected doLayout(isInitial?: boolean): void {
+		const me = this;
+		if (isInitial) {
             /**c
              * We bind the events t first layout cycle.
              */
-            me.bindEvents(Browser.hasTouchEvents);
-        }
-    }
+			me.bindEvents(Browser.hasTouchEvents);
+		}
+	}
 
     /**
      * Bind events for this button.
@@ -230,11 +230,11 @@ export abstract class Button extends UIComponent {
      * @param {boolean} hasTouch
      * @memberof Button
      */
-    protected bindEvents(hasTouch: boolean) {
-        const me = this;
-        // TODO:1078 Implement the `hasTouch` or remove the parameter. Also in `doLayout`
-        me.el.addEventListener("click", me);
-    }
+	protected bindEvents(hasTouch: boolean) {
+		const me = this;
+		// TODO:1078 Implement the `hasTouch` or remove the parameter. Also in `doLayout`
+		me.el.addEventListener("click", me);
+	}
 
     /**
      * @override
@@ -243,10 +243,10 @@ export abstract class Button extends UIComponent {
      * @param {Event} event
      * @memberof Button
      */
-    public handleComponentEvent(eventType: string, element: Element, event: Event): void {
-        const me = this;
-        if (eventType === "click") {
-            me.dispatchClickEvent();
-        }
-    }
+	public handleComponentEvent(eventType: string, element: Element, event: Event): void {
+		const me = this;
+		if (eventType === "click") {
+			me.dispatchClickEvent();
+		}
+	}
 }

@@ -5,8 +5,8 @@
  *
  */
 if (HTMLElement) {
-    const orgAppendChild = HTMLElement.prototype.appendChild;
-    (HTMLElement.prototype as any).appendChild = function(child: any) {
-        orgAppendChild.apply(this, [(child as any).getElement ? (child as any).getElement() : child]);
-    };
+	const orgAppendChild = HTMLElement.prototype.appendChild;
+	(HTMLElement.prototype as any).appendChild = function (child: any) {
+		orgAppendChild.apply(this, [(child as any).getElement ? (child as any).getElement() : child]);
+	};
 }

@@ -7,7 +7,7 @@ import { IUIComponentConfig, IUIComponentStyles, UIComponent } from "../UICompon
  * @interface IToolbarSpacerConfig
  * @extends {IUIComponentConfig}
  */
-export interface IToolbarSpacerConfig extends IUIComponentConfig {}
+export interface IToolbarSpacerConfig extends IUIComponentConfig { }
 
 /**
  * A UI component that can be used to place a distance between
@@ -25,19 +25,19 @@ export class ToolbarSpacer extends UIComponent {
      * @param {IToolbarSpacerConfig} [config]
      * @memberof ToolbarSpacer
      */
-    public constructor(config?: IToolbarSpacerConfig) {
-        super(config);
-        const me = this;
-        me.configDefaults({
-            size: { width: null },
-            flexSize: null
-        } as IToolbarSpacerConfig);
-        if (!me.config.size) {
-            me.config.size = {};
-        }
-        me.config.flexSize = Blend.isNullOrUndef(me.config.size.width) ? 1 : me.config.flexSize;
-        me.config.size.height = "100%";
-    }
+	public constructor(config?: IToolbarSpacerConfig) {
+		super(config);
+		const me = this;
+		me.configDefaults({
+			size: { width: null },
+			flexSize: null
+		} as IToolbarSpacerConfig);
+		if (!me.config.size) {
+			me.config.size = {};
+		}
+		me.config.flexSize = Blend.isNullOrUndef(me.config.size.width) ? 1 : me.config.flexSize;
+		me.config.size.height = "100%";
+	}
 
     /**
      * @override
@@ -45,12 +45,12 @@ export class ToolbarSpacer extends UIComponent {
      * @returns {HTMLElement}
      * @memberof ToolbarSpacer
      */
-    protected render(): HTMLElement {
-        const me = this;
-        return me.createElement({
-            css: ["b-tb-spacer"]
-        });
-    }
+	protected render(): HTMLElement {
+		const me = this;
+		return me.createElement({
+			css: ["b-tb-spacer"]
+		});
+	}
 
     /**
      * @override
@@ -59,7 +59,7 @@ export class ToolbarSpacer extends UIComponent {
      * @returns {void}
      * @memberof ToolbarSpacer
      */
-    protected doLayout(isInitial?: boolean): void {
-        return;
-    }
+	protected doLayout(isInitial?: boolean): void {
+		return;
+	}
 }

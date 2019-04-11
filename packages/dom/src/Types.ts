@@ -6,7 +6,7 @@ import { IDictionary } from "@blendsdk/core";
  * @interface ICssRuleDictionary
  */
 export interface ICssClassDictionary {
-    [selector: string]: true | false | null | undefined;
+	[selector: string]: true | false | null | undefined;
 }
 
 /**
@@ -17,7 +17,7 @@ export interface ICssClassDictionary {
  * @interface IHTMLElementProvider
  */
 export interface IHTMLElementProvider {
-    getElement(): HTMLElement;
+	getElement(): HTMLElement;
 }
 
 /**
@@ -32,7 +32,7 @@ export interface HTMLElement {
      * @internal
      * Internal property used to hold arbitrary data
      */
-    $blend: IDictionary;
+	$blend: IDictionary;
 }
 
 /**
@@ -48,28 +48,28 @@ export interface ICreateElementConfig {
      * @type {string}
      * @memberOf ICreateElementConfig
      */
-    tag?: string;
+	tag?: string;
     /**
      * The id if the element .
      *
      * @type {string}
      * @memberOf ICreateElementConfig
      */
-    id?: string;
+	id?: string;
     /**
      * The reference id of the element .
      *
      * @type {string}
      * @memberOf ICreateElementConfig
      */
-    reference?: string;
+	reference?: string;
     /**
      * The text content (innerText) of the element .
      *
      * @type {string}
      * @memberOf ICreateElementConfig
      */
-    textContent?: string;
+	textContent?: string;
     /**
      * Utility method for adding, removing, and toggling CSS
      * classes on an HTMLElement.
@@ -87,21 +87,21 @@ export interface ICreateElementConfig {
      * @type {string}
      * @memberOf ICreateElementConfig
      */
-    htmlContent?: string;
+	htmlContent?: string;
     /**
      * The css class(es) of the element.
      *
      * @type {(string | Array<string>)}
      * @memberof ICreateElementConfig
      */
-    css?: string | string[];
+	css?: string | string[];
     /**
      * The inline styles of the element.
      *
      * @type {ICssInlineStyleRules}
      * @memberOf ICreateElementConfig
      */
-    style?: IDictionary;
+	style?: IDictionary;
     /**
      * The data attributes of the element.
      *
@@ -110,9 +110,9 @@ export interface ICreateElementConfig {
      *     }}
      * @memberOf ICreateElementConfig
      */
-    data?: {
-        [key: string]: any;
-    };
+	data?: {
+		[key: string]: any;
+	};
     /**
      * The attributes of the element.
      *
@@ -121,18 +121,18 @@ export interface ICreateElementConfig {
      *     }}
      * @memberOf ICreateElementConfig
      */
-    attrs?: {
-        [key: string]: any;
-    };
+	attrs?: {
+		[key: string]: any;
+	};
     /**
      * The element listeners of the element.
      *
      *
      * @memberOf ICreateElementConfig
      */
-    listeners?: {
-        [name: string]: EventListenerOrEventListenerObject;
-    };
+	listeners?: {
+		[name: string]: EventListenerOrEventListenerObject;
+	};
     /**
      * The children of the element. The `children` property
      * either accepts a single item or an array of items.
@@ -146,19 +146,19 @@ export interface ICreateElementConfig {
      *         | Array<Blend.ui.Collection<any> | string | ICreateElementConfig | HTMLElement | Blend.ui.Component>)}
      * @memberof ICreateElementConfig
      */
-    children?:
-        | string
-        | ICreateElementConfig
-        | HTMLElement
-        | IHTMLElementProvider
-        | Array<string | ICreateElementConfig | HTMLElement | IHTMLElementProvider>;
+	children?:
+	| string
+	| ICreateElementConfig
+	| HTMLElement
+	| IHTMLElementProvider
+	| Array<string | ICreateElementConfig | HTMLElement | IHTMLElementProvider>;
     /**
      * Indicates whether this configuration is an svg element
      *
      * @type {boolean}
      * @memberof ICreateElementConfig
      */
-    isSVG?: boolean;
+	isSVG?: boolean;
 }
 
 declare global {
@@ -169,13 +169,13 @@ declare global {
      * @interface HTMLElement
      */
 
-    // tslint:disable-next-line:interface-name
-    interface HTMLElement {
+	// tslint:disable-next-line:interface-name
+	interface HTMLElement {
         /**
          * @internal
          * Internal property used to hold arbitrary data
          */
-        $blend: any;
+		$blend: any;
         /**
          * Override of appendChild so we can add Blend
          * components seamlessly.
@@ -185,6 +185,6 @@ declare global {
          * @returns {T}
          * @memberof HTMLElement
          */
-        appendChild<T extends Node | IHTMLElementProvider>(newChild: T): T;
-    }
+		appendChild<T extends Node | IHTMLElementProvider>(newChild: T): T;
+	}
 }

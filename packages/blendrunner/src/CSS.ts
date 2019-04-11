@@ -10,7 +10,7 @@ import { Selector } from "./Selector";
  * @interface IAddSelector
  */
 export interface ISheetProvider {
-    addSelector(selector: Selector): any;
+	addSelector(selector: Selector): any;
 }
 
 /**
@@ -20,7 +20,7 @@ export interface ISheetProvider {
  * @interface ISheetVariables
  */
 export interface ISheetVariables {
-    [name: string]: any;
+	[name: string]: any;
 }
 
 /**
@@ -37,7 +37,7 @@ export class Sheet {
      * @type {Array<Selector>}
      * @memberof Sheet
      */
-    protected selectors: Selector[];
+	protected selectors: Selector[];
     /**
      * A dictionary of variables of this Sheet.
      *
@@ -45,17 +45,17 @@ export class Sheet {
      * @type {ISheetVariables}
      * @memberof Sheet
      */
-    protected variables: ISheetVariables;
+	protected variables: ISheetVariables;
 
     /**
      * Creates an instance of Sheet.
      * @memberof Sheet
      */
-    public constructor(variables?: ISheetVariables) {
-        const me = this;
-        me.selectors = [];
-        me.variables = variables || {};
-    }
+	public constructor(variables?: ISheetVariables) {
+		const me = this;
+		me.selectors = [];
+		me.variables = variables || {};
+	}
 
     /**
      * Set variable on this Sheet.
@@ -64,10 +64,10 @@ export class Sheet {
      * @param {*} value
      * @memberof Sheet
      */
-    public set(variable: string, value: any) {
-        const me = this;
-        me.variables[variable] = value;
-    }
+	public set(variable: string, value: any) {
+		const me = this;
+		me.variables[variable] = value;
+	}
 
     /**
      * Get the value of a variable from this Sheet.
@@ -78,10 +78,10 @@ export class Sheet {
      * @returns {*}
      * @memberof Sheet
      */
-    public get(variable: string): any {
-        const me = this;
-        return me.variables[variable] || variable;
-    }
+	public get(variable: string): any {
+		const me = this;
+		return me.variables[variable] || variable;
+	}
 
     /**
      * Adds a selector to this Sheet
@@ -91,26 +91,26 @@ export class Sheet {
      * @returns {Selector}
      * @memberof Sheet
      */
-    public rule(selector: string, styles?: ICSSStyles): Selector {
-        const me = this;
-        return new Selector(selector, me, styles);
-    }
+	public rule(selector: string, styles?: ICSSStyles): Selector {
+		const me = this;
+		return new Selector(selector, me, styles);
+	}
 
     /**
      * Renders the sheet into a `STYLE` tag
      *
      * @memberof Sheet
      */
-    public render() {
-        const me = this,
-            rules: string[] = [];
-        me.selectors.forEach((sel: Selector) => {
-            rules.push(sel.render());
-        });
-        const styleEl = document.createElement("STYLE");
-        styleEl.innerHTML = rules.join("");
-        document.head.appendChild(styleEl);
-    }
+	public render() {
+		const me = this,
+			rules: string[] = [];
+		me.selectors.forEach((sel: Selector) => {
+			rules.push(sel.render());
+		});
+		const styleEl = document.createElement("STYLE");
+		styleEl.innerHTML = rules.join("");
+		document.head.appendChild(styleEl);
+	}
 
     /**
      * Adds a selector to the list of selectors in this Sheet
@@ -119,8 +119,8 @@ export class Sheet {
      * @param {Selector} selector
      * @memberof Sheet
      */
-    protected addSelector(selector: Selector) {
-        const me = this;
-        me.selectors.push(selector);
-    }
+	protected addSelector(selector: Selector) {
+		const me = this;
+		me.selectors.push(selector);
+	}
 }

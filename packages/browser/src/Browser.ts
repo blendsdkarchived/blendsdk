@@ -11,9 +11,9 @@ import { SystemStyles } from "./SystemStyles";
  * @enum {number}
  */
 export enum eBrowserEvents {
-    onWindowResized = "onWindowResized",
-    onResponsiveChange = "onResponsiveChange",
-    onApplicationReady = "onApplicationReady"
+	onWindowResized = "onWindowResized",
+	onResponsiveChange = "onResponsiveChange",
+	onApplicationReady = "onApplicationReady"
 }
 
 /**
@@ -31,7 +31,7 @@ class BrowserSingleton {
      * @type {Array<TFunction>}
      * @memberof Browser
      */
-    protected readyQueue: TFunction[];
+	protected readyQueue: TFunction[];
     /**
      * Indicates if the system is started
      *
@@ -39,7 +39,7 @@ class BrowserSingleton {
      * @type {boolean}
      * @memberof Browser
      */
-    protected isStarted: boolean;
+	protected isStarted: boolean;
     /**
      * Indicates if the ready queue has been processed
      *
@@ -47,7 +47,7 @@ class BrowserSingleton {
      * @type {boolean}
      * @memberof Browser
      */
-    protected isQueueComplete: boolean;
+	protected isQueueComplete: boolean;
     /**
      * Indicates if the browser is ready and
      * and all the initial processing and preparation is completed.
@@ -56,7 +56,7 @@ class BrowserSingleton {
      * @type {boolean}
      * @memberof Browser
      */
-    protected isBrowserReady: boolean;
+	protected isBrowserReady: boolean;
     /**
      * A dictionary containing screen information provided
      * from the browser's CSS engine.
@@ -65,7 +65,7 @@ class BrowserSingleton {
      * @type {IDictionary}
      * @memberof Browser
      */
-    protected screenInfo: IDictionary;
+	protected screenInfo: IDictionary;
     /**
      * Queue of styles sheets waiting to be attached to the document.
      *
@@ -73,23 +73,23 @@ class BrowserSingleton {
      * @type {Sheet[]}
      * @memberof BrowserSingleton
      */
-    protected sheetQueue: Sheet[];
+	protected sheetQueue: Sheet[];
 
     /**
      * Creates an instance of Browser.
      * @param {ICoreComponentConfig} [config]
      * @memberof Browser
      */
-    public constructor() {
-        const me = this;
-        me.isQueueComplete = false;
-        me.isStarted = false;
-        me.isBrowserReady = false;
-        me.readyQueue = [];
-        me.sheetQueue = [];
-        SystemEvents.defineEvent(eBrowserEvents);
-        me.start();
-    }
+	public constructor() {
+		const me = this;
+		me.isQueueComplete = false;
+		me.isStarted = false;
+		me.isBrowserReady = false;
+		me.readyQueue = [];
+		me.sheetQueue = [];
+		SystemEvents.defineEvent(eBrowserEvents);
+		me.start();
+	}
 
     /**
      * Attaches a style sheet to the document.
@@ -97,14 +97,14 @@ class BrowserSingleton {
      * @param {Sheet} sheet
      * @memberof BrowserSingleton
      */
-    public attachStyleSheet(sheet: Sheet) {
-        const me = this;
-        if (me.isBrowserReady) {
-            StyleSheets.attach(sheet);
-        } else {
-            me.sheetQueue.push(sheet);
-        }
-    }
+	public attachStyleSheet(sheet: Sheet) {
+		const me = this;
+		if (me.isBrowserReady) {
+			StyleSheets.attach(sheet);
+		} else {
+			me.sheetQueue.push(sheet);
+		}
+	}
 
     /**
      * Check if we have a small display so we can handle the
@@ -113,16 +113,16 @@ class BrowserSingleton {
      * @returns {boolean}
      * @memberof Browser
      */
-    public isDisplaySmall(): boolean {
-        const me = this;
-        switch (me.getScreenInformation<IScreenInformation>().display) {
-            case "xsmall":
-            case "small":
-                return true;
-            default:
-                return false;
-        }
-    }
+	public isDisplaySmall(): boolean {
+		const me = this;
+		switch (me.getScreenInformation<IScreenInformation>().display) {
+			case "xsmall":
+			case "small":
+				return true;
+			default:
+				return false;
+		}
+	}
 
     /**
      * Check if the runtime can handle touch events.
@@ -130,9 +130,9 @@ class BrowserSingleton {
      * @returns {boolean}
      * @memberof Runtime
      */
-    public get hasTouchEvents(): boolean {
-        return "ontouchstart" in window;
-    }
+	public get hasTouchEvents(): boolean {
+		return "ontouchstart" in window;
+	}
 
     /**
      * Adds a callback handler to the `ready(...)` queue if the runtime
@@ -145,16 +145,16 @@ class BrowserSingleton {
      *
      * @memberof Runtime
      */
-    public ready(handler: TFunction, scope?: any): this {
-        const me = this;
-        scope = scope || window;
-        if (!me.isBrowserReady) {
-            me.readyQueue.push(handler);
-        } else {
-            handler();
-        }
-        return me;
-    }
+	public ready(handler: TFunction, scope?: any): this {
+		const me = this;
+		scope = scope || window;
+		if (!me.isBrowserReady) {
+			me.readyQueue.push(handler);
+		} else {
+			handler();
+		}
+		return me;
+	}
 
     /**
      * Indicates if the system is in RTL mode.
@@ -162,10 +162,10 @@ class BrowserSingleton {
      * @returns {boolean}
      * @memberof Browser
      */
-    public isRTL(): boolean {
-        // TODO:50001  Implement RTL.
-        return false;
-    }
+	public isRTL(): boolean {
+		// TODO:50001  Implement RTL.
+		return false;
+	}
 
     /**
      * Gets the screen information provided by CSS. The available information is
@@ -176,28 +176,28 @@ class BrowserSingleton {
      *
      * @memberof Browser
      */
-    public getScreenInformation<T extends IDictionary>(reset?: boolean): T {
-        const me = this;
-        let key, styles, value;
-        if (reset === true) {
-            me.screenInfo = null;
-        }
-        if (!me.screenInfo) {
-            const elements = Dom.findElements(".__screeninfo__"),
-                result: IDictionary = {};
-            Blend.forEach<HTMLElement>(elements, element => {
-                key = element
-                    .getAttribute("class")
-                    .replace(/__screeninfo__/gim, "")
-                    .trim();
-                styles = window.getComputedStyle(element, ":after");
-                value = new Function(`return "${styles.content.replace(/[\"]/gim, "")}";`)();
-                result[key] = isNaN(parseFloat(value)) ? value : parseFloat(value);
-            });
-            me.screenInfo = result;
-        }
-        return me.screenInfo as T;
-    }
+	public getScreenInformation<T extends IDictionary>(reset?: boolean): T {
+		const me = this;
+		let key, styles, value;
+		if (reset === true) {
+			me.screenInfo = null;
+		}
+		if (!me.screenInfo) {
+			const elements = Dom.findElements(".__screeninfo__"),
+				result: IDictionary = {};
+			Blend.forEach<HTMLElement>(elements, element => {
+				key = element
+					.getAttribute("class")
+					.replace(/__screeninfo__/gim, "")
+					.trim();
+				styles = window.getComputedStyle(element, ":after");
+				value = new Function(`return "${styles.content.replace(/[\"]/gim, "")}";`)();
+				result[key] = isNaN(parseFloat(value)) ? value : parseFloat(value);
+			});
+			me.screenInfo = result;
+		}
+		return me.screenInfo as T;
+	}
 
     /**
      * Indicates if the browser is ready.
@@ -205,9 +205,9 @@ class BrowserSingleton {
      * @returns {boolean}
      * @memberof Browser
      */
-    public isReady(): boolean {
-        return this.isBrowserReady;
-    }
+	public isReady(): boolean {
+		return this.isBrowserReady;
+	}
 
     /**
      * Starts the Browser session by waiting for the document to load.
@@ -215,35 +215,35 @@ class BrowserSingleton {
      * @protected
      * @memberof BrowserSingleton
      */
-    protected start() {
-        const me = this,
-            win: any = window,
-            documentReadyHandler = () => {
-                if (me.isQueueComplete !== true) {
-                    me.initViewport(() => {
-                        me.installScreenInfoKeys(() => {
-                            me.runReadyQueue();
-                            window.requestAnimationFrame(() => {
-                                me.processSheetQueue();
-                                me.installWindowResizeHandler();
-                                me.updateScreenInformation();
-                                me.readyQueue = [];
-                                me.isBrowserReady = me.isQueueComplete = true;
-                                me.windowResizeHandler(); // initial event when everything is ready
-                            });
-                        });
-                    });
-                }
-            };
-        if (!me.isStarted) {
-            me.isStarted = true;
-            if (window.document.readyState === "complete") {
-                documentReadyHandler.apply(me, []);
-            } else {
-                window.addEventListener("load", documentReadyHandler);
-            }
-        }
-    }
+	protected start() {
+		const me = this,
+			win: any = window,
+			documentReadyHandler = () => {
+				if (me.isQueueComplete !== true) {
+					me.initViewport(() => {
+						me.installScreenInfoKeys(() => {
+							me.runReadyQueue();
+							window.requestAnimationFrame(() => {
+								me.processSheetQueue();
+								me.installWindowResizeHandler();
+								me.updateScreenInformation();
+								me.readyQueue = [];
+								me.isBrowserReady = me.isQueueComplete = true;
+								me.windowResizeHandler(); // initial event when everything is ready
+							});
+						});
+					});
+				}
+			};
+		if (!me.isStarted) {
+			me.isStarted = true;
+			if (window.document.readyState === "complete") {
+				documentReadyHandler.apply(me, []);
+			} else {
+				window.addEventListener("load", documentReadyHandler);
+			}
+		}
+	}
 
     /**
      * Attaches all queue styles sheets to the document and
@@ -252,27 +252,27 @@ class BrowserSingleton {
      * @protected
      * @memberof BrowserSingleton
      */
-    protected processSheetQueue() {
-        const me = this,
-            docFrag = document.createDocumentFragment(),
-            styles: string[] = [];
-        me.sheetQueue.forEach(sheet => {
-            StyleSheets.bundle(sheet, docFrag);
-        });
-        // clear the sheets queue, since everything is rendered now.
-        me.sheetQueue = null;
+	protected processSheetQueue() {
+		const me = this,
+			docFrag = document.createDocumentFragment(),
+			styles: string[] = [];
+		me.sheetQueue.forEach(sheet => {
+			StyleSheets.bundle(sheet, docFrag);
+		});
+		// clear the sheets queue, since everything is rendered now.
+		me.sheetQueue = null;
 
-        Blend.forEach(docFrag.children, (sty: HTMLElement) => {
-            styles.push(sty.innerHTML);
-        });
+		Blend.forEach(docFrag.children, (sty: HTMLElement) => {
+			styles.push(sty.innerHTML);
+		});
 
-        document.head.appendChild(
-            Dom.createElement({
-                tag: "style",
-                htmlContent: styles.join("\n")
-            })
-        );
-    }
+		document.head.appendChild(
+			Dom.createElement({
+				tag: "style",
+				htmlContent: styles.join("\n")
+			})
+		);
+	}
 
     /**
      * Installs the screen information keys for passing
@@ -282,35 +282,35 @@ class BrowserSingleton {
      * @param {TFunction} doneCallback
      * @memberof Browser
      */
-    protected installScreenInfoKeys(doneCallback: TFunction) {
-        const me = this,
-            docFrag = document.createDocumentFragment();
-        ["scrollbarSize", "orientation", "display"].forEach(key => {
-            docFrag.appendChild(
-                Dom.createElement({
-                    css: ["__screeninfo__", key]
-                })
-            );
-        });
+	protected installScreenInfoKeys(doneCallback: TFunction) {
+		const me = this,
+			docFrag = document.createDocumentFragment();
+		["scrollbarSize", "orientation", "display"].forEach(key => {
+			docFrag.appendChild(
+				Dom.createElement({
+					css: ["__screeninfo__", key]
+				})
+			);
+		});
 
-        const checkInfo = () => {
-            window.requestAnimationFrame(() => {
-                me.updateScreenInformation();
-                const info: IScreenInformation = me.getScreenInformation();
-                if (info.display !== "none") {
-                    doneCallback();
-                } else {
-                    checkInfo();
-                }
-            });
-        };
+		const checkInfo = () => {
+			window.requestAnimationFrame(() => {
+				me.updateScreenInformation();
+				const info: IScreenInformation = me.getScreenInformation();
+				if (info.display !== "none") {
+					doneCallback();
+				} else {
+					checkInfo();
+				}
+			});
+		};
 
-        window.requestAnimationFrame(() => {
-            me.installSystemStyles();
-            window.document.body.appendChild(docFrag);
-            checkInfo();
-        });
-    }
+		window.requestAnimationFrame(() => {
+			me.installSystemStyles();
+			window.document.body.appendChild(docFrag);
+			checkInfo();
+		});
+	}
 
     /**
      * Run the queued ready functions
@@ -318,12 +318,12 @@ class BrowserSingleton {
      * @protected
      * @memberof Browser
      */
-    protected runReadyQueue() {
-        const me = this;
-        me.readyQueue.forEach((readyFn: TFunction) => {
-            readyFn();
-        });
-    }
+	protected runReadyQueue() {
+		const me = this;
+		me.readyQueue.forEach((readyFn: TFunction) => {
+			readyFn();
+		});
+	}
 
     /**
      * Updates the screen information CSS rules if possible
@@ -331,23 +331,23 @@ class BrowserSingleton {
      * @protected
      * @memberof Browser
      */
-    protected updateScreenInformation() {
-        const me = this;
-        if (me.screenInfo) {
-            // remove the current screen info css rules if possible.
-            Blend.forEach(me.screenInfo, (value, key) => {
-                window.document.documentElement.classList.remove(`b-${value}`);
-            });
-        }
-        // Reset and load the screenInformation again
-        me.getScreenInformation(true);
-        // Update the screen information css rules with the new values
-        Blend.forEach(me.screenInfo, (value, key) => {
-            if (key !== "scrollbarSize") {
-                window.document.documentElement.classList.add(`b-${value}`);
-            }
-        });
-    }
+	protected updateScreenInformation() {
+		const me = this;
+		if (me.screenInfo) {
+			// remove the current screen info css rules if possible.
+			Blend.forEach(me.screenInfo, (value, key) => {
+				window.document.documentElement.classList.remove(`b-${value}`);
+			});
+		}
+		// Reset and load the screenInformation again
+		me.getScreenInformation(true);
+		// Update the screen information css rules with the new values
+		Blend.forEach(me.screenInfo, (value, key) => {
+			if (key !== "scrollbarSize") {
+				window.document.documentElement.classList.add(`b-${value}`);
+			}
+		});
+	}
 
     /**
      * Event handler for when the window is resized.
@@ -355,14 +355,14 @@ class BrowserSingleton {
      * @protected
      * @memberof Browser
      */
-    protected windowResizeHandler() {
-        const me = this;
-        me.updateScreenInformation();
-        if (me.isBrowserReady) {
-            SystemEvents.dispatchEvent(eBrowserEvents.onWindowResized);
-            SystemEvents.dispatchEvent(eBrowserEvents.onResponsiveChange, [me.getScreenInformation()]);
-        }
-    }
+	protected windowResizeHandler() {
+		const me = this;
+		me.updateScreenInformation();
+		if (me.isBrowserReady) {
+			SystemEvents.dispatchEvent(eBrowserEvents.onWindowResized);
+			SystemEvents.dispatchEvent(eBrowserEvents.onResponsiveChange, [me.getScreenInformation()]);
+		}
+	}
 
     /**
      * Installs a handler for when the browser window is resized.
@@ -370,10 +370,10 @@ class BrowserSingleton {
      * @protected
      * @memberof Browser
      */
-    protected installWindowResizeHandler() {
-        const me = this;
-        window.addEventListener("resize", Blend.debounce(300, me.windowResizeHandler.bind(me)));
-    }
+	protected installWindowResizeHandler() {
+		const me = this;
+		window.addEventListener("resize", Blend.debounce(300, me.windowResizeHandler.bind(me)));
+	}
 
     /**
      * Install the system styles
@@ -381,12 +381,12 @@ class BrowserSingleton {
      * @protected
      * @memberof Browser
      */
-    protected installSystemStyles() {
-        const me = this;
-        StyleSheets.attach(new SystemStyles()); // fore to install outside of the queue
-        window.document.documentElement.classList.add(me.isRTL() ? "b-rtl" : "b-ltr");
-        window.document.documentElement.classList.add(`b-${DeviceInfo.getBrowserType()}`);
-    }
+	protected installSystemStyles() {
+		const me = this;
+		StyleSheets.attach(new SystemStyles()); // fore to install outside of the queue
+		window.document.documentElement.classList.add(me.isRTL() ? "b-rtl" : "b-ltr");
+		window.document.documentElement.classList.add(`b-${DeviceInfo.getBrowserType()}`);
+	}
 
     /**
      * Initializes the browser viewport.
@@ -394,26 +394,26 @@ class BrowserSingleton {
      * @protected
      * @memberof Browser
      */
-    protected initViewport(doneCallback: TFunction) {
-        const me = this;
-        const viewport = window.document.querySelector('meta[name="viewport"]');
-        if (!viewport) {
-            window.document.head.appendChild(
-                Dom.createElement({
-                    attrs: {
-                        content: "width=device-width, initial-scale=1.0",
-                        name: "viewport"
-                    },
-                    tag: "meta"
-                })
-            );
-            Blend.delay(100, () => {
-                doneCallback();
-            });
-        } else {
-            doneCallback();
-        }
-    }
+	protected initViewport(doneCallback: TFunction) {
+		const me = this;
+		const viewport = window.document.querySelector('meta[name="viewport"]');
+		if (!viewport) {
+			window.document.head.appendChild(
+				Dom.createElement({
+					attrs: {
+						content: "width=device-width, initial-scale=1.0",
+						name: "viewport"
+					},
+					tag: "meta"
+				})
+			);
+			Blend.delay(100, () => {
+				doneCallback();
+			});
+		} else {
+			doneCallback();
+		}
+	}
 }
 
 export const Browser: BrowserSingleton = new BrowserSingleton();
