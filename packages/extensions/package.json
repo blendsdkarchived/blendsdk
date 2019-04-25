@@ -29,7 +29,7 @@
     "gitHead": "3cf0c717504e5e6ee768f9423eec41a997662df9",
     "devDependencies": {
         "rimraf": "^2.6.3",
-        "tslint": "^5.14.0",
-        "typescript": "^3.3.3333"
+        "tslint": "^5.16.0",
+        "typescript": "^3.4.5"
     }
 }
