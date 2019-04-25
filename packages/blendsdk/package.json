@@ -1,7 +1,7 @@
 {
     "name": "@blendsdk/blendsdk",
     "version": "0.0.78",
-    "description": "BlendSDK HTML5 Web Application Framework for TypeScript",
+    "description": "The BlendSDK main package collection",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
     "repository": {
@@ -13,12 +13,9 @@
         "build": "npm run clean && npm run tslint && npm run build:lib",
         "build:lib": "tsc -p ./",
         "clean": "rimraf .build dist",
-        "tslint": "tslint --config ../../tslint.json --project ./tsconfig.json",
-        "rollup": "rollup --config ./rollup.config.json"
+        "tslint": "tslint --config ../../tslint.json --project ./tsconfig.json"
     },
-    "main": "dist/index.cjs.js",
-    "module": "dist/index.esm.js",
-    "browser": "dist/index.umd.js",
+    "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "keywords": [
         "typescript",
@@ -29,6 +26,24 @@
         "UI",
         "components"
     ],
+    "dependencies": {
+        "@blendsdk/ajax": "^0.0.78",
+        "@blendsdk/application": "^0.0.78",
+        "@blendsdk/blendrunner": "^0.0.78",
+        "@blendsdk/browser": "^0.0.78",
+        "@blendsdk/core": "^0.0.78",
+        "@blendsdk/css": "^0.0.78",
+        "@blendsdk/deviceinfo": "^0.0.78",
+        "@blendsdk/dom": "^0.0.78",
+        "@blendsdk/extensions": "^0.0.78",
+        "@blendsdk/form": "^0.0.67",
+        "@blendsdk/icon": "^0.0.78",
+        "@blendsdk/mvc": "^0.0.78",
+        "@blendsdk/task": "^0.0.78",
+        "@blendsdk/ui": "^0.0.78",
+        "@blendsdk/uistack": "^0.0.78",
+        "@blendsdk/viewrouter": "^0.0.78"
+    },
     "gitHead": "3cf0c717504e5e6ee768f9423eec41a997662df9",
     "devDependencies": {
         "rimraf": "^2.6.3",
