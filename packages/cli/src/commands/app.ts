@@ -31,22 +31,7 @@ export const handler = (argv: any) => {
 
 		logInfo("Installing npm packages into the project, this might take a while.");
 		installPackages(projectFolder, [
-			"@blendsdk/core",
-			"@blendsdk/ajax",
-			"@blendsdk/application",
-			"@blendsdk/blendrunner",
-			"@blendsdk/browser",
-			"@blendsdk/css",
-			"@blendsdk/deviceinfo",
-			"@blendsdk/dom",
-			"@blendsdk/extensions",
-			"@blendsdk/form",
-			"@blendsdk/icon",
-			"@blendsdk/mvc",
-			"@blendsdk/task",
-			"@blendsdk/ui",
-			"@blendsdk/uistack",
-			"@blendsdk/viewrouter"], true);
+			"@blendsdk/blendsdk"], true);
 
 		npmInstall(projectFolder);
 		logInfo("Done");

@@ -42,12 +42,20 @@
         "@blendsdk/task": "^0.0.79",
         "@blendsdk/ui": "^0.0.79",
         "@blendsdk/uistack": "^0.0.79",
-        "@blendsdk/viewrouter": "^0.0.79"
-    },
-    "gitHead": "3cf0c717504e5e6ee768f9423eec41a997662df9",
-    "devDependencies": {
+        "@blendsdk/viewrouter": "^0.0.79",
         "rimraf": "^2.6.3",
+        "rollup": "^1.10.1",
+        "rollup-plugin-commonjs": "^9.3.4",
+        "rollup-plugin-json": "^4.0.0",
+        "rollup-plugin-node-builtins": "^2.1.2",
+        "rollup-plugin-node-globals": "^1.4.0",
+        "rollup-plugin-node-resolve": "^4.2.3",
+        "rollup-plugin-node-resolve-magic": "^0.2.11",
+        "rollup-plugin-sourcemaps": "^0.4.2",
+        "rollup-plugin-uglify": "^6.0.2",
         "tslint": "^5.16.0",
         "typescript": "^3.4.5"
-    }
+    },
+    "gitHead": "3cf0c717504e5e6ee768f9423eec41a997662df9",
+    "devDependencies": {}
 }
