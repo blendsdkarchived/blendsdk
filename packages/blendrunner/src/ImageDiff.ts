@@ -17,7 +17,7 @@ export const renderOptions = {
  * @export
  * @interface ImageInfo
  */
-export interface ImageInfo {
+export interface IImageInfo {
 	imageData: ImageData;
 	size: ClientRect;
 }
@@ -30,9 +30,9 @@ export interface ImageInfo {
  */
 export interface IDiffImageResult {
 	diffPct: number;
-	imageDataA: ImageInfo;
-	imageDataB: ImageInfo;
-	diffImageData: ImageInfo;
+	imageDataA: IImageInfo;
+	imageDataB: IImageInfo;
+	diffImageData: IImageInfo;
 }
 
 /**
@@ -101,9 +101,9 @@ export function toPx(value: number) {
  * Gets the image information for further processing
  *
  * @param {HTMLCanvasElement} canvas
- * @returns {ImageInfo}
+ * @returns {IImageInfo}
  */
-function getImageInfo(canvas: HTMLCanvasElement): ImageInfo {
+function getImageInfo(canvas: HTMLCanvasElement): IImageInfo {
 	const rect = canvas.getBoundingClientRect(),
 		ctx = canvas.getContext("2d");
 	return {

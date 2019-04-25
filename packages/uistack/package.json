@@ -1,6 +1,6 @@
 {
     "name": "@blendsdk/uistack",
-    "version": "0.0.78",
+    "version": "0.0.79",
     "description": "TODO",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
@@ -18,11 +18,11 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "dependencies": {
-        "@blendsdk/browser": "^0.0.78",
-        "@blendsdk/core": "^0.0.78",
-        "@blendsdk/css": "^0.0.78",
-        "@blendsdk/mvc": "^0.0.78",
-        "@blendsdk/ui": "^0.0.78"
+        "@blendsdk/browser": "^0.0.79",
+        "@blendsdk/core": "^0.0.79",
+        "@blendsdk/css": "^0.0.79",
+        "@blendsdk/mvc": "^0.0.79",
+        "@blendsdk/ui": "^0.0.79"
     },
     "keywords": [
         "typescript",
@@ -35,7 +35,7 @@
     ],
     "devDependencies": {
         "rimraf": "^2.6.3",
-        "tslint": "^5.14.0",
-        "typescript": "^3.3.3333"
+        "tslint": "^5.16.0",
+        "typescript": "^3.4.5"
     }
 }
