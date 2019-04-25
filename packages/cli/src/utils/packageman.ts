@@ -1,5 +1,5 @@
 import * as shell from "shelljs";
-import { errorAndExit } from './log';
+import { errorAndExit } from "./log";
 
 export function installPackages(packageFolder: string, packages: string[], isDev: boolean) {
 	const child = shell.exec(`npm install ${isDev ? "--save-dev" : "--save"} ${packages.join(" ")}`, {

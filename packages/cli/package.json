@@ -16,7 +16,7 @@
         "tslint": "tslint --config ../../tslint.json --project ./tsconfig.json"
     },
     "bin": {
-        "blend-cli": "dist/index.js"
+        "blendsdk": "dist/index.js"
     },
     "main": "dist/index.js",
     "types": "dist/index.d.ts",

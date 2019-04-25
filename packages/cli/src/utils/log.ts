@@ -1,5 +1,5 @@
 // tslint:disable:no-console
-import chalk from 'chalk';
+import chalk from "chalk";
 
 export function errorAndExit(message: string) {
 	console.log(chalk.red("ERROR: ") + message);

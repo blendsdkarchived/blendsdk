@@ -3,7 +3,7 @@ import * as ejs from "ejs";
 import * as fs from "fs";
 import * as glob from "glob";
 import * as path from "path";
-import { fixPath, ensureFolder } from './filesystem';
+import { ensureFolder, fixPath } from "./filesystem";
 
 export interface ITemplateItem {
 	source: string;

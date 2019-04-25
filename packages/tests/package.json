@@ -28,7 +28,7 @@
         "@blendsdk/deviceinfo": "^0.0.78",
         "@blendsdk/dom": "^0.0.78",
         "@blendsdk/extensions": "^0.0.78",
-        "@blendsdk/form": "^0.0.67",
+        "@blendsdk/forms": "^0.0.78",
         "@blendsdk/icon": "^0.0.78",
         "@blendsdk/mvc": "^0.0.78",
         "@blendsdk/task": "^0.0.78",
@@ -45,15 +45,15 @@
         "mkdirp": "^0.5.1",
         "morgan": "~1.9.1",
         "rimraf": "^2.6.3",
-        "rollup": "^1.6.0",
-        "rollup-plugin-commonjs": "^9.2.1",
-        "rollup-plugin-json": "^3.1.0",
+        "rollup": "^1.10.1",
+        "rollup-plugin-commonjs": "^9.3.4",
+        "rollup-plugin-json": "^4.0.0",
         "rollup-plugin-node-builtins": "^2.1.2",
         "rollup-plugin-node-globals": "^1.4.0",
-        "rollup-plugin-node-resolve": "^4.0.1",
+        "rollup-plugin-node-resolve": "^4.2.3",
         "rollup-plugin-sourcemaps": "^0.4.2",
         "rollup-plugin-uglify": "^6.0.2",
-        "tslint": "^5.14.0",
-        "typescript": "^3.3.3333"
+        "tslint": "^5.16.0",
+        "typescript": "^3.4.5"
     }
 }

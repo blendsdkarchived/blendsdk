@@ -1,10 +1,8 @@
-// tslint:disable:no-console
-import chalk from "chalk";
 import * as ejs from "ejs";
 import { checkFolderAndContinue, createProjectFolder, ensureFolder } from "../utils/filesystem";
 import { errorAndExit, logInfo } from "../utils/log";
+import { installPackages, npmInstall } from "../utils/packageman";
 import { ITemplateItem, renderTemplate } from "../utils/templates";
-import { installPackages, npmInstall } from '../utils/packageman';
 
 export const command: string = "app [name]";
 export const desc: string = "Create a new BlendSDK application";
@@ -20,7 +18,7 @@ export const handler = (argv: any) => {
 	const projectFolder = createProjectFolder(argv.name);
 	if (checkFolderAndContinue(projectFolder)) {
 
-		logInfo("Creating the project folder.")
+		logInfo("Creating the project folder.");
 		ensureFolder(projectFolder);
 
 		logInfo("Creating the project files");
@@ -31,7 +29,7 @@ export const handler = (argv: any) => {
 			return item;
 		});
 
-		logInfo("Installing npm packages into the project, this might take a while.")
+		logInfo("Installing npm packages into the project, this might take a while.");
 		installPackages(projectFolder, [
 			"@blendsdk/core",
 			"@blendsdk/ajax",
@@ -42,7 +40,7 @@ export const handler = (argv: any) => {
 			"@blendsdk/deviceinfo",
 			"@blendsdk/dom",
 			"@blendsdk/extensions",
-			//"@blendsdk/form",
+			"@blendsdk/form",
 			"@blendsdk/icon",
 			"@blendsdk/mvc",
 			"@blendsdk/task",

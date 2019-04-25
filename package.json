@@ -13,5 +13,9 @@
         "bump": "lerna version --no-git-tag-version --no-push ",
         "todo": "leasot -i **/node_modules/** -r vscode ./packages/**/**/src/*.ts > TODO.md || true",
         "test": "PORT=7070 DEBUG=testapp:* packages/tests/bin/www"
+    },
+    "dependencies": {
+        "tslint": "^5.16.0",
+        "typescript": "^3.4.5"
     }
 }
