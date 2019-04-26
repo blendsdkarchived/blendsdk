@@ -1,6 +1,6 @@
 {
     "name": "@blendsdk/cli",
-    "version": "0.0.81",
+    "version": "0.0.82",
     "description": "The BlendSDK CLI Utility",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
