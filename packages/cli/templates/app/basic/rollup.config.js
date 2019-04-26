@@ -2,6 +2,15 @@ import resolve from "rollup-plugin-node-resolve-magic";
 import commonjs from "rollup-plugin-commonjs";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import { uglify } from "rollup-plugin-uglify";
+import sass from 'rollup-plugin-sass';
+
+/**
+ * Options to configure the SASS plugin
+ * https://github.com/differui/rollup-plugin-sass
+ */
+const sassOptions = {
+	output: true
+}
 
 const build = {
 	development: {
@@ -12,7 +21,7 @@ const build = {
 			sourcemap: true,
 			name: "index"
 		},
-		plugins: [resolve(), commonjs(), sourcemaps()]
+		plugins: [sass(sassOptions), resolve(), commonjs(), sourcemaps()]
 	},
 	production: {
 		input: "./.tsbuild/index.js",
@@ -22,7 +31,7 @@ const build = {
 			sourcemap: false,
 			name: "index"
 		},
-		plugins: [resolve(), commonjs(), uglify()]
+		plugins: [sass(sassOptions), resolve(), commonjs(), uglify()]
 	}
 };
 
