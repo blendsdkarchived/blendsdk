@@ -4,20 +4,21 @@ import * as shell from "shelljs";
 import { util } from "../utils/filesystem";
 import { errorAndExit } from "../utils/log";
 
-export const command: string = "serve";
+export const command: string = "serve [port]";
 export const desc: string = "Start the application in development mode";
 export const builder: any = {
 };
 
-export const handler = () => {
+export const handler = (argv: any) => {
 
 	const cmds = {
-		"TypeScript": `"${util("tsc")} -w -p ${process.cwd()}"`,
-		"Rollup": `"${util("rollup")} -w --config ${path.join(process.cwd(), "rollup.config.js")} --environment BUILD:development"`
+		"TSC": `"${util("tsc")} --preserveWatchOutput -w -p ${process.cwd()}"`,
+		"BUILD": `"${util("rollup")} -w --config ${path.join(process.cwd(), "rollup.config.js")} --environment BUILD:development"`,
+		"SERVE": `"${util("serve")} --config ${path.join(process.cwd(), "serve.json")} ${argv.port ? `-l ${argv.port}` : ""}"`,
 	};
 
 	const options = [
-		` -p "[{name}]"`,
+		`-p "[{name}]"`,
 		`-n "${Object.keys(cmds).join(",")}"`,
 		`${Object.values(cmds).join(" ")}`,
 	];
@@ -34,9 +35,10 @@ export const handler = () => {
 			cwd: process.cwd()
 		});
 
+		console.log(result.stdout);
+
 		if (result.code !== 0) {
 			errorAndExit(result.stderr.toString());
 		}
 	});
-
 };
