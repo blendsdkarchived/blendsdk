@@ -181,9 +181,11 @@ export class Application extends UIComponent {
 			});
 		});
 		Browser.ready(() => {
-			window.document.body.appendChild(me);
 			Blend.raf(() => {
-				me.performLayout();
+				window.document.body.appendChild(me);
+				Blend.raf(() => {
+					me.performLayout();
+				});
 			});
 		});
 	}

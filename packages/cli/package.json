@@ -1,6 +1,6 @@
 {
     "name": "@blendsdk/cli",
-    "version": "0.0.80",
+    "version": "0.0.81",
     "description": "The BlendSDK CLI Utility",
     "author": "Gevik Babakhani <gevik@blendjs.com>",
     "license": "MIT",
@@ -33,6 +33,8 @@
         "@types/ejs": "^2.6.3",
         "@types/glob": "^7.1.1",
         "@types/mkdirp": "^0.5.2",
+        "@types/shelljs": "^0.8.5",
+        "@types/ws": "^6.0.1",
         "@types/yargs": "^13.0.0",
         "chalk": "^2.4.2",
         "concurrently": "^4.1.0",
@@ -41,9 +43,11 @@
         "mkdirp": "^0.5.1",
         "npm-check-updates": "^3.1.8",
         "rimraf": "^2.6.3",
+        "rollup": "^1.10.1",
         "shelljs": "^0.8.3",
         "tslint": "^5.16.0",
         "typescript": "^3.4.5",
+        "ws": "^6.2.1",
         "yargs": "^13.2.2"
     },
     "gitHead": "3cf0c717504e5e6ee768f9423eec41a997662df9"
