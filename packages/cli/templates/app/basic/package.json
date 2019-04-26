@@ -5,8 +5,10 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "blend-cli build:debug"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "blendsdk build:prod",
+		"build:dev": "blendsdk build:dev",
+		"serve": "blendsdk serve"
     },
     "keywords": [],
     "author": "",
