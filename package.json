@@ -8,7 +8,7 @@
         "lerna": "^3.11.0"
     },
     "scripts": {
-        "watch": "lerna run  watch --parallel",
+        "watch": "lerna run watch --parallel",
         "build": "lerna run build",
         "bump": "lerna version --no-git-tag-version --no-push ",
         "todo": "leasot -i **/node_modules/** -r vscode ./packages/**/**/src/*.ts > TODO.md || true",

@@ -9,3 +9,7 @@ export function errorAndExit(message: string) {
 export function logInfo(message: string) {
 	console.log(chalk.cyan("INFO: ") + message);
 }
+
+export function logWarn(message: string) {
+	console.log(chalk.cyan("WARN: ") + message);
+}

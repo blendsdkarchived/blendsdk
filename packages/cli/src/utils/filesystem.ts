@@ -1,6 +1,8 @@
 import * as fs from "fs";
 import * as mkdirp from "mkdirp";
 import * as path from "path";
+import * as rimraf from "rimraf";
+import { logWarn, logInfo } from "./log";
 
 /**
  * Ensures that a directory exists.
@@ -37,4 +39,23 @@ export function createProjectFolder(projectName: string) {
 
 export function util(name: string) {
 	return path.resolve(path.join(path.dirname(__filename), "..", "..", "node_modules", ".bin", name));
+}
+
+export function cleanDistFolder(distFolder?: string) {
+
+	const folders = [
+		distFolder,
+		path.join(process.cwd(), ".tsbuild")
+	];
+
+	folders.forEach((folder) => {
+		if (folder && fs.existsSync(folder)) {
+			try {
+				logInfo(`Cleaning ${folder}`);
+				rimraf.sync(folder);
+			} catch (e) {
+				logWarn(e);
+			}
+		}
+	});
 }

@@ -2,7 +2,7 @@
 // tslint:disable:no-console
 import * as path from "path";
 import * as shell from "shelljs";
-import { util } from "../utils/filesystem";
+import { util, cleanDistFolder } from "../utils/filesystem";
 import { errorAndExit } from "../utils/log";
 
 export const command: string = "serve [port]";
@@ -29,6 +29,8 @@ export const handler = (argv: any) => {
 		`${util("rollup")} --config ${path.join(process.cwd(), "rollup.config.js")} --environment BUILD:development`,
 		`${util("concurrently")} ${options.join(" ")}`
 	];
+
+	cleanDistFolder(argv.clean);
 
 	commands.forEach((cmd: string) => {
 
