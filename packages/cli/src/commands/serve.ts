@@ -2,7 +2,7 @@
 // tslint:disable:no-console
 import * as path from "path";
 import * as shell from "shelljs";
-import { util, cleanDistFolder } from "../utils/filesystem";
+import { cleanDistFolder, util } from "../utils/filesystem";
 import { errorAndExit } from "../utils/log";
 
 export const command: string = "serve [port]";
